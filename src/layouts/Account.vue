@@ -27,9 +27,7 @@
           v-touch-pan.prevent.mouse="moveFab" 
           v-touch-pan.maouse="moveFab" -->          
           <q-fab-action external-label label-position="left" color="amber" :to="{name:'daftar'}" icon="fas fa-user-plus" label="Register" padding="11px"/>
-          <q-fab-action external-label label-position="left" color="blue" :to="{name:'diskusi'}" icon="fas fa-comment" label="Diskusi" padding="11px"/>
           <q-fab-action external-label label-position="left" color="blue" :to="{name:'login'}" icon="fas fa-user-alt" label="Login"  padding="11px"/>
-          <q-fab-action external-label label-position="left" color="secondary" :to="{name:'pendaftaran'}" icon="fas fa-table" label="Informasi pendaftaran" padding="11px"/>
           <q-fab-action external-label label-position="left" color="primary" to="/" icon="fas fa-home" label="Beranda"  padding="11px"/>
         </q-fab>
       <!-- </q-page-sticky> -->
@@ -47,7 +45,7 @@ export default {
   // components: { EssentialLink },
   data () {
     return {
-      fab: true,
+      fab: false,
       // leftDrawerOpen: false,
       // essentialLinks: linksData
     }
