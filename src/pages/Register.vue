@@ -4,6 +4,7 @@
     <q-card class="q-pa-md">
       <q-card-section class="bg-yellow-3 text-primary text-center">
         <div class="text-h6">Register</div>
+      </q-card-section>
 
         <data-input
           icon="fas fa-id-badge"
@@ -22,7 +23,16 @@
           label="password"
           :password.sync="registerData.password"
         />
-      </q-card-section>
+      <q-card-actions align="center">
+        <q-btn
+          color="blue-5"
+          glossy
+          rounded
+          @click="registerControl"
+          :loading="loading"
+          :disable="disable"
+        >register</q-btn>
+      </q-card-actions>
     </q-card>
 
   </q-page>
@@ -45,6 +55,9 @@ export default {
       loading:false,
       disable:false
     }
+  },
+  methods:{
+    registerControl(){}
   }
 }
 </script>
