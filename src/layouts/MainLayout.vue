@@ -14,7 +14,7 @@
 
         <q-fab
           
-          class="absolute-bottom-right q-mb-sm q-mr-sm"
+          class="fixed-bottom-right q-mb-sm q-mr-sm"
           v-model="fab"
           vertical-actions-align="right"
           color="primary"

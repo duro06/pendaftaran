@@ -3,7 +3,7 @@
     <div class="q-ma-sm">
       <div class="row justify-evenly">
         
-        <div class="col q-ma-xs" @click="routing">
+        <div class="col-5 q-ma-xs" @click="routing">
           <q-card class="my-card">
             <img src="https://cdn.quasar.dev/img/mountains.jpg">
 
@@ -18,7 +18,82 @@
           </q-card>
         </div>
 
-        <div class="col q-ma-xs">
+        <div class="col-5 q-ma-xs">
+          <q-card class="my-card">
+            <img src="https://cdn.quasar.dev/img/mountains.jpg">
+
+            <q-card-section>
+              <div class="text-h6">Judul</div>
+              <div class="text-subtitle2">by John Doe</div>
+            </q-card-section>
+
+            <q-card-section class="q-pt-none">
+              Some hint of the news
+            </q-card-section>
+          </q-card>
+        </div>
+
+        <div class="col-5 q-ma-xs">
+          <q-card class="my-card">
+            <img src="https://cdn.quasar.dev/img/mountains.jpg">
+
+            <q-card-section>
+              <div class="text-h6">Judul</div>
+              <div class="text-subtitle2">by John Doe</div>
+            </q-card-section>
+
+            <q-card-section class="q-pt-none">
+              Some hint of the news
+            </q-card-section>
+          </q-card>
+        </div>
+
+        <div class="col-5 q-ma-xs">
+          <q-card class="my-card">
+            <img src="https://cdn.quasar.dev/img/mountains.jpg">
+
+            <q-card-section>
+              <div class="text-h6">Judul</div>
+              <div class="text-subtitle2">by John Doe</div>
+            </q-card-section>
+
+            <q-card-section class="q-pt-none">
+              Some hint of the news
+            </q-card-section>
+          </q-card>
+        </div>
+
+        <div class="col-5 q-ma-xs">
+          <q-card class="my-card">
+            <img src="https://cdn.quasar.dev/img/mountains.jpg">
+
+            <q-card-section>
+              <div class="text-h6">Judul</div>
+              <div class="text-subtitle2">by John Doe</div>
+            </q-card-section>
+
+            <q-card-section class="q-pt-none">
+              Some hint of the news
+            </q-card-section>
+          </q-card>
+        </div>
+
+        <div class="col-5 q-ma-xs">
+          <q-card class="my-card">
+            <img src="https://cdn.quasar.dev/img/mountains.jpg">
+
+            <q-card-section>
+              <div class="text-h6">Judul</div>
+              <div class="text-subtitle2">by John Doe</div>
+            </q-card-section>
+
+            <q-card-section class="q-pt-none">
+              Some hint of the news
+            </q-card-section>
+          </q-card>
+        </div>
+
+        <div class="col-5 q-ma-xs">
           <q-card class="my-card">
             <img src="https://cdn.quasar.dev/img/mountains.jpg">
 
