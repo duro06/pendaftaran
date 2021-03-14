@@ -1,7 +1,12 @@
 <template>
-  <div class="flex">
+  <q-page class="flex flex-center bg-light-blue-1">
 
-    Register
+    
 
-  </div>
+  </q-page>
 </template>
+<script>
+export default {
+  name:'register'
+}
+</script>

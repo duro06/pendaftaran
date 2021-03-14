@@ -5,3 +5,9 @@
 
   </q-page>
 </template>
+
+<script>
+export default {
+  name:'pendaftaran'
+}
+</script>

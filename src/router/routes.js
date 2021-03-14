@@ -2,15 +2,21 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import(/* webpackChunkName: "Main" */'layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') },
-      { path: 'pendaftaran', component: () => import('pages/Pendaftaran.vue') },
+      { path: '',name:'index', component: () => import(/* webpackChunkName: "Index" */'pages/Index.vue') },
+      { path: '/pendaftaran',name:'pendaftaran', component: () => import(/* webpackChunkName: "Pendaftaran" */'pages/Pendaftaran.vue') },
+      { path: '/diskusi',name:'diskusi', component: () => import(/* webpackChunkName: "Chat" */'pages/Chat.vue') },
     ]
   },
-      { path: '/login', component: () => import('pages/Login.vue') },
-      { path: '/daftar', component: () => import('pages/Register.vue') },
-      { path: '/diskusi', component: () => import('pages/Chat.vue') },
+  {
+    path: '/account',
+    component: () => import('layouts/Account.vue'),
+    children: [
+      { path: '/login',name:'login', component: () => import(/* webpackChunkName: "Login" */'pages/Login.vue') },
+      { path: '/daftar',name:'daftar', component: () => import(/* webpackChunkName: "Register" */'pages/Register.vue') },
+    ]
+  },
   // Always leave this as last one,
   // but you can also remove it
   {
