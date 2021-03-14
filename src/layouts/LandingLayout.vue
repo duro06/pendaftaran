@@ -8,7 +8,7 @@
           round
           icon="fas fa-arrow-left"
           aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="back"
         />
         <q-toolbar-title>
           back
@@ -32,6 +32,9 @@ export default {
     }
   },
     methods:{
+      back(){
+        this.$router.push({name:'index'})
+      }
   }
 }
 </script>

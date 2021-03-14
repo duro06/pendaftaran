@@ -3,7 +3,7 @@
     <div class="q-ma-sm">
       <div class="row justify-evenly">
         
-        <div class="col q-ma-xs" >
+        <div class="col q-ma-xs" @click="routing">
           <q-card class="my-card">
             <img src="https://cdn.quasar.dev/img/mountains.jpg">
 
@@ -41,6 +41,17 @@
 
 <script>
 export default {
-  name: 'PageIndex'
+  name: 'PageIndex',
+  data(){
+    return{
+
+    }
+  },
+  methods:{
+    routing(){
+      this.$router.push({name:'berita'})
+    }
+  }
+  
 }
 </script>
