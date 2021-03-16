@@ -22,17 +22,32 @@
           icon="keyboard_arrow_up"
           direction="up"
         >
-          <!-- :disable="draggingFab"
-          v-touch-pan.prevent.mouse="moveFab" 
-          v-touch-pan.maouse="moveFab" -->
+
           <q-fab-action external-label label-position="left" color="amber" :to="{name:'daftar'}" icon="fas fa-user-plus" label="Register" padding="11px"/>
           <q-fab-action external-label label-position="left" color="blue" :to="{name:'diskusi'}" icon="fas fa-comment" label="Diskusi" padding="11px"/>
           <q-fab-action external-label label-position="left" color="blue" :to="{name:'login'}" icon="fas fa-user-alt" label="Login"  padding="11px"/>
           <q-fab-action external-label label-position="left" color="secondary" :to="{name:'pendaftaran'}" icon="fas fa-table" label="Informasi pendaftaran" padding="11px"/>
           <q-fab-action external-label label-position="left" color="primary" to="/" icon="fas fa-home" label="Beranda"  padding="11px"/>
         </q-fab>
-      <!-- </q-page-sticky> -->
-    
+    <!-- button for admin at home page -->
+    <!-- <div 
+      class="fixed-bottom-left q-ma-sm front"
+      id="admin-button"
+      exact
+    >        
+      <q-btn push color="primary" round icon="add" />
+    </div> -->
+    <!-- ----------------------------- -->
+    <!-- button for admin at Pendaftaran page -->
+    <div 
+      class="fixed-bottom-left q-ma-sm front"
+      id="admin-button"
+      v-if="$route.path.includes('/pendaftaran')"
+      exact
+    >        
+      <q-btn push color="accent" round icon="add" />
+    </div>
+    <!-- ----------------------------- -->
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -46,8 +61,10 @@ export default {
   data () {
     return {
       fab: false,
+      fabAdmin:false
     }
   },
+  computed:{},
     methods: {
     
     onClick () {
@@ -59,3 +76,11 @@ export default {
   }
 }
 </script>
+<style scoped>
+.front{
+  z-index: 9998 !important;
+}
+#admin-button{
+  z-index: 9998;
+}
+</style>

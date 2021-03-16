@@ -110,7 +110,14 @@
 
       </div>
     </div>
-
+    <!-- Admin button add -->
+    <div 
+      class="fixed-bottom-left q-ma-sm front"
+      id="admin-button"
+      exact
+    >        
+      <q-btn push color="primary" round icon="add" />
+    </div>
   </q-page>
 </template>
 
