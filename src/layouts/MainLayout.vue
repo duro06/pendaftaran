@@ -8,9 +8,7 @@
       </q-toolbar>
     </q-header>
 
-  
-
-<!-- floating action -->
+<!-- floating action for navigation purpose -->
 
         <q-fab
           
@@ -29,15 +27,13 @@
           <q-fab-action external-label label-position="left" color="secondary" :to="{name:'pendaftaran'}" icon="fas fa-table" label="Informasi pendaftaran" padding="11px"/>
           <q-fab-action external-label label-position="left" color="primary" to="/" icon="fas fa-home" label="Beranda"  padding="11px"/>
         </q-fab>
-    <!-- button for admin at home page -->
-    <!-- <div 
-      class="fixed-bottom-left q-ma-sm front"
-      id="admin-button"
-      exact
-    >        
-      <q-btn push color="primary" round icon="add" />
-    </div> -->
-    <!-- ----------------------------- -->
+        
+    <!-- 
+      button for admin at home page 
+      $route.path.includes('/') is not working due to lack of uniqueness
+      it will appear everywhere
+    -->
+    
     <!-- button for admin at Pendaftaran page -->
     <div 
       class="fixed-bottom-left q-ma-sm front"
