@@ -5,19 +5,15 @@
         <div class="text-h6">Login</div>
       </q-card-section>
 
-      <email-input
-        icon="email"
-        label="e-mail"
-        :email.sync="loginData.email"
-      />
-      
+      <email-input icon="email" label="e-mail" :email.sync="loginData.email" />
+
       <password-input
         icon="vpn_key"
-        label=password
+        label="password"
         :password.sync="loginData.password"
       />
 
-          <!-- class="bg-primary" -->
+      <!-- class="bg-primary" -->
       <q-card-actions align="center">
         <q-btn
           color="blue-5"
@@ -26,51 +22,54 @@
           @click="loginControl"
           :loading="loading"
           :disable="disable"
-        >login</q-btn>
+          >login</q-btn
+        >
       </q-card-actions>
     </q-card>
   </q-page>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
-  name:'login',
-  components:{
-    'email-input' : () => import('components/shared/EmailInput.vue'),
-    'password-input': require('components/shared/PasswordInput.vue').default
+  name: "login",
+  components: {
+    "email-input": () => import("components/shared/EmailInput.vue"),
+    "password-input": require("components/shared/PasswordInput.vue").default,
   },
-  data(){
-    return{
-      loginData:{
-        email:'',
-        password:''
+  data() {
+    return {
+      loginData: {
+        email: "",
+        password: "",
       },
-      loading:false,
-      disable:false
-    }
+      loading: false,
+      disable: false,
+    };
   },
-  methods:{
-    // ...mapActions('user',['getUser']),
-    loginControl(){
-        this.disable = true
-        this.loading = true
+  methods: {
+    ...mapActions("users", ["login", "getUser"]),
+    loginControl() {
+      this.disable = true;
+      this.loading = true;
       return new Promise((resolve, reject) => {
-        login(this.loginData)
-        .then(res=>{
-          this.disable = false
-          this.loading = false
-          this.getUser()
-          this.$router.replace(
-                this.$route.query.redirect || { path: "/" },
-                () => {}
-              )
-          // location.reload()
-          resolve(res)
-        }).catch(err=>{
-          reject(err)
-        })
-      })
-    }
-  }
-}
+        this.login(this.loginData)
+          .then((res) => {
+            this.disable = false;
+            this.loading = false;
+            this.getUser();
+            this.$router.replace(
+              this.$route.query.redirect || { path: "/" },
+              () => {}
+            );
+            // location.reload()
+            resolve(res);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      });
+    },
+  },
+};
 </script>

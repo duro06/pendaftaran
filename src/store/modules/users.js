@@ -67,18 +67,26 @@ const actions = {
       Axios.http()
         .post("/auth/register", payload)
         .then(res => {
-          Notify.create({
-            message: "Register success",
-            color: "positive"
-          });
+          if (res.data.success == true) {
+            Notify.create({
+              message: "Register success",
+              color: "positive"
+            });
+          }
+          if (res.data.success == false) {
+            Notify.create({
+              message: "Register Gagal",
+              color: "negative"
+            });
+          }
           console.log("login res", res.data);
-          LocalStorage.set("token", res.data.token);
-          context.commit("setToken", res.data.token);
+          //   LocalStorage.set("token", res.data.token);
+          //   context.commit("setToken", res.data.token);
           resolve(res);
         })
         .catch(err => {
           Notify.create({
-            message: "Login Gagal, Email atau password Anda salah",
+            message: "Registrasi Gagal",
             color: "negative",
             position: "top"
           });
@@ -95,8 +103,9 @@ const actions = {
   getUser(context) {
     return new Promise((resolve, reject) => {
       Axios.http()
-        .get("/me")
+        .get("/user")
         .then(res => {
+          //   console.log("res ", res);
           console.log("user ", res.data.data);
           context.commit("setUser", res.data.data);
           context.commit("setUser", res.data.data);
