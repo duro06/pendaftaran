@@ -4,17 +4,19 @@
     :value="text"
     @input="$emit('update:text', $event)"
     :label="label"
+    :rules="[val => !!val && val.length > 6 || 'minimal 6 karakter']"
+    ref="text" dense filled
   >
         <template v-slot:prepend>
-          <div class="text-blue-4 q-gutter-sm">
-            <q-icon :name="icon" />
+          <div class="text-primary q-gutter-sm">
+            <q-icon :name="icon" color="grey-7" />
           </div>
         </template>
         <template v-slot:append>
           <q-icon
             v-if="text.length"
             name="close"
-            @click="text = ''"
+            @click="$emit('update:text', '')"
             class="cursor-pointer"
           />
         </template>
