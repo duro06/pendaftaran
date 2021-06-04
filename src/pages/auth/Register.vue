@@ -25,7 +25,7 @@
       <password-input
         icon="fas fa-lock"
         label="confirm password"
-        :password.sync="registerData.passwordConfirm"
+        :password.sync="registerData.confirm"
         ref="passC"
         :sama.sync="registerData.password"
       />
@@ -122,13 +122,12 @@ export default {
       this.loading = true;
       this.register(this.registerData)
         .then((res) => {
-          if (res.data.success == true) {
-            this.$router.replace(
-              this.$route.query.redirect || { name: "login" },
-              () => {}
-            );
-            this.$q.notify("anda sudah bisa login");
-          }
+          this.$router.replace(
+            this.$route.query.redirect || { name: "login" },
+            () => {}
+          );
+          this.$q.notify("anda sudah bisa login");
+
           this.loading = false;
           this.disable = false;
         })

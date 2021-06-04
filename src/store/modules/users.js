@@ -1,6 +1,5 @@
-import { LocalStorage } from "quasar";
+import { LocalStorage, Notify } from "quasar";
 import * as Axios from "boot/axios";
-import { Notify } from "quasar";
 
 const state = () => ({
   user: {},

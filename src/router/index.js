@@ -1,9 +1,11 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-import routes from './routes'
+import routes from "./routes";
 
-Vue.use(VueRouter)
+import { Notify, LocalStorage } from "quasar";
+
+Vue.use(VueRouter);
 
 /*
  * If not building with SSR mode, you can
@@ -14,9 +16,12 @@ Vue.use(VueRouter)
  * with the Router instance.
  */
 
-export default function (/* { store, ssrContext } */) {
+export default function(/* { store, ssrContext } */) {
   const Router = new VueRouter({
-    scrollBehavior: () => ({ x: 0, y: 0 }),
+    scrollBehavior: () => ({
+      x: 0,
+      y: 0
+    }),
     routes,
 
     // Leave these as they are and change in quasar.conf.js instead!
@@ -24,7 +29,32 @@ export default function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     mode: process.env.VUE_ROUTER_MODE,
     base: process.env.VUE_ROUTER_BASE
-  })
+  });
 
-  return Router
+  // The route navigation guard
+  Router.beforeEach((to, from, next) => {
+    const loggedIn = LocalStorage.getItem("token");
+    if (to.matched.some(record => record.meta.visitor)) {
+      if (loggedIn) {
+        next({
+          path: "/"
+        });
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
+  });
+
+  Router.onError(error => {
+    Notify.create({
+      caption:
+        "Halaman tidak dapat dimuat, periksa kembali jaringan anda, kemudian refresh halaman",
+      message: "Terjadi kesalahan",
+      color: "red",
+      position: "top-right"
+    });
+  });
+  return Router;
 }

@@ -18,11 +18,12 @@
         <q-btn
           color="blue-5"
           glossy
+          no-caps
           rounded
           @click="loginControl"
           :loading="loading"
           :disable="disable"
-          >login</q-btn
+          >Login</q-btn
         >
       </q-card-actions>
     </q-card>
@@ -66,6 +67,8 @@ export default {
             resolve(res);
           })
           .catch((err) => {
+            this.disable = false;
+            this.loading = false;
             reject(err);
           });
       });

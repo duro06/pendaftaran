@@ -26,7 +26,7 @@
         @click="isPwd = !isPwd"
       />
       <q-icon
-        v-if="password.length"
+        v-if="password ? password.length : false"
         name="close"
         @click="$emit('update:password', '')"
         class="cursor-pointer"
