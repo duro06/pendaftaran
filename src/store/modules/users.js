@@ -52,11 +52,27 @@ const actions = {
         })
         .catch(err => {
           Notify.create({
-            message: "Login Gagal, Email atau password Anda salah",
-            color: "negative",
-            position: "top"
+            message: "Login Gagal",
+            // color: "negative"
+            position: "center"
           });
-          console.log("error ", err);
+          console.log("error ", err.response.data.errors);
+          if (err.response.status == 422) {
+            if (err.response.data.errors.email) {
+              Notify.create({
+                message: err.response.data.errors.email,
+                color: "negative",
+                position: "top"
+              });
+            }
+            if (err.response.data.errors.password) {
+              Notify.create({
+                message: err.response.data.errors.password,
+                color: "negative",
+                position: "top"
+              });
+            }
+          }
           reject(err);
         });
     });
@@ -84,12 +100,37 @@ const actions = {
           resolve(res);
         })
         .catch(err => {
+          console.log(err);
+          console.log(err.response.data.errors);
           Notify.create({
             message: "Registrasi Gagal",
             color: "negative",
             position: "top"
           });
-          console.log("error ", err);
+          if (err.response.status == 422) {
+            if (err.response.data.errors.email) {
+              Notify.create({
+                message: err.response.data.errors.email,
+                color: "negative",
+                position: "top"
+              });
+            }
+            if (err.response.data.errors.name) {
+              Notify.create({
+                message: err.response.data.errors.name,
+                color: "negative",
+                position: "top"
+              });
+            }
+            if (err.response.data.errors.password) {
+              Notify.create({
+                message: err.response.data.errors.password,
+                color: "negative",
+                position: "top"
+              });
+            }
+          }
+          // console.log("error ", err);
           reject(err);
         });
     });
@@ -153,15 +194,15 @@ const actions = {
   },
   updateProfile(context, payload) {
     let data = {
-      provinsi: payload.provinsi.label
-        ? payload.provinsi.label
-        : payload.provinsi,
+      //   provinsi: payload.provinsi.label
+      //     ? payload.provinsi.label
+      //     : payload.provinsi,
       email: payload.email,
       name: payload.name,
-      notelp: payload.notelp,
-      nowhatsapp: payload.nowhatsapp,
-      alamat: payload.alamat,
-      kota: payload.kota.label ? payload.kota.label : payload.kota
+      notelp: payload.notelp
+      //   nowhatsapp: payload.nowhatsapp,
+      //   alamat: payload.alamat,
+      //   kota: payload.kota.label ? payload.kota.label : payload.kota
     };
     console.log("data ", data);
     return new Promise((reso, rej) => {

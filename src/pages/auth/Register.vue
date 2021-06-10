@@ -37,13 +37,24 @@
       <q-card-actions align="center">
         <q-btn
           color="blue-5"
+          class="full-width"
           glossy
           rounded
           no-caps
-          @click="registerControl"
+          @click="lanjut"
           :loading="loading"
           :disable="disable"
           >Register</q-btn
+        >
+      </q-card-actions>
+      <q-card-actions align="center">
+        <q-btn
+          color="blue-5"
+          class="full-width"
+          flat
+          no-caps
+          :to="{ name: 'login' }"
+          >ke Login</q-btn
         >
       </q-card-actions>
     </q-card>
@@ -104,7 +115,7 @@ export default {
       registerData: {
         email: "",
         password: "",
-        passwordConfirm: "",
+        confirm: "",
         name: "",
         role: "",
       },

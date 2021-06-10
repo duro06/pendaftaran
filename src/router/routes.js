@@ -13,13 +13,38 @@ const routes = [
       {
         path: "/pendaftaran",
         name: "pendaftaran",
+        meta: { title: "Pendaftaran", backto: "index" },
         component: () =>
           import(/* webpackChunkName: "Pendaftaran" */ "pages/Pendaftaran.vue")
       },
       {
         path: "/diskusi",
         name: "diskusi",
+        meta: { title: "Forum", backto: "index" },
         component: () => import(/* webpackChunkName: "Chat" */ "pages/Chat.vue")
+      }
+    ]
+  },
+  {
+    path: "/profile",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "profile",
+        component: () =>
+          import(
+            /* webpackChunkName: "index-profile" */ "pages/profile/IndexProfile.vue"
+          )
+      },
+      {
+        path: "/profile/edit_profile",
+        name: "edit_profile",
+        meta: { title: "Edit Profile", backto: "profile" },
+        component: () =>
+          import(
+            /* webpackChunkName: "edit-profile" */ "pages/profile/EditProfile.vue"
+          )
       }
     ]
   },

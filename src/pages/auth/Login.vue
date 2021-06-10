@@ -14,18 +14,36 @@
       />
 
       <!-- class="bg-primary" -->
+      <div class="row justify-center"></div>
       <q-card-actions align="center">
         <q-btn
+          class="full-width"
           color="blue-5"
           glossy
           no-caps
-          rounded
           @click="loginControl"
           :loading="loading"
           :disable="disable"
           >Login</q-btn
         >
       </q-card-actions>
+
+      <div class="row justify-center">
+        <div class="col">
+          <q-card-actions align="center">
+            <q-btn color="blue-5" flat no-caps rounded :to="{ name: 'daftar' }"
+              >Belum Punya Akun</q-btn
+            >
+          </q-card-actions>
+        </div>
+        <div class="col">
+          <q-card-actions align="center">
+            <q-btn color="blue-5" flat no-caps rounded :to="{ name: 'profile' }"
+              >kembali ke profile</q-btn
+            >
+          </q-card-actions>
+        </div>
+      </div>
     </q-card>
   </q-page>
 </template>
