@@ -9,100 +9,12 @@
     <!-- jika sdh login -->
     <div v-else>
       <q-list bordered>
-        <!-- member -->
-        <!-- <q-item clickable v-ripple @click="toActivasi">
-                    <q-item-section avatar>
-                        <div class="row">
-                            <q-icon name="admin_panel_settings" size="25px" :color="bidder? 'secondary': 'primary'" />
-                            <span class="q-ml-sm q-mt-xs f-13" :class="{bidder:bidder, 'text-secondary':'text-primary'}">{{bidder? 'Bidder': 'Non Bidder'}}</span>
-                        </div>
-                    </q-item-section>
-
-                    <q-item-section>
-                       <q-item-label caption></q-item-label>
-                    </q-item-section>
-                    <q-item-section side>
-                       <div class="row">
-                            <span class="q-ml-sm q-mt-xs f-13">{{bidder? 'Activated': 'Activasi'}}</span>
-                            <q-icon name="eva-arrow-ios-forward-outline q-mt-xs" size="18px" />
-                        </div>
-                    </q-item-section>
-                    
-                      
-                </q-item> -->
-
-        <!-- Deposit -->
-        <!-- <q-separator />
-                <q-item clickable v-ripple to="/profile/deposit">
-                    <q-item-section avatar>
-                        <div class="row">
-                            <q-icon name="eva-credit-card-outline" size="25px" />
-                            <span class="q-ml-sm q-mt-xs f-13">Deposit</span>
-                        </div>
-                    </q-item-section>
-                    <q-item-section>
-                       <q-item-label caption></q-item-label>
-                    </q-item-section>
-                    <q-item-section side>
-                       <div class="row">
-                            <span class="q-ml-sm q-mt-xs f-13">Rp. 0</span>
-                            <q-icon name="eva-arrow-ios-forward-outline q-mt-xs" size="18px" />
-                        </div>
-                    </q-item-section>
-                    
-                      
-                </q-item> -->
-
-        <!-- Transaksi -->
-        <!-- <q-separator />
-                <q-item clickable v-ripple to="/profile/transaksi">
-                    <q-item-section avatar>
-                        <div class="row">
-                            <q-icon name="eva-shopping-bag-outline" size="25px" />
-                            <span class="q-ml-sm q-mt-xs f-13">Transaksi</span>
-                        </div>
-                    </q-item-section>
-                    <q-item-section>
-                       <q-item-label caption></q-item-label>
-                    </q-item-section>
-                    <q-item-section side>
-                       <div class="row">
-                            <span class="q-ml-sm q-mt-xs f-13"></span>
-                            <q-icon name="eva-arrow-ios-forward-outline q-mt-xs" size="18px" />
-                        </div>
-                    </q-item-section>
-                    
-                      
-                </q-item> -->
-
-        <!-- lelang -->
-        <!-- <q-separator />
-                <q-item clickable v-ripple to="/profile/lelang">
-                    <q-item-section avatar>
-                        <div class="row">
-                            <q-icon name="eva-archive-outline" size="25px" />
-                            <span class="q-ml-sm q-mt-xs f-13">Lelang</span>
-                        </div>
-                    </q-item-section>
-                    <q-item-section>
-                       <q-item-label caption></q-item-label>
-                    </q-item-section>
-                    <q-item-section side>
-                       <div class="row">
-                            <span class="q-ml-sm q-mt-xs f-13">Preview</span>
-                            <q-icon name="eva-arrow-ios-forward-outline q-mt-xs" size="18px" />
-                        </div>
-                    </q-item-section>
-                    
-                      
-                </q-item> -->
-
         <!-- Edit Profile -->
         <q-separator />
         <q-item clickable v-ripple to="/profile/edit_profile">
           <q-item-section avatar>
             <div class="row">
-              <q-icon name="eva-person-outline" size="25px" />
+              <q-icon name="person" size="25px" />
               <span class="q-ml-sm q-mt-xs f-13">Edit Profile</span>
             </div>
           </q-item-section>

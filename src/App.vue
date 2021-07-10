@@ -1,7 +1,7 @@
 <template>
   <div id="q-app">
-    <div class="mobile-only">
       <router-view />
+    <!-- <div class="mobile-only">
     </div>
     <div class="desktop-only bg-amber-2">
       <div class="full-height">
@@ -9,7 +9,7 @@
           Mohon maaf, halaman ini hanya dirancang untuk digunakan pada ponsel
         </p>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
