@@ -23,9 +23,9 @@
           color="primary"
           text-color="white"
         >
-          <img :src="urlPath + thumbnail.media" />
+          <!-- <img :src="urlPath + thumbnail.media" /> -->
         </q-avatar>
-        <div class="text-subtitle2 q-ml-sm">{{ lelang.judul }}</div>
+        <!-- <div class="text-subtitle2 q-ml-sm">{{ lelang.judul }}</div> -->
         <q-space />
         <!-- <q-btn
             flat
@@ -286,7 +286,7 @@ export default {
   },
   created() {
     this.getChat(this.page);
-    this.getLelangById(this.$route.params.slug);
+    // this.getLelangById(this.$route.params.slug);
     this.scrollToBottom();
   },
   mounted() {},
@@ -330,7 +330,7 @@ export default {
       "users",
     ]),
     ...mapGetters("users", ["user", "storage"]),
-    ...mapGetters("lelang", ["lelangById", "lelang", "medias", "nominalBid"]),
+    // ...mapGetters("lelang", ["lelangById", "lelang", "medias", "nominalBid"]),
 
     pageCount() {
       return Math.ceil(this.meta.total / this.meta.per_page);
@@ -343,38 +343,38 @@ export default {
       return axios.pathImage();
     },
 
-    thumbnail() {
-      let thumb = [];
-      if (this.lelang.media_lelang !== undefined) {
-        this.lelang.media_lelang.map((value, key) => {
-          thumb.push({
-            media: this.lelang.media_lelang[key].image,
-            status: this.lelang.media_lelang[key].status,
-            video: false,
-          });
-        });
-        // this.lelang.video_lelang.map((value, key) => {
-        //     thumb.push({
-        //     media: this.lelang.video_lelang[key].video,
-        //     status: this.lelang.video_lelang[key].status,
-        //     video: true,
-        //     });
-        // });
-        // console.log("thumb ", thumb[0]);
-        // let gbr = {}
-        let go = [];
-        var where = thumb.filter((obj) => {
-          return obj.status === 1;
-        });
-        if (where.length > 0) {
-          return where[0];
-        } else {
-          return thumb[0];
-        }
-      }
+    // thumbnail() {
+    //   let thumb = [];
+    //   if (this.lelang.media_lelang !== undefined) {
+    //     this.lelang.media_lelang.map((value, key) => {
+    //       thumb.push({
+    //         media: this.lelang.media_lelang[key].image,
+    //         status: this.lelang.media_lelang[key].status,
+    //         video: false,
+    //       });
+    //     });
+    //     // this.lelang.video_lelang.map((value, key) => {
+    //     //     thumb.push({
+    //     //     media: this.lelang.video_lelang[key].video,
+    //     //     status: this.lelang.video_lelang[key].status,
+    //     //     video: true,
+    //     //     });
+    //     // });
+    //     // console.log("thumb ", thumb[0]);
+    //     // let gbr = {}
+    //     let go = [];
+    //     var where = thumb.filter((obj) => {
+    //       return obj.status === 1;
+    //     });
+    //     if (where.length > 0) {
+    //       return where[0];
+    //     } else {
+    //       return thumb[0];
+    //     }
+    //   }
 
-      // return thumb[0]
-    },
+    //   // return thumb[0]
+    // },
   },
   methods: {
     ...mapActions("messaging", [
@@ -384,7 +384,7 @@ export default {
       "updateChattings",
       "unshiftChat",
     ]),
-    ...mapActions("lelang", ["getLelangById"]),
+    // ...mapActions("lelang", ["getLelangById"]),
 
     // onScroll(e) {
     //     this.windowTop = window.top.scrollY /* or: e.target.documentElement.scrollTop */
@@ -446,7 +446,7 @@ export default {
       this.spinn = true;
       let params = {
         params: {
-          lelang_id: this.$route.params.slug,
+          // lelang_id: this.$route.params.slug,
           page: val,
         },
       };
@@ -485,7 +485,7 @@ export default {
 
       this.loading = true;
       let data = {
-        lelang_id: this.$route.params.slug,
+        // lelang_id: this.$route.params.slug,
         message: msg,
       };
       // this.message = "";
@@ -512,7 +512,7 @@ export default {
     clearForm() {
       this.form.message = "";
       this.form.id = null;
-      this.form.lelang_id = null;
+      // this.form.lelang_id = null;
       this.form.created_at = null;
       this.form.updated_at = null;
       this.form.user_name = "";
@@ -563,9 +563,9 @@ export default {
       }
     },
 
-    lelang(val) {
-      console.log("watch lelang", val);
-    },
+    // lelang(val) {
+    //   console.log("watch lelang", val);
+    // },
   },
 };
 </script>

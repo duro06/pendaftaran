@@ -117,8 +117,8 @@ export default {
   },
   methods: {
     getAvatar(avatar) {
-      var fields = avatar.split("/");
-      var look = fields[0];
+      var fields = avatar == undefined ? null : avatar.split("/");
+      var look = fields == null ? avatar : fields[0];
 
       if (look === "images") {
         return this.urlPath + avatar;

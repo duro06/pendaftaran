@@ -55,6 +55,7 @@ const mutations = {
   }
 };
 const actions = {
+  getUsers(commit) {},
   getMessageToken({ commit }) {
     return new Promise(resolve => {
       messaging
@@ -94,7 +95,7 @@ const actions = {
     context.commit("setProgress", false);
     return new Promise((resolve, reject) => {
       Axios.http()
-        .get("forum/get_by_lelang", payload)
+        .get("forum/get_chat", payload)
         .then(res => {
           context.commit("setChat", res.data.chat.data);
           context.commit("setChattings", res.data.chat.data);
@@ -122,7 +123,7 @@ const actions = {
   updateChattings(context, payload) {
     return new Promise((resolve, reject) => {
       Axios.http()
-        .get("forum/get_by_lelang", payload)
+        .get("forum/get_chat", payload)
         .then(res => {
           // context.commit("setChat", res.data.chat.data);
           context.commit("setNewChattings", res.data.chat.data);
