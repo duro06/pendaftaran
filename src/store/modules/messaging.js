@@ -55,7 +55,20 @@ const mutations = {
   }
 };
 const actions = {
-  getUsers(commit) {},
+  getUsers({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .get("forum/get_user", payload)
+        .then(resp => {
+          console.log(resp);
+          commit("setUsers", resp.data.user);
+          resolve(resp);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
   getMessageToken({ commit }) {
     return new Promise(resolve => {
       messaging

@@ -24,7 +24,7 @@
               rounded
               color="teal"
               size="sm"
-              label="Pelelang"
+              label="Saya"
             />
           </div>
         </div>
@@ -63,7 +63,7 @@ export default {
       return axios.pathImage();
     },
 
-    ...mapGetters("messaging", ["user"]),
+    ...mapGetters("users", ["user"]),
   },
   methods: {
     ...mapActions("messaging", ["getUsers"]),
