@@ -27,35 +27,53 @@
         indicator-color="primary"
         class="text-grey-10"
       >
-        <q-route-tab to="/" name="home" icon="eva-home-outline" no-caps>
-          <div class="text-grey f-10">Beranda</div>
-        </q-route-tab>
         <q-route-tab
-          :to="{ name: 'pendaftaran' }"
-          name="pendaftaran"
-          icon="app_registration"
+          v-for="nav in navs"
+          :key="nav.label"
+          :to="{ name: nav.to }"
+          :name="nav.name"
+          :icon="nav.icon"
           no-caps
         >
-          <div class="text-grey f-10">Pendaftaran</div>
-        </q-route-tab>
-        <q-route-tab
-          :to="{ name: 'diskusi' }"
-          name="forum"
-          icon="eva-cast-outline"
-          no-caps
-        >
-          <div class="text-grey f-10">Forum</div>
-        </q-route-tab>
-        <q-route-tab
-          to="/profile"
-          name="profile"
-          icon="eva-person-outline"
-          no-caps
-        >
-          <div class="text-grey f-10">Profile</div>
+          <div class="text-grey f-10">{{ nav.label }}</div>
         </q-route-tab>
       </q-tabs>
     </q-footer>
+    <q-drawer
+      v-model="drawer"
+      show-if-above
+      :mini="miniState"
+      @mouseover="miniState = false"
+      @mouseout="miniState = true"
+      :width="250"
+      :breakpoint="777"
+      class="bg-grey-2"
+    >
+      <!-- height: calc(100% - 200px); -->
+      <q-scroll-area
+        class="fit"
+        style="margin-top: 100px; border-right: 1px solid #ddd"
+      >
+        <q-list padding>
+          <q-item
+            v-for="nav in navs"
+            :key="nav.label"
+            :to="{ name: nav.to }"
+            exact
+            clickable
+            v-ripple
+          >
+            <q-item-section avatar>
+              <q-icon :name="nav.icon" />
+            </q-item-section>
+
+            <q-item-section>
+              {{ nav.label }}
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-scroll-area>
+    </q-drawer>
     <!-- button for admin at Pendaftaran page -->
     <div
       class="fixed-bottom-left q-ma-sm q-mb-xl q-mb-lg front"
@@ -74,15 +92,45 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { ref } from "vue";
 export default {
   name: "MainLayout",
   data() {
     return {
+      drawer: false,
+      miniState: true,
       fab: false,
       fabAdmin: false,
       bgHeader: "bg-primary text-white",
       bgWhite: "bg-white text-grey-10",
       popupNotif: false,
+      leftDrawerOpen: false,
+      navs: [
+        {
+          to: "index",
+          icon: "home",
+          label: "Beranda",
+          name: "Home",
+        },
+        {
+          to: "pendaftaran",
+          icon: "app_registration",
+          label: "Pendaftaran",
+          name: "Pendaftaran",
+        },
+        {
+          to: "diskusi",
+          icon: "eva-cast-outline",
+          label: "Forum",
+          name: "Forum",
+        },
+        {
+          to: "profile",
+          icon: "eva-person-outline",
+          label: "Profile",
+          name: "Profile",
+        },
+      ],
     };
   },
   computed: {
@@ -110,7 +158,19 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang='scss' scoped>
+@media screen and (min-width: 761px) {
+  .q-footer {
+    display: none;
+  }
+}
+.header-image {
+  height: 100%;
+  // width: 100%;
+  z-index: -1;
+  opacity: 0.2;
+  filter: grayscale(100%);
+}
 .front {
   z-index: 9998 !important;
 }
