@@ -45,6 +45,17 @@ export default function(/* { store, ssrContext } */) {
     } else {
       next();
     }
+    if (to.matched.some(record => record.meta.user)) {
+      if (!loggedIn) {
+        next({
+          path: "/profile"
+        });
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
   });
 
   Router.onError(error => {

@@ -76,7 +76,16 @@ export default {
           .then((res) => {
             this.disable = false;
             this.loading = false;
-            this.getUser();
+            this.getUser().then((res) => {
+              const identity = res.id;
+              this.$store.dispatch("messaging/getMessageToken").then((res) => {
+                const data = {
+                  id: identity,
+                  token: res,
+                };
+                this.$store.dispatch("users/saveFirebaseToken", data);
+              });
+            });
             this.$router.replace(
               this.$route.query.redirect || { path: "/" },
               () => {}

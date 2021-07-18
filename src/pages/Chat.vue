@@ -235,7 +235,7 @@
           :loading="loading"
         >
           <template v-slot:after>
-            <q-btn round dense flat icon="add" color="white" @click="bid" />
+            <!-- <q-btn round dense flat icon="add" color="white" @click="bid" /> -->
             <q-btn round dense flat icon="send" color="white" @click="send" />
           </template>
         </q-input>
@@ -535,6 +535,7 @@ export default {
   watch: {
     chattings(val) {
       console.log("chattings", val);
+      this.scrollToBottom();
     },
     page(val) {
       console.log("page", val);

@@ -20,7 +20,7 @@ const routes = [
       {
         path: "/diskusi",
         name: "diskusi",
-        meta: { title: "Forum", backto: "index" },
+        meta: { title: "Forum", backto: "index", user: true },
         component: () => import(/* webpackChunkName: "Chat" */ "pages/Chat.vue")
       }
     ]

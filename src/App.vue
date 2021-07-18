@@ -55,7 +55,7 @@ export default {
     notif() {
       console.log("notsplit", notificationSplit);
       console.log("click", clickAction);
-      this.$store.dispatch("notifications/getNotificationByCurrentId");
+      // this.$store.dispatch("notifications/getNotificationByCurrentId");
 
       // lelang almost
       if (notificationSplit[0] == "Bid" && notificationSplit[1] == "baru") {
