@@ -1,4 +1,4 @@
-// import { messaging } from "boot/firestore";
+import { messaging } from "boot/firebase";
 import * as Axios from "boot/axios";
 
 import { Loading } from "quasar";
