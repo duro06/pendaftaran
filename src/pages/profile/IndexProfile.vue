@@ -32,6 +32,29 @@
           </q-item-section>
         </q-item>
 
+        <!-- Curriculum Vitae  -->
+        <q-separator />
+        <q-item clickable v-ripple to="/profile/edit_cv">
+          <q-item-section avatar>
+            <div class="row">
+              <q-icon name="person" size="25px" />
+              <span class="q-ml-sm q-mt-xs f-13">Edit CV</span>
+            </div>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label caption></q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <div class="row">
+              <span class="q-ml-sm q-mt-xs f-13"></span>
+              <q-icon
+                name="eva-arrow-ios-forward-outline q-mt-xs"
+                size="18px"
+              />
+            </div>
+          </q-item-section>
+        </q-item>
+
         <!-- Logout -->
         <q-separator />
         <q-item clickable v-ripple @click="signOut">
