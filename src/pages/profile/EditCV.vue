@@ -2,21 +2,6 @@
   <q-page>
     <div class="q-pa-lg">
       <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-sm">
-        <!-- :value="user.email" -->
-        <q-input
-          filled
-          dense
-          v-model="form.email"
-          label="E-mail *"
-          lazy-rules
-          readonly
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-        >
-          <template v-slot:prepend>
-            <q-icon name="eva-email-outline" />
-          </template>
-        </q-input>
-
         <!-- :value="user.name" -->
         <q-input
           filled
@@ -32,66 +17,47 @@
           </template>
         </q-input>
 
-        <!-- :value="user.notelp"
-        @input="noTelp"-->
         <q-input
-          filled
           dense
-          v-model="form.notelp"
-          label="No Telephone"
+          filled
+          v-model="form.ttl"
+          @click="showDate"
+          :rules="[(val) => (val && val.length > 0) || 'Harap diisi']"
           lazy-rules
         >
           <template v-slot:prepend>
-            <q-icon name="eva-phone-outline" />
+            <q-popup-proxy
+              transition-show="scale"
+              transition-hide="scale"
+              ref="qDateProxy"
+            >
+              <q-date v-model="form.ttl" mask="YYYY/MM/DD" @input="closeDate">
+                <div class="row items-center justify-end">
+                  <q-btn
+                    @click="closeDate"
+                    label="Close"
+                    color="primary"
+                    flat
+                  />
+                </div>
+              </q-date>
+            </q-popup-proxy>
           </template>
+
+          <!-- <template v-slot:append>
+            <q-popup-proxy
+              transition-show="scale"
+              transition-hide="scale"
+              ref="qTimeProxy"
+            >
+              <q-time v-model="form.ttl" mask="YYYY/MM/DD" format24h>
+                <div class="row items-center justify-end">
+                  <q-btn v-close-popup label="Close" color="primary" flat />
+                </div>
+              </q-time>
+            </q-popup-proxy>
+          </template> -->
         </q-input>
-
-        <!-- <q-input
-          filled
-          v-model="form.nowhatsapp"
-          label="No Whatsapp"
-          lazy-rules
-          ref="wa"
-          :rules="[ val => val && val.length > 0 || 'Please type something',
-            val => val.substring(0, 2) == 62 || 'dua angka di isi dengan 62'
-          ]"
-        >
-          <template v-slot:prepend>
-            <q-icon name="fab fa-whatsapp" />
-          </template>
-        </q-input> -->
-
-        <!-- :value="user.alamat"
-        @input="alamat"-->
-        <q-input
-          v-model="form.alamat"
-          filled
-          placeholder="Alamat"
-          type="textarea"
-        />
-
-        <!-- :value="user.provinsi"
-        @input="provinsi"-->
-        <q-select
-          filled
-          dense
-          options-dense
-          v-model="form.provinsi"
-          label="Provinsi"
-          :options="provinsiOpt"
-          behavior="dialog"
-        />
-        <!-- :value="user.kota"
-        @input="kota" -->
-        <q-select
-          filled
-          dense
-          options-dense
-          v-model="form.kota"
-          label="Kota/ Kabupaten"
-          :options="kotaOpt"
-          behavior="dialog"
-        />
 
         <q-separator class="q-mt-lg" />
         <div class="q-my-lg">
@@ -125,20 +91,23 @@
 import axios from "axios";
 import * as Axios from "boot/axios";
 import { mapState, mapGetters } from "vuex";
+import { date } from "quasar";
+import { addDays } from "date-fns";
 
 export default {
   name: "EditProfile",
   created() {
-    this.getProvinsi();
-    this.getKota();
+    // this.getProvinsi();
+    // this.getKota();
   },
   mounted() {
     this.isiDulu();
+    this.getHariIni();
   },
   data() {
     return {
       form: {
-        provinsi: null,
+        ttl: null,
         email: null,
         name: null,
         notelp: null,
@@ -153,84 +122,64 @@ export default {
   },
   computed: {
     ...mapState("users", ["user"]),
+    ...mapState("profile", ["bio"]),
   },
   methods: {
     isiDulu() {
-      if (this.user.email) {
-        this.form.email = this.user.email;
+      if (this.bio.ttl) {
+        this.form.ttl = this.bio.ttl;
       }
       if (this.user.name) {
         this.form.name = this.user.name;
       }
-      if (this.user.provinsi) {
-        this.form.provinsi = this.user.provinsi;
+      if (this.bio.provinsi) {
+        this.form.provinsi = this.bio.provinsi;
       }
-      if (this.user.kota) {
-        this.form.kota = this.user.kota;
+      if (this.bio.kota) {
+        this.form.kota = this.bio.kota;
       }
-      if (this.user.notelp) {
-        this.form.notelp = this.user.notelp;
+      if (this.bio.notelp) {
+        this.form.notelp = this.bio.notelp;
       }
-      if (this.user.nowhatsapp) {
-        this.form.nowhatsapp = this.user.nowhatsapp;
+      if (this.bio.nowhatsapp) {
+        this.form.nowhatsapp = this.bio.nowhatsapp;
       }
-      if (this.user.alamat) {
-        this.form.alamat = this.user.alamat;
+      if (this.bio.alamat) {
+        this.form.alamat = this.bio.alamat;
       }
-      if (this.user.id) {
-        this.form.id = this.user.id;
+      if (this.bio.id) {
+        this.form.id = this.bio.id;
       }
     },
-    getProvinsi() {
-      axios
-        .get("https://dev.farizdotid.com/api/daerahindonesia/provinsi")
-        .then((resp) => {
-          let prov = [];
-          resp.data.provinsi.map(function (value, key) {
-            prov.push({
-              label: resp.data.provinsi[key].nama,
-              value: resp.data.provinsi[key].id,
-            });
-          });
-          this.provinsiOpt = prov;
-        });
-    },
-
-    getKota(provid) {
-      if (this.form.provinsi != null) {
-        axios
-          .get(
-            "https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=" +
-              provid
-          )
-          .then((resp) => {
-            let kota = [];
-            resp.data.kota_kabupaten.map(function (value, key) {
-              kota.push({
-                label: resp.data.kota_kabupaten[key].nama,
-                value: resp.data.kota_kabupaten[key].id,
-              });
-            });
-            this.kotaOpt = kota;
-          });
+    getHariIni() {
+      let cd = addDays(new Date(), 0);
+      if (!this.bio.ttl) {
+        this.form.ttl = date.formatDate(cd, "YYYY-MM-DD");
       }
+    },
+    showDate() {
+      this.$refs.qDateProxy.show();
+    },
+    closeDate() {
+      this.$refs.qDateProxy.hide();
+      // this.$refs.qTimeProxy.show();
     },
     onSubmit() {
       // console.log(this.form.nowhatsapp.substring(0, 2));
       this.$q.loading.show();
       this.$store
-        .dispatch("users/updateProfile", this.form)
+        .dispatch("profile/updateCV", this.form)
         .then((res) => {
           this.$q.loading.hide();
           this.$q.notify({
-            message: "profile berhasil di update",
+            message: "curriculum vitae berhasil di update",
             icon: "eva-alert-circle",
           });
         })
         .catch((err) => {
           this.$q.loading.hide();
           this.$q.notify({
-            message: "profile gagal di update",
+            message: "curriculum vitae gagal di update",
             icon: "eva-alert-triangle",
           });
         });

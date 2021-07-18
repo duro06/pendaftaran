@@ -52,7 +52,7 @@ const routes = [
         meta: { title: "Edit Curriculum Vitae", backto: "profile" },
         component: () =>
           import(
-            /* webpackChunkName: "edit-profile" */ "pages/profile/EditCV.vue"
+            /* webpackChunkName: "edit-curriculum-vitae" */ "pages/profile/EditCV.vue"
           )
       }
     ]
