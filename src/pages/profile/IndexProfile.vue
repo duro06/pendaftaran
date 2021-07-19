@@ -8,8 +8,8 @@
     </div>
     <!-- jika sdh login -->
     <div v-else>
+      <!-- Edit Profile -->
       <q-list bordered>
-        <!-- Edit Profile -->
         <div v-for="item in items" :key="item.label">
           <q-separator />
           <q-item clickable v-ripple :to="item.to">

@@ -2,8 +2,18 @@
   <q-page>
     <div class="q-pa-lg">
       <!-- <q-input v-model="nilai" label="Label" placeholder="Placeholder"  /> -->
-      <div v-for="mapel in mapels" :key="mapel.id">
-        <input-nilai
+      <q-list bordered class="q-py-sm">
+        <div v-for="(type, index) in types" :key="index">
+          <list-type
+            :index="index"
+            :id="type.id"
+            :label="type.name"
+            icon="mdi-note-text-outline"
+            @diclick="listListener"
+          />
+        </div>
+      </q-list>
+      <!-- <input-nilai
           :label="mapel.name"
           :id="mapel.id"
           :placeholder="mapel.name"
@@ -11,8 +21,7 @@
           :value="mapel.nilai == null ? null : mapel.nilai"
           :nilai_id="mapel.nilai_id"
           :media_id="mapel.media_id"
-        />
-      </div>
+        /> -->
     </div>
   </q-page>
 </template>
@@ -22,6 +31,7 @@ export default {
   name: "IsiNilai",
   components: {
     "input-nilai": () => import("pages/profile/nilai/InputNilai"),
+    "list-type": () => import("pages/profile/nilai/ListType"),
   },
   data() {
     return {
@@ -29,14 +39,17 @@ export default {
     };
   },
   created() {
-    // this.getMapels();
+    this.getType();
   },
   computed: {
-    ...mapGetters("nilai", ["mapels"]),
+    ...mapGetters("nilai", ["types"]),
     ...mapGetters("users", ["user"]),
   },
   methods: {
-    ...mapActions("nilai", ["getMapels"]),
+    ...mapActions("nilai", ["getType"]),
+    listListener(val) {
+      console.log(val);
+    },
   },
 };
 </script>

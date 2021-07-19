@@ -17,6 +17,7 @@
         <q-img
           :src="path == null ? 'images/no_image.png' : storage + path"
           no-native-menu
+          @click="toEnlarge"
         >
           <q-file v-model="picture" dense>
             <template v-slot:prepend>
@@ -31,16 +32,28 @@
         </q-img>
       </q-responsive>
     </div>
+    <!-- <q-dialog v-model="enlarge"> -->
+    <!-- <expand-picture -->
+    <expand-picture
+      :media="path == null ? 'images/no_image.png' : storage + path"
+      :enlarge="enlarge"
+      :mapel="this.placeholder"
+      :nilai="this.nilai"
+      @tutup="enlarge = false"
+    />
+    <!-- </q-dialog> -->
+    <!-- :enlarge="enlarge" -->
   </div>
 </template>
 
 <script>
-import store from "src/store";
-
 import { mapGetters } from "vuex";
 
 export default {
   name: "NilaiInput",
+  components: {
+    "expand-picture": () => import("components/shared/ExpandPicture"),
+  },
   props: [
     "label",
     "placeholder",
@@ -55,6 +68,7 @@ export default {
       nilai: null,
       picture: null,
       loading: false,
+      enlarge: false,
     };
   },
   computed: {
@@ -67,6 +81,14 @@ export default {
     }
   },
   methods: {
+    toEnlarge() {
+      this.enlarge = true;
+      console.log("enlarge");
+    },
+    tutup(val) {
+      this.enlarge = false;
+      console.log("tutup", val);
+    },
     update() {
       let data = {
         id: this.user.id,

@@ -1,11 +1,15 @@
 import { LocalStorage, Notify } from "quasar";
 import * as Axios from "boot/axios";
 const state = () => ({
-  mapels: []
+  mapels: [],
+  types: []
 });
 const mutations = {
   setMapel(state, payload) {
     state.mapels = payload;
+  },
+  setTypes(state, payload) {
+    state.types = payload;
   }
 };
 const actions = {
@@ -41,10 +45,24 @@ const actions = {
         });
     });
   },
+  getType(context, payload) {
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .get(`type`, payload)
+        .then(resp => {
+          console.log("nilai", resp.data);
+          context.commit("setTypes", resp.data);
+          resolve(resp);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
   isiMapel(context, payload) {
     return new Promise((resolve, reject) => {
       Axios.http()
-        .post(`mapel/nilai`, payload)
+        .post(`nilai`, payload)
         .then(resp => {
           console.log("nilai", resp);
           resolve(resp);
@@ -58,7 +76,7 @@ const actions = {
     console.log("payload", payload);
     return new Promise((resolve, reject) => {
       Axios.httpFile()
-        .post(`/mapel/upload_image/${payload.id}`, payload.data)
+        .post(`/type/upload_image/${payload.id}`, payload.data)
         .then(res => {
           console.log(res);
           resolve(res);
@@ -73,6 +91,9 @@ const actions = {
 const getters = {
   mapels(state) {
     return state.mapels;
+  },
+  types(state) {
+    return state.types;
   }
 };
 
