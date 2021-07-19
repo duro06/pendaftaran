@@ -2,7 +2,8 @@ import { LocalStorage, Notify } from "quasar";
 import * as Axios from "boot/axios";
 const state = () => ({
   mapels: [],
-  types: []
+  types: [],
+  nilais: []
 });
 const mutations = {
   setMapel(state, payload) {
@@ -10,6 +11,9 @@ const mutations = {
   },
   setTypes(state, payload) {
     state.types = payload;
+  },
+  setNilais(state, payload) {
+    state.nilais = payload;
   }
 };
 const actions = {
@@ -22,20 +26,20 @@ const actions = {
           let nilai = user.nilai;
           let media = user.media;
           let mapel = resp.data;
-          mapel.forEach(data => {
-            nilai.filter(sama => {
-              if (data.id == sama.mapel_id) {
-                data.nilai_id = sama.id;
-                data.nilai = sama.nilai;
-              }
-            });
-            media.filter(sama => {
-              if (data.id == sama.mapel_id) {
-                data.media_id = sama.id;
-                data.media = sama.path;
-              }
-            });
-          });
+          // mapel.forEach(data => {
+          //   nilai.filter(sama => {
+          //     if (data.id == sama.mapel_id) {
+          //       data.nilai_id = sama.id;
+          //       data.nilai = sama.nilai;
+          //     }
+          //   });
+          //   media.filter(sama => {
+          //     if (data.id == sama.mapel_id) {
+          //       data.media_id = sama.id;
+          //       data.media = sama.path;
+          //     }
+          //   });
+          // });
           console.log("user", user);
           context.commit("setMapel", mapel);
           resolve(resp);
@@ -52,6 +56,20 @@ const actions = {
         .then(resp => {
           console.log("nilai", resp.data);
           context.commit("setTypes", resp.data);
+          resolve(resp);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  getNilaiBy(context, payload) {
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .get(`nilai/nilai_by`, payload)
+        .then(resp => {
+          console.log("nilai", resp.data);
+          context.commit("setNilais", resp.data);
           resolve(resp);
         })
         .catch(err => {
@@ -94,6 +112,9 @@ const getters = {
   },
   types(state) {
     return state.types;
+  },
+  nilais(state) {
+    return state.nilais;
   }
 };
 

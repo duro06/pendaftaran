@@ -60,7 +60,7 @@ const actions = {
       Axios.http()
         .get("forum/get_user", payload)
         .then(resp => {
-          console.log(resp);
+          console.log("users", resp.data);
           commit("setUsers", resp.data.user);
           resolve(resp);
         })

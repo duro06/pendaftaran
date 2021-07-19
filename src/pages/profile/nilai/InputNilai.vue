@@ -2,17 +2,17 @@
   <div class="row q-my-md">
     <div class="col">
       <q-input
-        :value="value"
+        :value="mapel.nilai"
         v-model="nilai"
-        :label="label"
-        :placeholder="'isi dengan nilai' + placeholder"
+        :label="mapel.mapel.name"
+        :placeholder="'isi dengan nilai ' + mapel.mapel.name"
         dense
         @blur="update"
         :loading="loading"
       />
     </div>
 
-    <div class="col-2">
+    <!-- <div class="col-2">
       <q-responsive :ratio="1">
         <q-img
           :src="path == null ? 'images/no_image.png' : storage + path"
@@ -31,16 +31,16 @@
           </q-file>
         </q-img>
       </q-responsive>
-    </div>
+    </div> -->
     <!-- <q-dialog v-model="enlarge"> -->
     <!-- <expand-picture -->
-    <expand-picture
+    <!-- <expand-picture
       :media="path == null ? 'images/no_image.png' : storage + path"
       :enlarge="enlarge"
       :mapel="this.placeholder"
       :nilai="this.nilai"
       @tutup="enlarge = false"
-    />
+    /> -->
     <!-- </q-dialog> -->
     <!-- :enlarge="enlarge" -->
   </div>
@@ -55,6 +55,7 @@ export default {
     "expand-picture": () => import("components/shared/ExpandPicture"),
   },
   props: [
+    "mapel",
     "label",
     "placeholder",
     "id",
@@ -66,6 +67,7 @@ export default {
   data() {
     return {
       nilai: null,
+      nilaiPrev: null,
       picture: null,
       loading: false,
       enlarge: false,
@@ -75,9 +77,10 @@ export default {
     ...mapGetters("users", ["storage", "user"]),
   },
   mounted() {
-    console.log("value", this.value);
-    if (this.value != null) {
-      this.nilai = this.value;
+    console.log("value", this.mapel.nilai);
+    if (this.mapel.nilai != undefined) {
+      this.nilai = this.mapel.nilai;
+      this.nilaiPrev = this.mapel.nilai;
     }
   },
   methods: {
@@ -92,12 +95,12 @@ export default {
     update() {
       let data = {
         id: this.user.id,
-        mapel_id: this.id,
-        nilai_id: this.nilai_id,
-        nilai: this.nilai,
-        mapel_name: this.placeholder,
+        mapel_id: this.mapel.mapel_id,
+        nilai_id: this.mapel.id,
+        nilai: this.mapel.nilai,
+        mapel_name: this.mapel.mapel.name,
       };
-      if (this.nilai) {
+      if (this.nilai !== this.nilaiPrev) {
         this.loading = true;
         this.$store
           .dispatch("nilai/isiMapel", data)
@@ -111,7 +114,9 @@ export default {
             this.loading = false;
           });
       }
-      console.log("data", data);
+      // console.log("persamaan", this.nilai, this.nilaiPrev);
+      // console.log("data", data);
+      // console.log("mapel", this.mapel);
     },
 
     upload(file) {
@@ -141,8 +146,9 @@ export default {
     },
   },
   watch: {
-    value() {
-      this.nilai = this.value;
+    mapel() {
+      this.nilai = this.mapel.nilai;
+      this.nilaiPrev = this.mapel.nilai;
     },
     picture() {
       this.upload(this.picture);

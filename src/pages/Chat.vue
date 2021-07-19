@@ -286,6 +286,7 @@ export default {
   },
   created() {
     this.getChat(this.page);
+    this.getUsers();
     // this.getLelangById(this.$route.params.slug);
     this.scrollToBottom();
   },
@@ -383,6 +384,7 @@ export default {
       "clearChat",
       "updateChattings",
       "unshiftChat",
+      "getUsers",
     ]),
     // ...mapActions("lelang", ["getLelangById"]),
 

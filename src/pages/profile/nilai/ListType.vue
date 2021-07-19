@@ -1,5 +1,24 @@
 <template>
-  <div>
+  <!-- <q-page class="flex flex-center"> -->
+  <div class="q-ma-sm">
+    <!-- <div class="row justify-evenly"> -->
+    <div @click="$emit('diclick', { id: id, index: index })">
+      <q-card class="my-card">
+        <img :src="path" />
+
+        <q-card-section>
+          <div class="text-h6">{{ label }}</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          Nilai yang diperoleh dari {{ label }}
+        </q-card-section>
+      </q-card>
+      <!-- </div> -->
+    </div>
+  </div>
+  <!-- </q-page> -->
+  <!-- <div>
     <q-separator v-if="index > 0" />
     <q-item clickable v-ripple @click="$emit('diclick', id)">
       <q-item-section avatar>
@@ -18,11 +37,11 @@
         </div>
       </q-item-section>
     </q-item>
-  </div>
+  </div> -->
 </template>
 <script>
 export default {
   name: "List",
-  props: ["icon", "label", "id", "index"],
+  props: ["icon", "label", "id", "index", "path"],
 };
 </script>
