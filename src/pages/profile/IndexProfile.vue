@@ -10,50 +10,29 @@
     <div v-else>
       <q-list bordered>
         <!-- Edit Profile -->
-        <q-separator />
-        <q-item clickable v-ripple to="/profile/edit_profile">
-          <q-item-section avatar>
-            <div class="row">
-              <q-icon name="mdi-account" size="25px" />
-              <span class="q-ml-sm q-mt-xs f-13">Edit Profile</span>
-            </div>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label caption></q-item-label>
-          </q-item-section>
-          <q-item-section side>
-            <div class="row">
-              <span class="q-ml-sm q-mt-xs f-13"></span>
-              <q-icon
-                name="eva-arrow-ios-forward-outline q-mt-xs"
-                size="18px"
-              />
-            </div>
-          </q-item-section>
-        </q-item>
-
-        <!-- Curriculum Vitae  -->
-        <q-separator />
-        <q-item clickable v-ripple to="/profile/edit_cv">
-          <q-item-section avatar>
-            <div class="row">
-              <q-icon name="mdi-account-details" size="25px" />
-              <span class="q-ml-sm q-mt-xs f-13">Edit CV</span>
-            </div>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label caption></q-item-label>
-          </q-item-section>
-          <q-item-section side>
-            <div class="row">
-              <span class="q-ml-sm q-mt-xs f-13"></span>
-              <q-icon
-                name="eva-arrow-ios-forward-outline q-mt-xs"
-                size="18px"
-              />
-            </div>
-          </q-item-section>
-        </q-item>
+        <div v-for="item in items" :key="item.label">
+          <q-separator />
+          <q-item clickable v-ripple :to="item.to">
+            <q-item-section avatar>
+              <div class="row">
+                <q-icon :name="item.name" size="25px" />
+                <span class="q-ml-sm q-mt-xs f-13">{{ item.label }}</span>
+              </div>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label caption></q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <div class="row">
+                <span class="q-ml-sm q-mt-xs f-13"></span>
+                <q-icon
+                  name="eva-arrow-ios-forward-outline q-mt-xs"
+                  size="18px"
+                />
+              </div>
+            </q-item-section>
+          </q-item>
+        </div>
 
         <!-- Logout -->
         <q-separator />
@@ -93,6 +72,23 @@ export default {
     return {
       isLogin: true,
       adaFoto: false,
+      items: [
+        {
+          to: "/profile/edit_profile",
+          name: "mdi-account",
+          label: "Edit Profile",
+        },
+        {
+          to: "/profile/edit_cv",
+          name: "mdi-account-details",
+          label: "Edit CV",
+        },
+        {
+          to: "/profile/edit_nilai",
+          name: "mdi-book-education-outline",
+          label: "Edit Nilai",
+        },
+      ],
     };
   },
   mounted() {

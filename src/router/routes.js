@@ -54,6 +54,15 @@ const routes = [
           import(
             /* webpackChunkName: "edit-curriculum-vitae" */ "pages/profile/EditCV.vue"
           )
+      },
+      {
+        path: "/profile/edit_nilai",
+        name: "edit_nilai",
+        meta: { title: "Edit Nilai", backto: "profile" },
+        component: () =>
+          import(
+            /* webpackChunkName: "edit-nilai" */ "pages/profile/IsiNilai.vue"
+          )
       }
     ]
   },

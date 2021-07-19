@@ -9,9 +9,27 @@ const mutations = {
   }
 };
 const actions = {
+  createBio(context, payload) {
+    let data = {
+      user_id: payload
+    };
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .post("bio/store", data)
+        .then(resp => {
+          console.log("store", resp);
+          resolve(resp);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
   updateCV(context, payload) {
     let data = {
-      ttl: payload.ttl
+      ttl: payload.ttl,
+      nik: payload.nik,
+      asal_sekolah: payload.asal_sekolah
     };
     console.log("data ", data);
     return new Promise((reso, rej) => {

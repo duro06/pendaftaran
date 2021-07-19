@@ -1,6 +1,38 @@
 <template>
   <q-page>
     <div class="q-pa-lg">
+      <div class="row justify-center">
+        <div class="col-3">
+          <q-responsive :ratio="3 / 4">
+            <q-img
+              :src="
+                bio.path == null ? 'images/nouser.png' : storage + user.avatar
+              "
+              no-native-menu
+            >
+              <q-file v-model="picture" dense>
+                <template v-slot:prepend>
+                  <q-icon
+                    name="mdi-camera-plus"
+                    color="white"
+                    class="absolute all-pointer-events"
+                    style="top: 8px; left: 8px"
+                  />
+                </template>
+              </q-file>
+              <!-- <q-icon
+                class="absolute all-pointer-events"
+                size="32px"
+                name="mdi-camera-plus"
+                color="white"
+                style="top: 8px; left: 8px"
+              >
+                <q-tooltip> Tooltip </q-tooltip>
+              </q-icon> -->
+            </q-img>
+          </q-responsive>
+        </div>
+      </div>
       <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-sm">
         <!-- :value="user.name" -->
         <q-input
@@ -13,7 +45,7 @@
           :rules="[(val) => (val && val.length > 0) || 'Please type something']"
         >
           <template v-slot:prepend>
-            <q-icon name="eva-person-outline" />
+            <q-icon name="mdi-account-outline" />
           </template>
         </q-input>
 
@@ -59,6 +91,35 @@
           </template> -->
         </q-input>
 
+        <q-input
+          filled
+          dense
+          v-model="form.nik"
+          type="number"
+          label="NIK"
+          lazy-rules
+          :rules="[
+            (val) => (val && val.length > 15) || 'NIK terdiri dari 16 angka',
+          ]"
+        >
+          <template v-slot:prepend>
+            <q-icon name="mdi-card-account-details-outline" />
+          </template>
+        </q-input>
+
+        <q-input
+          filled
+          dense
+          v-model="form.asal_sekolah"
+          label="Asal Sekolah"
+          lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'please type something']"
+        >
+          <template v-slot:prepend>
+            <q-icon name="mdi-school-outline" />
+          </template>
+        </q-input>
+
         <q-separator class="q-mt-lg" />
         <div class="q-my-lg">
           <div class="row">
@@ -90,15 +151,15 @@
 <script>
 import axios from "axios";
 import * as Axios from "boot/axios";
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 import { date } from "quasar";
 import { addDays } from "date-fns";
 
 export default {
-  name: "EditProfile",
+  name: "EditCV",
   created() {
     // this.getProvinsi();
-    // this.getKota();
+    this.createBio(this.user.id);
   },
   mounted() {
     this.isiDulu();
@@ -108,23 +169,26 @@ export default {
     return {
       form: {
         ttl: null,
-        email: null,
+        nik: null,
         name: null,
         notelp: null,
-        nowhatsapp: null,
+        asal_sekolah: null,
         alamat: null,
         kota: null,
         id: null,
       },
       provinsiOpt: [],
       kotaOpt: [],
+      picture: null,
     };
   },
   computed: {
     ...mapState("users", ["user"]),
     ...mapState("profile", ["bio"]),
+    ...mapGetters("users", ["storage"]),
   },
   methods: {
+    ...mapActions("profile", ["createBio"]),
     isiDulu() {
       if (this.bio.ttl) {
         this.form.ttl = this.bio.ttl;
@@ -132,11 +196,11 @@ export default {
       if (this.user.name) {
         this.form.name = this.user.name;
       }
-      if (this.bio.provinsi) {
-        this.form.provinsi = this.bio.provinsi;
+      if (this.bio.nik) {
+        this.form.nik = this.bio.nik;
       }
-      if (this.bio.kota) {
-        this.form.kota = this.bio.kota;
+      if (this.bio.asal_sekolah) {
+        this.form.asal_sekolah = this.bio.asal_sekolah;
       }
       if (this.bio.notelp) {
         this.form.notelp = this.bio.notelp;
@@ -191,14 +255,41 @@ export default {
       this.form.alamat = null;
       this.form.kota = null;
     },
+    upload(file) {
+      const formData = new FormData();
+      formData.append("image", file);
+      let data = {
+        id: this.bio.id,
+        data: formData,
+      };
+      this.$q.loading.show();
+
+      this.$store
+        .dispatch("users/uploadImage", data)
+        .then((res) => {
+          this.$q.loading.hide();
+          console.log("upload", res);
+        })
+        .catch((err) => {
+          this.$q.loading.hide();
+          console.log(err);
+        });
+    },
   },
   watch: {
     "form.provinsi"() {
       this.getKota(this.form.provinsi.value);
+    },
+    picture() {
+      this.upload(this.picture);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.profile-pict {
+  width: 250px;
+  height: auto;
+}
 </style>

@@ -189,7 +189,7 @@ export default {
         maxSize: 500,
       }).then((res) => {
         this.myImage = res;
-        this.upload(res);
+        // this.upload(res);
         // console.log('coba',this.myImage)
       });
     },
