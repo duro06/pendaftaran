@@ -15,6 +15,7 @@ const actions = {
         .get("/mapel")
         .then(resp => {
           console.log("mapel", resp);
+          commit("setMapel", resp.data);
           resolve(resp);
         })
         .catch(err => {
@@ -24,8 +25,8 @@ const actions = {
   }
 };
 const getters = {
-  mapel(state) {
-    return state.mapel;
+  mapels(state) {
+    return state.mapels;
   }
 };
 
