@@ -45,6 +45,7 @@ export default {
             token: res,
           };
           this.$store.dispatch("users/saveFirebaseToken", data);
+          this.$store.dispatch("nilai/getMapels");
         });
         this.$store.dispatch("profile/getBio");
         // this.$store.dispatch("messaging/getAllChat");

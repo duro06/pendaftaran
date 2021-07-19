@@ -20,19 +20,11 @@
                   />
                 </template>
               </q-file>
-              <!-- <q-icon
-                class="absolute all-pointer-events"
-                size="32px"
-                name="mdi-camera-plus"
-                color="white"
-                style="top: 8px; left: 8px"
-              >
-                <q-tooltip> Tooltip </q-tooltip>
-              </q-icon> -->
             </q-img>
           </q-responsive>
         </div>
       </div>
+
       <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-sm">
         <!-- :value="user.name" -->
         <q-input
@@ -120,6 +112,30 @@
           </template>
         </q-input>
 
+        <div class="row justify-center">
+          <div class="col-4">
+            <span class="self-center">Kartu Keluarga</span>
+            <q-responsive :ratio="16 / 9">
+              <q-img
+                :src="
+                  bio.path == null ? 'images/no_image.png' : storage + bio.path
+                "
+                no-native-menu
+              >
+                <q-file v-model="kk" dense>
+                  <template v-slot:prepend>
+                    <q-icon
+                      name="mdi-camera-plus"
+                      color="white"
+                      class="absolute all-pointer-events"
+                      style="top: 8px; left: 8px"
+                    />
+                  </template>
+                </q-file>
+              </q-img>
+            </q-responsive>
+          </div>
+        </div>
         <q-separator class="q-mt-lg" />
         <div class="q-my-lg">
           <div class="row">
@@ -180,6 +196,7 @@ export default {
       provinsiOpt: [],
       kotaOpt: [],
       picture: null,
+      kk: null,
     };
   },
   computed: {
@@ -275,6 +292,26 @@ export default {
           console.log(err);
         });
     },
+    uploadKk(file) {
+      const formData = new FormData();
+      formData.append("image", file);
+      let data = {
+        id: this.bio.id,
+        data: formData,
+      };
+      this.$q.loading.show();
+
+      this.$store
+        .dispatch("profile/uploadImage", data)
+        .then((res) => {
+          this.$q.loading.hide();
+          console.log("upload", res);
+        })
+        .catch((err) => {
+          this.$q.loading.hide();
+          console.log(err);
+        });
+    },
   },
   watch: {
     "form.provinsi"() {
@@ -282,6 +319,9 @@ export default {
     },
     picture() {
       this.upload(this.picture);
+    },
+    kk() {
+      this.uploadKk(this.kk);
     },
   },
 };

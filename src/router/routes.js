@@ -61,7 +61,7 @@ const routes = [
         meta: { title: "Edit Nilai", backto: "profile" },
         component: () =>
           import(
-            /* webpackChunkName: "edit-nilai" */ "pages/profile/IsiNilai.vue"
+            /* webpackChunkName: "edit-nilai" */ "src/pages/profile/nilai/IsiNilai.vue"
           )
       }
     ]
