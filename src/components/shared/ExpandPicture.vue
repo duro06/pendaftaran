@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-dialog v-model="enlarge">
+    <q-dialog v-model="enlarge" :maximized="true">
       <q-card class="my-card">
         <q-img :src="media" />
 

@@ -24,15 +24,6 @@
         @click="updateData"
       />
     </div>
-    <!-- <expand-picture
-      :media="path == null ? 'images/no_image.png' : storage + path"
-      :enlarge="enlarge"
-      :mapel="this.placeholder"
-      :nilai="this.nilai"
-      @tutup="enlarge = false"
-    /> -->
-    <!-- </q-dialog> -->
-    <!-- :enlarge="enlarge" -->
   </div>
 </template>
 
@@ -41,9 +32,7 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "NilaiInput",
-  components: {
-    "expand-picture": () => import("components/shared/ExpandPicture"),
-  },
+
   props: ["mapel", "user_id", "type_id"],
   data() {
     return {
@@ -106,39 +95,8 @@ export default {
           this.loading = false;
         });
     },
-
-    upload(file) {
-      const formData = new FormData();
-      formData.append("image", file);
-      let data = {
-        id: this.media_id,
-        mapel_id: this.id,
-        nilai_id: this.nilai_id,
-        data: formData,
-      };
-      this.$q.loading.show();
-
-      this.$store
-        .dispatch("nilai/uploadImage", data)
-        .then((res) => {
-          this.$store.dispatch("users/getUser").then(() => {
-            this.$store.dispatch("nilai/getMapels");
-          });
-          this.$q.loading.hide();
-          console.log("upload", res);
-        })
-        .catch((err) => {
-          this.$q.loading.hide();
-          console.log(err);
-        });
-    },
   },
-  watch: {
-    picture() {
-      this.upload(this.picture);
-      this.picture = null;
-    },
-  },
+  watch: {},
 };
 </script>
 
