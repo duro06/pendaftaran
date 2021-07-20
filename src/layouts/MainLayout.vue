@@ -75,14 +75,14 @@
       </q-scroll-area>
     </q-drawer>
     <!-- button for admin at Pendaftaran page -->
-    <div
+    <!-- <div
       class="fixed-bottom-left q-ma-sm q-mb-xl q-mb-lg front"
       id="admin-button"
       v-if="$route.path.includes('/pendaftaran')"
       exact
     >
       <q-btn push color="accent" round icon="add" />
-    </div>
+    </div> -->
     <!-- ----------------------------- -->
     <q-page-container>
       <router-view />

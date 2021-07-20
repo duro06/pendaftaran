@@ -15,7 +15,9 @@ const routes = [
         name: "pendaftaran",
         meta: { title: "Pendaftaran", backto: "index" },
         component: () =>
-          import(/* webpackChunkName: "Pendaftaran" */ "pages/Pendaftaran.vue")
+          import(
+            /* webpackChunkName: "Index Pendaftaran" */ "pages/pendaftaran/IndexPendaftaran.vue"
+          )
       },
       {
         path: "/diskusi",
