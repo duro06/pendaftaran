@@ -90,6 +90,19 @@ const actions = {
         });
     });
   },
+  updateMapel(context, payload) {
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .post(`nilai/update/${payload.id}`, payload)
+        .then(resp => {
+          console.log("nilai", resp);
+          resolve(resp);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
   uploadImage(context, payload) {
     console.log("payload", payload);
     return new Promise((resolve, reject) => {

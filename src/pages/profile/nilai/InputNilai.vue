@@ -7,11 +7,27 @@
         :label="mapel.mapel.name"
         :placeholder="'isi dengan nilai ' + mapel.mapel.name"
         dense
-        @blur="update"
+        :loading="loading"
+        :disable="disable"
+      />
+    </div>
+    <div class="col-2"></div>
+    <div class="col-2">
+      <q-btn
+        icon="mdi-grease-pencil"
+        @click="disable = !disable"
+        color="blue"
+        dense
+      />
+      <q-btn
+        :icon="disable ? 'mdi-information-outline' : 'mdi-send-outline'"
+        @click="update"
+        :color="disable ? 'red' : 'green'"
+        dense
+        :disable="disable"
         :loading="loading"
       />
     </div>
-
     <!-- <div class="col-2">
       <q-responsive :ratio="1">
         <q-img
@@ -71,6 +87,7 @@ export default {
       picture: null,
       loading: false,
       enlarge: false,
+      disable: true,
     };
   },
   computed: {
@@ -94,21 +111,19 @@ export default {
     },
     update() {
       let data = {
-        id: this.user.id,
-        mapel_id: this.mapel.mapel_id,
-        nilai_id: this.mapel.id,
-        nilai: this.mapel.nilai,
-        mapel_name: this.mapel.mapel.name,
+        id: this.mapel.id,
+        nilai: this.nilai,
       };
       if (this.nilai !== this.nilaiPrev) {
         this.loading = true;
         this.$store
-          .dispatch("nilai/isiMapel", data)
+          .dispatch("nilai/updateMapel", data)
           .then(() => {
             this.$store.dispatch("users/getUser").then(() => {
               this.$store.dispatch("nilai/getMapels");
             });
             this.loading = false;
+            this.disable = true;
           })
           .catch(() => {
             this.loading = false;

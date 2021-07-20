@@ -48,29 +48,8 @@
         </div>
         <div v-for="(mapel, index) in nilais" :key="index">
           <input-nilai :mapel="mapel" @goback="details = false" />
-          <!-- <input-nilai
-            :label="mapel.mapel.name"
-            :id="mapel.id"
-            :placeholder="mapel.mapel.name"
-            :path="
-              mapel.media == undefined || mapel.media == null
-                ? null
-                : mapel.media
-            "
-            :value="mapel.nilai == null ? null : mapel.nilai"
-            :nilai_id="
-              mapel.nilai_id == undefined || mapel.nilai_id == null
-                ? null
-                : mapel.nilai_id
-            "
-            :media_id="
-              mapel.media_id == undefined || mapel.media_id == null
-                ? null
-                : mapel.media_id
-            "
-            @goback="details = false"
-          /> -->
         </div>
+
         <div v-if="current_mapels.length">
           <div class="row">
             <div class="col-5">
@@ -89,10 +68,15 @@
             </div>
             <div class="col-2">
               <q-btn
-                icon="mdi-plus-circle-outline"
+                :icon="
+                  nilai > 0 && mapel_id
+                    ? 'mdi-send-outline'
+                    : 'mdi-information-outline'
+                "
                 @click="store"
-                color="primary"
+                :color="nilai > 0 && mapel_id ? 'green' : 'red'"
                 dense
+                :disable="nilai > 0 && mapel_id ? false : true"
                 :loading="loading"
               />
             </div>
@@ -120,8 +104,11 @@ export default {
       details: false,
       image: null,
       picture: null,
-      index_type: null,
+
+      current_type_index: null,
       current_mapels: [],
+      current_type_id: null,
+
       loading: false,
     };
   },
@@ -137,61 +124,99 @@ export default {
     store() {
       console.log("id", this.mapel_id);
       console.log("nilai", this.nilai);
+      let data = {
+        user_id: this.user.id,
+        mapel_id: this.mapel_id.value,
+        type_id: this.current_type_id,
+        nilai: this.nilai,
+        mapel_name: this.mapel_id.label,
+      };
+      let params = {
+        params: {
+          user_id: this.user.id,
+          type_id: this.current_type_id,
+        },
+      };
+
+      let temp_mapel = [];
+      this.loading = true;
+      this.$store
+        .dispatch("nilai/isiMapel", data)
+        .then(() => {
+          this.nilai = 0;
+          this.mapel_id = null;
+          this.$store.dispatch("users/getUser").then(() => {
+            this.$store.dispatch("nilai/getMapels").then(() => {
+              this.mapels.forEach((mapel) => {
+                if (mapel.type_id == this.types[this.current_type_index].id) {
+                  temp_mapel.push(mapel);
+                }
+              });
+
+              this.getNilaiBy(params).then(() => {
+                this.maping(temp_mapel);
+                this.details = true;
+              });
+            });
+          });
+          this.loading = false;
+        })
+        .catch(() => {
+          this.loading = false;
+        });
     },
+
     listListener(val) {
+      // inisialisasi global
+      this.current_type_index = val.index;
+      this.current_type_id = val.id;
+
       this.current_mapels = [];
       let temp_mapel = [];
-      let same_index = [];
-      let same = [];
-      let indexof = [];
-      let all_index = [];
+      this.mapels.forEach((mapel) => {
+        if (mapel.type_id == this.types[val.index].id) {
+          temp_mapel.push(mapel);
+        }
+      });
+
+      this.image = this.types[val.index].media.path;
+      console.log("temp", temp_mapel);
+
       let params = {
         params: {
           user_id: this.user.id,
           type_id: val.id,
         },
       };
-      this.mapels.forEach((mapel) => {
-        if (mapel.type_id == this.types[val.index].id) {
-          temp_mapel.push(mapel);
-        }
-      });
-      console.log("temp", temp_mapel);
-      this.index_type = val.index;
-      this.image = this.types[val.index].media.path;
       this.getNilaiBy(params).then(() => {
-        temp_mapel.forEach((mapel, inde) => {
-          all_index.push(inde);
-          this.nilais.forEach((data, index) => {
-            if (mapel.id == data.mapel_id) {
-              same_index.push(index);
-              same.push(mapel);
-            }
-          });
-        });
-        same.forEach((data) => {
-          indexof.push(temp_mapel.indexOf(data));
-          let iof = temp_mapel.indexOf(data);
-          temp_mapel.splice(iof, 1);
-        });
-        console.log("indexoff", indexof);
-        // if (same_index.length) {
-        //   same_index.forEach((index) => {
-        //     temp_mapel.splice(index, 1);
-        //   });
-        // }
-        temp_mapel.map((data) => {
-          this.current_mapels.push({
-            label: data.name,
-            value: data.id,
-          });
-        });
+        this.maping(temp_mapel);
         this.details = true;
-        console.log("same", same_index);
-        console.log("all", all_index);
-        console.log("current mapel", this.current_mapels);
       });
       console.log(val);
+    },
+    maping(temp_mapel) {
+      let same = [];
+      let indexof = [];
+
+      temp_mapel.forEach((mapel, inde) => {
+        this.nilais.forEach((data, index) => {
+          if (mapel.id == data.mapel_id) {
+            same.push(mapel);
+          }
+        });
+      });
+      same.forEach((data) => {
+        indexof.push(temp_mapel.indexOf(data));
+        let iof = temp_mapel.indexOf(data);
+        temp_mapel.splice(iof, 1);
+      });
+      this.current_mapels = [];
+      temp_mapel.map((data) => {
+        this.current_mapels.push({
+          label: data.name,
+          value: data.id,
+        });
+      });
     },
   },
   watch: {
