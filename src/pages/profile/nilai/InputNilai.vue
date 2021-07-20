@@ -2,6 +2,7 @@
   <div class="row q-my-md">
     <div class="col">
       <q-input
+        ref="masuk"
         :value="mapel.nilai"
         v-model="nilai"
         :label="mapel.mapel.name"
@@ -9,47 +10,20 @@
         dense
         :loading="loading"
         :disable="disable"
+        @blur="toDisable"
       />
     </div>
-    <div class="col-2"></div>
     <div class="col-2">
-      <q-btn
-        icon="mdi-grease-pencil"
-        @click="disable = !disable"
-        color="blue"
-        dense
-      />
+      <q-btn icon="mdi-grease-pencil" @click="focus" color="blue" dense />
       <q-btn
         :icon="disable ? 'mdi-information-outline' : 'mdi-send-outline'"
-        @click="update"
         :color="disable ? 'red' : 'green'"
         dense
         :disable="disable"
         :loading="loading"
+        @click="updateData"
       />
     </div>
-    <!-- <div class="col-2">
-      <q-responsive :ratio="1">
-        <q-img
-          :src="path == null ? 'images/no_image.png' : storage + path"
-          no-native-menu
-          @click="toEnlarge"
-        >
-          <q-file v-model="picture" dense>
-            <template v-slot:prepend>
-              <q-icon
-                name="mdi-paperclip"
-                color="black"
-                class="absolute all-pointer-events"
-                style="top: 8px; left: 8px"
-              />
-            </template>
-          </q-file>
-        </q-img>
-      </q-responsive>
-    </div> -->
-    <!-- <q-dialog v-model="enlarge"> -->
-    <!-- <expand-picture -->
     <!-- <expand-picture
       :media="path == null ? 'images/no_image.png' : storage + path"
       :enlarge="enlarge"
@@ -70,16 +44,7 @@ export default {
   components: {
     "expand-picture": () => import("components/shared/ExpandPicture"),
   },
-  props: [
-    "mapel",
-    "label",
-    "placeholder",
-    "id",
-    "path",
-    "value",
-    "nilai_id",
-    "media_id",
-  ],
+  props: ["mapel", "user_id", "type_id"],
   data() {
     return {
       nilai: null,
@@ -101,37 +66,45 @@ export default {
     }
   },
   methods: {
-    toEnlarge() {
-      this.enlarge = true;
-      console.log("enlarge");
+    focus() {
+      const vm = this;
+      this.disable = !this.disable;
+      setTimeout(() => {
+        vm.$refs.masuk.focus();
+      }, 20);
     },
-    tutup(val) {
-      this.enlarge = false;
-      console.log("tutup", val);
+    toDisable() {
+      setTimeout(() => {
+        this.disable = true;
+      }, 100);
     },
-    update() {
+    updateData() {
       let data = {
         id: this.mapel.id,
         nilai: this.nilai,
       };
-      if (this.nilai !== this.nilaiPrev) {
-        this.loading = true;
-        this.$store
-          .dispatch("nilai/updateMapel", data)
-          .then(() => {
-            this.$store.dispatch("users/getUser").then(() => {
-              this.$store.dispatch("nilai/getMapels");
-            });
-            this.loading = false;
-            this.disable = true;
-          })
-          .catch(() => {
-            this.loading = false;
+      let params = {
+        params: {
+          user_id: this.user_id,
+          type_id: this.type_id,
+        },
+      };
+      console.log("update", data);
+
+      this.loading = true;
+      this.$store
+        .dispatch("nilai/updateMapel", data)
+        .then(() => {
+          this.$store.dispatch("users/getUser").then(() => {
+            this.$store.dispatch("nilai/getMapels");
+            this.$store.dispatch("nilai/getNilaiBy", params);
           });
-      }
-      // console.log("persamaan", this.nilai, this.nilaiPrev);
-      // console.log("data", data);
-      // console.log("mapel", this.mapel);
+          this.loading = false;
+          this.disable = true;
+        })
+        .catch(() => {
+          this.loading = false;
+        });
     },
 
     upload(file) {
@@ -161,10 +134,6 @@ export default {
     },
   },
   watch: {
-    mapel() {
-      this.nilai = this.mapel.nilai;
-      this.nilaiPrev = this.mapel.nilai;
-    },
     picture() {
       this.upload(this.picture);
       this.picture = null;

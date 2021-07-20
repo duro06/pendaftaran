@@ -47,7 +47,12 @@
           </div>
         </div>
         <div v-for="(mapel, index) in nilais" :key="index">
-          <input-nilai :mapel="mapel" @goback="details = false" />
+          <input-nilai
+            :mapel="mapel"
+            :user_id="user.id"
+            :type_id="current_type_id"
+            @goback="details = false"
+          />
         </div>
 
         <div v-if="current_mapels.length">
@@ -84,7 +89,7 @@
         </div>
       </div>
     </div>
-    <q-page-sticky position="bottom-left" :offset="[18, 18]">
+    <q-page-sticky v-if="details" position="top-left" :offset="[18, 18]">
       <q-btn round color="primary" icon="arrow_back" @click="details = false" />
     </q-page-sticky>
   </q-page>
@@ -114,6 +119,15 @@ export default {
   },
   created() {
     this.getType();
+    if (this.user.id && this.current_type_id) {
+      let params = {
+        params: {
+          user_id: this.user.id,
+          type_id: this.current_type_id,
+        },
+      };
+      this.getNilaiBy(params);
+    }
   },
   computed: {
     ...mapGetters("nilai", ["types", "nilais", "mapels"]),
