@@ -2,7 +2,8 @@ import { LocalStorage, Notify } from "quasar";
 import * as Axios from "boot/axios";
 const state = () => ({
   pendaftarans: [],
-  pesertas: []
+  pesertas: [],
+  registered: false
 });
 const mutations = {
   setPendaftarans(state, payload) {
@@ -10,6 +11,9 @@ const mutations = {
   },
   setPesertas(state, payload) {
     (state.pesertas = []), (state.pesertas = payload);
+  },
+  setRegistered(state, payload) {
+    state.registered = payload;
   }
 };
 const actions = {
@@ -33,7 +37,14 @@ const actions = {
         .get("daftar/peserta")
         .then(resp => {
           console.log(resp);
+          let peserta = resp.data;
+          let user = context.rootGetters["users/user"];
           context.commit("setPesertas", resp.data);
+          peserta.filter(data => {
+            if (data.user_id == user.id) {
+              context.commit("setRegistered", true);
+            }
+          });
           resolve(resp);
         })
         .catch(err => {
@@ -44,7 +55,7 @@ const actions = {
   daftarPeserta(context, payload) {
     return new Promise((resolve, reject) => {
       Axios.http()
-        .post("daftar/daftar-peserta", payload)
+        .post("daftar/daftar_peserta", payload)
         .then(resp => {
           console.log(resp);
           resolve(resp);
@@ -61,6 +72,9 @@ const getters = {
   },
   pesertas(state) {
     return state.pesertas;
+  },
+  registered(state) {
+    return state.registered;
   }
 };
 export default {

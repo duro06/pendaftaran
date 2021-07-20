@@ -35,10 +35,12 @@
       </div>
     </div>
     <div class="q-pa-lg" v-if="details">
-      <div class="text-center">
+      <div v-if="!registered" class="text-center">
         <q-btn rounded color="primary" label="daftar" no-caps @click="daftar" />
       </div>
-      <div v-for="(peserta, index) in pesertas" :key="index"></div>
+      <div v-if="pesertas.length">
+        <peserta />
+      </div>
     </div>
     <q-page-sticky v-if="details" position="top-left" :offset="[18, 18]">
       <q-btn round color="primary" icon="arrow_back" @click="details = false" />
@@ -52,6 +54,7 @@ export default {
   name: "index-pendaftaran",
   components: {
     pendaftaran: () => import("pages/pendaftaran/Pendaftaran"),
+    peserta: () => import("pages/pendaftaran/Peserta"),
   },
   data() {
     return {
@@ -65,10 +68,15 @@ export default {
     this.getPesertas();
   },
   computed: {
-    ...mapGetters("pendaftaran", ["pendaftarans", "pesertas"]),
+    ...mapGetters("pendaftaran", ["pendaftarans", "pesertas", "registered"]),
+    ...mapGetters("users", ["user"]),
   },
   methods: {
-    ...mapActions("pendaftaran", ["getPendaftarans", "getPesertas"]),
+    ...mapActions("pendaftaran", [
+      "getPendaftarans",
+      "getPesertas",
+      "daftarPeserta",
+    ]),
     toDetails(val) {
       this.details = true;
       this.current_index = val.index;
@@ -79,6 +87,7 @@ export default {
       let data = {
         pendaftaran_id: this.current_id,
       };
+      this.daftarPeserta(data);
       console.log("daftar", data);
     },
   },
