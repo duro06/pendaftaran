@@ -144,7 +144,7 @@ export default {
         notelp: null,
         nowhatsapp: null,
         alamat: null,
-        kota: null,
+        kota: "",
         id: null,
       },
       provinsiOpt: [],
@@ -216,7 +216,7 @@ export default {
       }
     },
     onSubmit() {
-      // console.log(this.form.nowhatsapp.substring(0, 2));
+      console.log("form ", this.form);
       this.$q.loading.show();
       this.$store
         .dispatch("users/updateProfile", this.form)
@@ -236,9 +236,9 @@ export default {
         });
     },
     onReset() {
-      //   this.form.provinsi = null
+      this.form.provinsi = null;
       this.form.notelp = null;
-      this.form.nowhatsapp = null;
+      // this.form.nowhatsapp = null;
       this.form.alamat = null;
       this.form.kota = null;
     },
@@ -246,6 +246,9 @@ export default {
   watch: {
     "form.provinsi"() {
       this.getKota(this.form.provinsi.value);
+    },
+    user() {
+      this.isiDulu();
     },
   },
 };

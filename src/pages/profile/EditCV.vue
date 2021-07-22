@@ -6,7 +6,9 @@
           <q-responsive :ratio="3 / 4">
             <q-img
               :src="
-                bio.path == null ? 'images/nouser.png' : storage + user.avatar
+                user.avatar == null
+                  ? 'images/nouser.png'
+                  : storage + user.avatar
               "
               no-native-menu
             >
@@ -45,11 +47,15 @@
           dense
           filled
           v-model="form.ttl"
+          label="tanggal Lahir"
           @click="showDate"
           :rules="[(val) => (val && val.length > 0) || 'Harap diisi']"
           lazy-rules
         >
+          <!-- <template v-slot:prepend>
+          </template> -->
           <template v-slot:prepend>
+            <q-icon name="mdi-calendar-range" />
             <q-popup-proxy
               transition-show="scale"
               transition-hide="scale"
@@ -114,24 +120,31 @@
 
         <div class="row justify-center">
           <div class="col-4">
-            <span class="self-center">Kartu Keluarga</span>
-            <q-responsive :ratio="16 / 9">
+            <div class="row justify-center items-center">
+              <div class="col items-center">
+                <span class="self-center">Kartu Keluarga</span>
+              </div>
+              <div class="col">
+                <q-file v-model="kk" dense>
+                  <template v-slot:prepend>
+                    <q-icon
+                      name="mdi-pencil"
+                      color="blue"
+                      class="absolute all-pointer-events"
+                      style="top: 8px; left: 8px"
+                    />
+                  </template>
+                </q-file>
+              </div>
+            </div>
+
+            <q-responsive @click="enlarge = true" :ratio="16 / 9">
               <q-img
                 :src="
                   bio.path == null ? 'images/no_image.png' : storage + bio.path
                 "
                 no-native-menu
               >
-                <q-file v-model="kk" dense>
-                  <template v-slot:prepend>
-                    <q-icon
-                      name="mdi-camera-plus"
-                      color="white"
-                      class="absolute all-pointer-events"
-                      style="top: 8px; left: 8px"
-                    />
-                  </template>
-                </q-file>
               </q-img>
             </q-responsive>
           </div>
@@ -161,6 +174,12 @@
         </div>
       </q-form>
     </div>
+    <expand-picture
+      mapel="Kartu Keluarga"
+      :media="bio.path == null ? 'images/no_image.png' : storage + bio.path"
+      :enlarge="enlarge"
+      @tutup="enlarge = false"
+    />
   </q-page>
 </template>
 
@@ -173,13 +192,16 @@ import { addDays } from "date-fns";
 
 export default {
   name: "EditCV",
+  components: {
+    "expand-picture": () => import("components/shared/ExpandPicture"),
+  },
   created() {
     // this.getProvinsi();
     this.createBio(this.user.id);
   },
   mounted() {
     this.isiDulu();
-    this.getHariIni();
+    // this.getHariIni();
   },
   data() {
     return {
@@ -197,6 +219,7 @@ export default {
       kotaOpt: [],
       picture: null,
       kk: null,
+      enlarge: false,
     };
   },
   computed: {
@@ -232,12 +255,12 @@ export default {
         this.form.id = this.bio.id;
       }
     },
-    getHariIni() {
-      let cd = addDays(new Date(), 0);
-      if (!this.bio.ttl) {
-        this.form.ttl = date.formatDate(cd, "YYYY-MM-DD");
-      }
-    },
+    // getHariIni() {
+    //   let cd = addDays(new Date(), 0);
+    //   if (!this.bio.ttl) {
+    //     this.form.ttl = date.formatDate(cd, "YYYY-MM-DD");
+    //   }
+    // },
     showDate() {
       this.$refs.qDateProxy.show();
     },

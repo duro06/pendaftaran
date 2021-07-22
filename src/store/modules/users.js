@@ -194,15 +194,23 @@ const actions = {
   },
   updateProfile(context, payload) {
     let data = {
-      provinsi: payload.provinsi.label
-        ? payload.provinsi.label
-        : payload.provinsi,
+      provinsi:
+        payload.provinsi != null
+          ? payload.provinsi.label
+            ? payload.provinsi.label
+            : payload.provinsi
+          : null,
       email: payload.email,
       name: payload.name,
       notelp: payload.notelp,
       //   nowhatsapp: payload.nowhatsapp,
       alamat: payload.alamat,
-      kota: payload.kota.label ? payload.kota.label : payload.kota
+      kota:
+        payload.kota != null
+          ? payload.kota.label
+            ? payload.kota.label
+            : payload.kota
+          : null
     };
     console.log("data ", data);
     return new Promise((reso, rej) => {
