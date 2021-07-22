@@ -33,7 +33,7 @@
                 {{ user.name }}
               </div>
               <div class="text-h7">{{ user.email }}</div>
-              <div class="text-h7">{{ user.kota }}</div>
+              <div class="text-h7">{{ user.role }}</div>
             </div>
           </div>
         </div>
@@ -104,8 +104,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("users", ["storage", "loggedIn"]),
-    ...mapState("users", ["user"]),
+    ...mapGetters("users", ["storage", "loggedIn", "user"]),
+    // ...mapState("users", ["user"]),
     initial() {
       if (this.user.name) return this.user.name.substring(0, 1);
       else return "G";

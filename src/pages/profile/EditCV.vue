@@ -118,7 +118,7 @@
           </template>
         </q-input>
 
-        <div class="row justify-center">
+        <div class="row justify-center" v-if="user.role == 'Siswa'">
           <div class="col-4">
             <div class="row justify-center items-center">
               <div class="col items-center">

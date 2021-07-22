@@ -250,6 +250,9 @@ const getters = {
   loggedIn(state) {
     return state.token !== null;
   },
+  role(state) {
+    return state.user.role;
+  },
   storage(state) {
     return state.image;
   }

@@ -12,53 +12,30 @@
       <q-list bordered>
         <div v-for="item in items" :key="item.label">
           <!-- <div v-if="accessTo(item.role)"> -->
-          <div v-if="item.role == 'All' ? true : item.role == user.role">
-            <q-separator />
-            <q-item clickable v-ripple :to="item.to">
-              <q-item-section avatar>
-                <div class="row">
-                  <q-icon :name="item.name" size="25px" />
-                  <span class="q-ml-sm q-mt-xs f-13">{{ item.label }}</span>
-                </div>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label caption></q-item-label>
-              </q-item-section>
-              <q-item-section side>
-                <div class="row">
-                  <span class="q-ml-sm q-mt-xs f-13"></span>
-                  <q-icon
-                    name="eva-arrow-ios-forward-outline q-mt-xs"
-                    size="18px"
-                  />
-                </div>
-              </q-item-section>
-            </q-item>
-          </div>
+          <!-- <div v-if="item.role == 'All' ? true : item.role == user.role"> -->
+          <q-separator />
+          <q-item clickable v-ripple :to="{ name: item.to }">
+            <q-item-section avatar>
+              <div class="row">
+                <q-icon :name="item.name" size="25px" />
+                <span class="q-ml-sm q-mt-xs f-13">{{ item.label }}</span>
+              </div>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label caption></q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <div class="row">
+                <span class="q-ml-sm q-mt-xs f-13"></span>
+                <q-icon
+                  name="eva-arrow-ios-forward-outline q-mt-xs"
+                  size="18px"
+                />
+              </div>
+            </q-item-section>
+          </q-item>
+          <!-- </div> -->
         </div>
-
-        <!-- Logout -->
-        <q-separator />
-        <q-item clickable v-ripple @click="signOut">
-          <q-item-section avatar>
-            <div class="row">
-              <q-icon name="eva-power-outline" size="25px" />
-              <span class="q-ml-sm q-mt-xs f-13">Logout</span>
-            </div>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label caption></q-item-label>
-          </q-item-section>
-          <q-item-section side>
-            <div class="row">
-              <span class="q-ml-sm q-mt-xs f-13"></span>
-              <q-icon
-                name="eva-arrow-ios-forward-outline q-mt-xs"
-                size="18px"
-              />
-            </div>
-          </q-item-section>
-        </q-item>
       </q-list>
     </div>
   </q-page>
@@ -77,22 +54,19 @@ export default {
       adaFoto: false,
       items: [
         {
-          to: "/profile/edit_profile",
-          name: "mdi-account",
-          label: "Edit Profile",
-          role: "All",
-        },
-        {
-          to: "/profile/edit_cv",
-          name: "mdi-account-details",
-          label: "Edit CV",
-          role: "All",
-        },
-        {
-          to: "/profile/edit_nilai",
-          name: "mdi-book-education-outline",
+          to: "nilai",
+          name: "mdi-book-cog",
           label: "Edit Nilai",
-          role: "Siswa",
+        },
+        {
+          to: "mapel",
+          name: "mdi-book-cog-outline",
+          label: "Edit Mata Pelajaran",
+        },
+        {
+          to: "berkas",
+          name: "mdi-book",
+          label: "Berkas-berkas",
         },
       ],
     };

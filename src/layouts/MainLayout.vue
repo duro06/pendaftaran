@@ -71,6 +71,19 @@
               {{ nav.label }}
             </q-item-section>
           </q-item>
+          <q-item
+            :to="{ name: 'admin' }"
+            exact
+            clickable
+            v-ripple
+            v-if="role == 'Admin'"
+          >
+            <q-item-section avatar>
+              <q-icon name="mdi-account-tie" />
+            </q-item-section>
+
+            <q-item-section> Admin </q-item-section>
+          </q-item>
         </q-list>
       </q-scroll-area>
     </q-drawer>
@@ -134,7 +147,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("users", ["loggedIn"]),
+    ...mapGetters("users", ["loggedIn", "role"]),
 
     // jmlNotif() {
     //   return this.notifications.length;
@@ -144,7 +157,10 @@ export default {
     },
     noHeader() {
       return (
-        this.$route.path === "/profile" || this.$route.path === "/profile/"
+        this.$route.path === "/profile" ||
+        this.$route.path === "/profile/" ||
+        this.$route.path === "/admin" ||
+        this.$route.path === "/admin/"
       );
     },
   },

@@ -69,6 +69,44 @@ const routes = [
     ]
   },
   {
+    path: "/admin",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "admin",
+        component: () =>
+          import(
+            /* webpackChunkName: "index-profile" */ "pages/admin/Index.vue"
+          )
+      },
+      {
+        path: "/admin/nilai",
+        name: "nilai",
+        meta: { title: "Nilai", backto: "admin" },
+        component: () =>
+          import(/* webpackChunkName: "edit-profile" */ "pages/admin/Nilai.vue")
+      },
+      {
+        path: "/admin/mapel",
+        name: "mapel",
+        meta: { title: "Mata Pelajaran", backto: "admin" },
+        component: () =>
+          import(
+            /* webpackChunkName: "edit-curriculum-vitae" */ "pages/admin/Mapel.vue"
+          )
+      },
+      {
+        path: "/admin/berkas",
+        name: "berkas",
+        meta: { title: "Berkas", backto: "admin" },
+        component: () =>
+          import(/* webpackChunkName: "edit-nilai" */ "pages/admin/Berkas.vue")
+      }
+    ]
+  },
+
+  {
     path: "/account",
     component: () => import("layouts/Account.vue"),
     children: [
