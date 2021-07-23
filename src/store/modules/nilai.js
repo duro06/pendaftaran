@@ -17,30 +17,14 @@ const mutations = {
   }
 };
 const actions = {
+  // mapel, type dan nilai by siswa
   getMapels(context) {
     return new Promise((resolve, reject) => {
       Axios.http()
         .get("/mapel")
         .then(resp => {
-          let user = context.rootGetters["users/user"];
-          let nilai = user.nilai;
-          let media = user.media;
+          // let user = context.rootGetters["users/user"];
           let mapel = resp.data;
-          // mapel.forEach(data => {
-          //   nilai.filter(sama => {
-          //     if (data.id == sama.mapel_id) {
-          //       data.nilai_id = sama.id;
-          //       data.nilai = sama.nilai;
-          //     }
-          //   });
-          //   media.filter(sama => {
-          //     if (data.id == sama.mapel_id) {
-          //       data.media_id = sama.id;
-          //       data.media = sama.path;
-          //     }
-          //   });
-          // });
-          console.log("user", user);
           context.commit("setMapel", mapel);
           resolve(resp);
         })
@@ -114,6 +98,20 @@ const actions = {
         })
         .catch(err => {
           console.log(err);
+          reject(err);
+        });
+    });
+  },
+  // mapel,type dan nilai by admin
+  adminAddMapel(context, payload) {
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .post(`admin/mapel/add`, payload)
+        .then(resp => {
+          console.log("nilai", resp);
+          resolve(resp);
+        })
+        .catch(err => {
           reject(err);
         });
     });

@@ -68,6 +68,11 @@ export default {
           name: "mdi-book",
           label: "Berkas-berkas",
         },
+        {
+          to: "admin-pendaftaran",
+          name: "mdi-book-outline",
+          label: "Pendaftaran",
+        },
       ],
     };
   },

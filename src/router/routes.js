@@ -102,6 +102,15 @@ const routes = [
         meta: { title: "Berkas", backto: "admin" },
         component: () =>
           import(/* webpackChunkName: "edit-nilai" */ "pages/admin/Berkas.vue")
+      },
+      {
+        path: "/admin/pendaftaran",
+        name: "admin-pendaftaran",
+        meta: { title: "Admin Pendaftaran", backto: "admin" },
+        component: () =>
+          import(
+            /* webpackChunkName: "edit-nilai" */ "pages/admin/Pendaftaran.vue"
+          )
       }
     ]
   },

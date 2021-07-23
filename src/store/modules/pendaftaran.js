@@ -17,6 +17,7 @@ const mutations = {
   }
 };
 const actions = {
+  // pendaftaran by siswa
   getPendaftarans(context) {
     return new Promise((resolve, reject) => {
       Axios.http()
@@ -56,6 +57,20 @@ const actions = {
     return new Promise((resolve, reject) => {
       Axios.http()
         .post("daftar/daftar_peserta", payload)
+        .then(resp => {
+          console.log(resp);
+          resolve(resp);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  // pendaftaran by admin
+  addPendaftaran(context, payload) {
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .post("admin/add_pendaftaran", payload)
         .then(resp => {
           console.log(resp);
           resolve(resp);
