@@ -115,6 +115,71 @@ const actions = {
           reject(err);
         });
     });
+  },
+  adminEditMapel(context, payload) {
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .post(`admin/mapel/edit`, payload)
+        .then(resp => {
+          console.log("nilai", resp);
+          resolve(resp);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  adminDeleteMapel(context, payload) {
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .post(`admin/mapel/delete`, payload)
+        .then(resp => {
+          console.log("nilai", resp);
+          resolve(resp);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  adminAddType(context, payload) {
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .post(`admin/type/add`, payload)
+        .then(resp => {
+          console.log("nilai", resp);
+          resolve(resp);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  adminEditType(context, payload) {
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .post(`admin/type/edit`, payload)
+        .then(resp => {
+          console.log("nilai", resp);
+          resolve(resp);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  adminDeleteType(context, payload) {
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .post(`admin/type/delete`, payload)
+        .then(resp => {
+          console.log("nilai", resp);
+          resolve(resp);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
   }
 };
 const getters = {

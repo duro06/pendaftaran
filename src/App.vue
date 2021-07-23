@@ -37,6 +37,7 @@ export default {
   },
   mounted() {
     if (this.$q.localStorage.getItem("token")) {
+      this.$store.dispatch("users/skeletonTrue");
       this.$store.dispatch("users/getUser").then((res) => {
         const identity = res.id;
         this.$store.dispatch("messaging/getMessageToken").then((res) => {
@@ -45,8 +46,10 @@ export default {
             token: res,
           };
           this.$store.dispatch("users/saveFirebaseToken", data);
-          this.$store.dispatch("nilai/getMapels");
-          this.$store.dispatch("nilai/getType");
+        });
+        this.$store.dispatch("nilai/getMapels");
+        this.$store.dispatch("nilai/getType").then(() => {
+          this.$store.dispatch("users/skeletonFalse");
         });
         this.$store.dispatch("profile/getBio");
         // this.$store.dispatch("messaging/getAllChat");

@@ -9,7 +9,8 @@ const state = () => ({
       ? null
       : LocalStorage.getItem("token"),
   server: Axios.server(),
-  image: Axios.pathImage()
+  image: Axios.pathImage(),
+  skeleton: false
 });
 const mutations = {
   removeUser(state) {
@@ -21,11 +22,20 @@ const mutations = {
   setFrom(state, payload) {
     state.form = payload;
   },
+  setSkeleton(state, payload) {
+    state.skeleton = payload;
+  },
   setToken(state, payload) {
     state.token = payload;
   }
 };
 const actions = {
+  skeletonFalse({ commit }) {
+    commit("setSkeleton", false);
+  },
+  skeletonTrue({ commit }) {
+    commit("setSkeleton", true);
+  },
   saveFirebaseToken(context, payload) {
     Axios.http()
       .post("prokc/sw-token", payload)
@@ -252,6 +262,9 @@ const getters = {
   },
   role(state) {
     return state.user.role;
+  },
+  skeleton(state) {
+    return state.skeleton;
   },
   storage(state) {
     return state.image;

@@ -31,15 +31,39 @@
     <div v-if="mapelDetails" class="q-pa-md">
       <!-- <q-separator /> -->
       <div class="row justify-center items-center">
-        <q-btn
-          outline
-          color="primary"
-          icon="mdi-plus"
-          dense
-          label="Tambah Mata Pelajaran"
-          no-caps
-          @click="addMapel(index)"
-        />
+        <div class="col">
+          <q-btn
+            outline
+            color="primary"
+            icon="mdi-plus"
+            dense
+            label="Tambah Mata Pelajaran"
+            no-caps
+            @click="addMapel(index)"
+          />
+        </div>
+        <div class="col">
+          <q-btn
+            outline
+            color="blue"
+            icon="mdi-pencil"
+            dense
+            label="Edit Tipe Nilai"
+            no-caps
+            @click="editType"
+          />
+        </div>
+        <div class="col">
+          <q-btn
+            outline
+            color="red"
+            icon="mdi-delete"
+            dense
+            label="Hapus Tipe Nilai"
+            no-caps
+            @click="hapusType"
+          />
+        </div>
       </div>
       <q-separator />
       <div v-for="(mapel, itu) in type.mapel" :key="itu">
@@ -87,6 +111,12 @@ export default {
     },
     hapus(val) {
       console.log("delete", val);
+    },
+    editType() {
+      console.log("edit", this.type.id);
+    },
+    hapusType() {
+      console.log("delete", this.type.id);
     },
     addMapel(val) {
       console.log("add mapel", this.type.id);
