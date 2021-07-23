@@ -44,7 +44,6 @@
         </div>
         <div class="col">
           <q-btn
-            outline
             color="blue"
             icon="mdi-pencil"
             dense
@@ -55,7 +54,6 @@
         </div>
         <div class="col">
           <q-btn
-            outline
             color="red"
             icon="mdi-delete"
             dense
@@ -103,6 +101,27 @@ export default {
     return { mapelDetails: false };
   },
   methods: {
+    confirm(val, label) {
+      this.$q
+        .dialog({
+          title: "Confirm",
+          message: "Apakah anda benar benar akan menghapus " + label + " ini?",
+          cancel: true,
+          persistent: true,
+        })
+        .onOk(() => {
+          console.log(">>>> OK", val);
+        })
+        // .onOk(() => {
+        //   console.log(">>>> second OK catcher", val);
+        // })
+        .onCancel(() => {
+          console.log(">>>> Cancel");
+        });
+      // .onDismiss(() => {
+      //   console.log("I am triggered on both OK and Cancel", val);
+      // });
+    },
     mapel() {
       this.mapelDetails = !this.mapelDetails;
     },
@@ -111,12 +130,15 @@ export default {
     },
     hapus(val) {
       console.log("delete", val);
+
+      this.confirm(val, "mata pelajaran");
     },
     editType() {
       console.log("edit", this.type.id);
     },
     hapusType() {
       console.log("delete", this.type.id);
+      this.confirm(this.type.id, "tipe nilai");
     },
     addMapel(val) {
       console.log("add mapel", this.type.id);

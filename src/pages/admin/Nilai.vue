@@ -1,7 +1,6 @@
 <template>
   <q-page class="q-pa-md">
     <q-btn
-      outline
       color="primary"
       icon="mdi-plus"
       dense
