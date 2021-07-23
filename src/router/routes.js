@@ -83,7 +83,7 @@ const routes = [
       {
         path: "/admin/nilai",
         name: "nilai",
-        meta: { title: "Nilai", backto: "admin" },
+        meta: { title: "Tipe Nilai", backto: "admin" },
         component: () =>
           import(/* webpackChunkName: "edit-profile" */ "pages/admin/Nilai.vue")
       },

@@ -11,8 +11,6 @@
       <!-- Edit Profile -->
       <q-list bordered>
         <div v-for="item in items" :key="item.label">
-          <!-- <div v-if="accessTo(item.role)"> -->
-          <!-- <div v-if="item.role == 'All' ? true : item.role == user.role"> -->
           <q-separator />
           <q-item clickable v-ripple :to="{ name: item.to }">
             <q-item-section avatar>
@@ -34,7 +32,6 @@
               </div>
             </q-item-section>
           </q-item>
-          <!-- </div> -->
         </div>
       </q-list>
     </div>
@@ -56,7 +53,7 @@ export default {
         {
           to: "nilai",
           name: "mdi-book-cog",
-          label: "Edit Nilai",
+          label: "Type Nilai",
         },
         {
           to: "mapel",
