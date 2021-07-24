@@ -146,14 +146,16 @@ export default {
           if (which == "mapel") {
             console.log("hapus mapel", val);
             let data = {
-              id: val.data.id,
+              id: val.id,
             };
             // store hapus mapel
             this.$q.loading.show();
             this.$store
-              .dispatch("adminDeleteMapel", data)
+              .dispatch("nilai/adminDeleteMapel", data)
               .then(() => {
-                this.$q.loading.hide();
+                this.$store.dispatch("nilai/getType").then(() => {
+                  this.$q.loading.hide();
+                });
               })
               .catch(() => {
                 this.$q.loading.hide();
@@ -161,14 +163,16 @@ export default {
           } else if (which == "type") {
             console.log("hapus type", val);
             let data = {
-              id: val.data,
+              id: val,
             };
             // store hapus type
             this.$q.loading.show();
             this.$store
-              .dispatch("adminDeleteType", data)
+              .dispatch("nilai/adminDeleteType", data)
               .then(() => {
-                this.$q.loading.hide();
+                this.$store.dispatch("nilai/getType").then(() => {
+                  this.$q.loading.hide();
+                });
               })
               .catch(() => {
                 this.$q.loading.hide();
@@ -193,12 +197,15 @@ export default {
       // console.log("add mapel nama", val);
       let data = {
         type_id: this.type.id,
-        name: val,
+        name: val.name,
       };
       this.$q.loading.show();
       this.$store
-        .dispatch("adminAddMapel", data)
+        .dispatch("nilai/adminAddMapel", data)
         .then(() => {
+          this.$store.dispatch("nilai/getType").then(() => {
+            this.$q.loading.hide();
+          });
           this.addDialog = false;
           this.$q.loading.hide();
         })
@@ -216,9 +223,11 @@ export default {
         };
         this.$q.loading.show();
         this.$store
-          .dispatch("adminEditMapel", data)
+          .dispatch("nilai/adminEditMapel", data)
           .then(() => {
-            this.$q.loading.hide();
+            this.$store.dispatch("nilai/getType").then(() => {
+              this.$q.loading.hide();
+            });
             this.editDialog = false;
           })
           .catch(() => {
@@ -233,10 +242,12 @@ export default {
         };
         this.$q.loading.show();
         this.$store
-          .dispatch("adminEditType", data)
+          .dispatch("nilai/adminEditType", data)
           .then(() => {
+            this.$store.dispatch("nilai/getType").then(() => {
+              this.$q.loading.hide();
+            });
             this.editDialog = false;
-            this.$q.loading.hide();
           })
           .catch(() => {
             this.editDialog = false;

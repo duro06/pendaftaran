@@ -68,10 +68,12 @@ export default {
       };
       this.$q.loading.show();
       this.$store
-        .dispatch("adminAddType", data)
+        .dispatch("nilai/adminAddType", data)
         .then(() => {
+          this.$store.dispatch("nilai/getType").then(() => {
+            this.$q.loading.hide();
+          });
           this.addDialog = false;
-          this.$q.loading.hide();
         })
         .catch(() => {
           this.addDialog = false;
