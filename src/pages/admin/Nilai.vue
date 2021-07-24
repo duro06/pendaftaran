@@ -6,7 +6,7 @@
       dense
       label="Tambah Type Nilai"
       no-caps
-      @click="addType"
+      @click="addDialog = true"
     />
     <q-list bordered>
       <div v-for="(type, index) in types" :key="index">
@@ -27,6 +27,13 @@
           </q-item>
         </div>
         <TypeList :type="type" :index="index" />
+        <AddType
+          :confirm="addDialog"
+          namaAdd="type nilai"
+          judul="Tambah Type Nilai"
+          @save="addType"
+          @cancel="addDialog = false"
+        />
       </div>
     </q-list>
   </q-page>
@@ -34,11 +41,13 @@
 <script>
 import { mapGetters } from "vuex";
 import TypeList from "pages/admin/type/TypeList.vue";
+import AddType from "pages/admin/type/AddType.vue";
 
 export default {
   name: "AdminNilai",
   components: {
     TypeList,
+    AddType,
   },
   computed: {
     ...mapGetters("nilai", ["types"]),
@@ -48,11 +57,26 @@ export default {
     return {
       currentIndex: null,
       currentData: [],
+      addDialog: false,
     };
   },
   methods: {
     addType(val) {
-      console.log("add mapel", this.type.id);
+      console.log("add mapel", val);
+      let data = {
+        name: val.name,
+      };
+      this.$q.loading.show();
+      this.$store
+        .dispatch("adminAddType", data)
+        .then(() => {
+          this.addDialog = false;
+          this.$q.loading.hide();
+        })
+        .catch(() => {
+          this.addDialog = false;
+          this.$q.loading.hide();
+        });
     },
   },
 };
