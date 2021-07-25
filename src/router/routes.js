@@ -85,7 +85,9 @@ const routes = [
         name: "nilai",
         meta: { title: "Tipe Nilai", backto: "admin" },
         component: () =>
-          import(/* webpackChunkName: "edit-profile" */ "pages/admin/Nilai.vue")
+          import(
+            /* webpackChunkName: "edit-profile" */ "pages/admin/type/Nilai.vue"
+          )
       },
       {
         path: "/admin/mapel",
@@ -109,7 +111,7 @@ const routes = [
         meta: { title: "Admin Pendaftaran", backto: "admin" },
         component: () =>
           import(
-            /* webpackChunkName: "edit-nilai" */ "pages/admin/Pendaftaran.vue"
+            /* webpackChunkName: "edit-nilai" */ "pages/admin/pendaftaran/Index.vue"
           )
       }
     ]

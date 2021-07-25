@@ -52,8 +52,6 @@
           :rules="[(val) => (val && val.length > 0) || 'Harap diisi']"
           lazy-rules
         >
-          <!-- <template v-slot:prepend>
-          </template> -->
           <template v-slot:prepend>
             <q-icon name="mdi-calendar-range" />
             <q-popup-proxy
@@ -73,20 +71,6 @@
               </q-date>
             </q-popup-proxy>
           </template>
-
-          <!-- <template v-slot:append>
-            <q-popup-proxy
-              transition-show="scale"
-              transition-hide="scale"
-              ref="qTimeProxy"
-            >
-              <q-time v-model="form.ttl" mask="YYYY/MM/DD" format24h>
-                <div class="row items-center justify-end">
-                  <q-btn v-close-popup label="Close" color="primary" flat />
-                </div>
-              </q-time>
-            </q-popup-proxy>
-          </template> -->
         </q-input>
 
         <q-input

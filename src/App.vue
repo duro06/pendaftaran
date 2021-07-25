@@ -52,6 +52,9 @@ export default {
           this.$store.dispatch("users/skeletonFalse");
         });
         this.$store.dispatch("profile/getBio");
+        if (res.role == "Admin") {
+          this.$store.dispatch("pendaftaran/getPendaftarans");
+        }
         // this.$store.dispatch("messaging/getAllChat");
       });
       // this.$store.dispatch("notifications/getNotificationByCurrentId");

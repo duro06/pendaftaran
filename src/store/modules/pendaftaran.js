@@ -42,7 +42,7 @@ const actions = {
           let user = context.rootGetters["users/user"];
           context.commit("setPesertas", resp.data);
           peserta.filter(data => {
-            if (data.user_id == user.id) {
+            if (data.user_id == user.id || user.role == "Admin") {
               context.commit("setRegistered", true);
             }
           });

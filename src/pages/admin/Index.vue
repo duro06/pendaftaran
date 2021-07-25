@@ -56,11 +56,6 @@ export default {
           label: "Type Nilai",
         },
         {
-          to: "mapel",
-          name: "mdi-book-cog-outline",
-          label: "Edit Mata Pelajaran",
-        },
-        {
           to: "berkas",
           name: "mdi-book",
           label: "Berkas-berkas",
