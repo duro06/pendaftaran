@@ -16,7 +16,7 @@
         />
       </span>
     </div>
-    <div class="col-3" @dblclick="enableEditStatus">
+    <div class="col-2" @dblclick="enableEditStatus">
       <span v-if="!editStatus">
         {{ pendaftaran.status | status }}
         <q-tooltip> Double click to edit </q-tooltip>
@@ -36,9 +36,17 @@
         />
       </span>
     </div>
-    <div class="col-2">{{ pendaftaran.start | tanggal }}</div>
-    <div class="col-2">{{ pendaftaran.stop | tanggal }}</div>
-    <div class="col-1">Action</div>
+    <div class="col-3">{{ pendaftaran.start | tanggal }}</div>
+    <div class="col-3">{{ pendaftaran.stop | tanggal }}</div>
+    <div class="col-1">
+      <q-icon
+        clickable
+        name="mdi-delete"
+        class="text-red hover"
+        style="font-size: 24px"
+        @click="confirmHapus"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -115,6 +123,21 @@ export default {
     }
   },
   methods: {
+    confirmHapus() {
+      this.$q
+        .dialog({
+          title: "Confirm",
+          message: "Apakah anda benar benar akan menghapus Pendaftaran ini?",
+          cancel: true,
+          persistent: true,
+        })
+        .onOk(() => {
+          this.hapus();
+        });
+    },
+    hapus() {
+      console.log("hapus", this.pendaftaran);
+    },
     enableEditName() {
       const vm = this;
       console.log(vm.$refs.nama);
@@ -148,3 +171,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.hover {
+  cursor: pointer;
+}
+</style>
