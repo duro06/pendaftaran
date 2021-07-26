@@ -26,13 +26,20 @@ const actions = {
         });
     });
   },
-  getBerkasById(context) {
+  getBerkasById(context, payload) {
     return new Promise((resolve, reject) => {
       Axios.http()
-        .get("admin/berkas/by_id")
+        .get("admin/berkas/by_id", payload)
         .then(resp => {
           console.log(resp);
-          context.commit("setBerkas", resp.data);
+          let berkas = resp.data;
+          let KK = berkas.user.bio.path;
+          let data = {
+            name: "Kartu Keluarga",
+            path: KK
+          };
+          berkas.media.push(data);
+          context.commit("setBerkas", berkas);
           resolve(resp);
         })
         .catch(err => {

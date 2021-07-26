@@ -113,20 +113,14 @@ export default {
   methods: {
     redirect() {
       console.log('slug', this.berkas.id)
-      let data = ''
-      if (this.$q.localStorage.getItem('role')) {
-        data = true
-      } else {
-        data = false
-      }
-      console.log('test', data)
-      // this.$router.replace(
-      //     this.$route.query.redirect || {
-      //       name: "details.berkas",
-      //       params: { slug: this.$route.params.slug },
-      //     },
-      //     () => {}
-      //   );
+      this.$router.replace(
+        this.$route.query.redirect || {
+          name: 'details.berkas',
+          params: { slug: this.berkas.id },
+        },
+        () => {}
+      )
+      // this.$route.params.slug
     },
   },
 }
