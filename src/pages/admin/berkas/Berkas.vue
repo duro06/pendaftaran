@@ -3,9 +3,7 @@
     <q-card class="my-card hover" @click="redirect">
       <img
         :src="
-          berkas.user.avatar == null
-            ? 'images/nouser.png'
-            : storage + berkas.user.avatar
+          berkas.user.avatar == null ? 'images/nouser.png' : storage + berkas.user.avatar
         "
       />
 
@@ -23,99 +21,115 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 export default {
-  name: "TabelPendaftaran",
-  props: ["berkas", "index", "trashed"],
+  name: 'TabelPendaftaran',
+  props: ['berkas', 'index', 'trashed'],
   data() {
     return {
       editName: false,
       editStatus: false,
       editStart: false,
       editStop: false,
-      name: "",
-      start: "",
-      stop: "",
-      status: "",
+      name: '',
+      start: '',
+      stop: '',
+      status: '',
       statusOpt: [
         {
           value: 0,
-          label: "Berkas Masuk",
+          label: 'Berkas Masuk',
         },
         {
           value: 1,
-          label: "diperiksa",
+          label: 'diperiksa',
         },
         {
           value: 2,
-          label: "kurang lengkap",
+          label: 'kurang lengkap',
         },
         {
           value: 3,
-          label: "tidak diterima",
+          label: 'tidak diterima',
         },
         {
           value: 4,
-          label: "diterima",
+          label: 'diterima',
         },
       ],
-    };
+    }
   },
   filters: {
     color(value) {
-      let data = "";
+      let data = ''
       switch (value) {
         case 0:
-          data = "teal";
-          break;
+          data = 'teal'
+          break
         case 1:
-          data = "blue";
-          break;
+          data = 'blue'
+          break
         case 2:
-          data = "lime-12";
-          break;
+          data = 'lime-12'
+          break
         case 3:
-          data = "green";
-          break;
+          data = 'green'
+          break
         case 4:
-          data = "red";
-          break;
+          data = 'red'
+          break
         default:
-          data = "grey";
+          data = 'grey'
       }
-      return data;
+      return data
     },
     status(value) {
-      let data = "";
+      let data = ''
       switch (value) {
         case 0:
-          data = "berkas masuk";
-          break;
+          data = 'berkas masuk'
+          break
         case 1:
-          data = "diperiksa";
-          break;
+          data = 'diperiksa'
+          break
         case 2:
-          data = "kelengkapan";
-          break;
+          data = 'kelengkapan'
+          break
         case 3:
-          data = "diterima";
-          break;
+          data = 'diterima'
+          break
         case 4:
-          data = "tidak diterima";
-          break;
+          data = 'tidak diterima'
+          break
         default:
-          data = "belum ada";
+          data = 'belum ada'
       }
-      return data;
+      return data
     },
   },
   computed: {
-    ...mapGetters("users", ["storage"]),
+    ...mapGetters('users', ['storage']),
   },
   methods: {
-    redirect() {},
+    redirect() {
+      console.log('slug', this.berkas.id)
+      let data = ''
+      if (this.$q.localStorage.getItem('role')) {
+        data = true
+      } else {
+        data = false
+      }
+      console.log('test', data)
+      // this.$router.replace(
+      //     this.$route.query.redirect || {
+      //       name: "details.berkas",
+      //       params: { slug: this.$route.params.slug },
+      //     },
+      //     () => {}
+      //   );
+    },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .hover {

@@ -34,10 +34,22 @@ export default function(/* { store, ssrContext } */) {
   // The route navigation guard
   Router.beforeEach((to, from, next) => {
     const loggedIn = LocalStorage.getItem("token");
+    const role = LocalStorage.getItem("role");
     if (to.matched.some(record => record.meta.visitor)) {
       if (loggedIn) {
         next({
           path: "/"
+        });
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
+    if (to.matched.some(record => record.meta.admin)) {
+      if (!role == "Admin") {
+        next({
+          path: "/profile"
         });
       } else {
         next();

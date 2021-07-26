@@ -17,7 +17,7 @@ const actions = {
       Axios.http()
         .get("admin/berkas")
         .then(resp => {
-          console.log(resp);
+          console.log("berakas", resp);
           context.commit("setBerkases", resp.data);
           resolve(resp);
         })

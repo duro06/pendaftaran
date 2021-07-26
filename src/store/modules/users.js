@@ -158,6 +158,9 @@ const actions = {
           //   console.log("res ", res);
           console.log("user ", res.data.data);
           context.commit("setUser", res.data.data);
+          if (!LocalStorage.getItem("role")) {
+            LocalStorage.set("role", res.data.data.role);
+          }
           // context.commit("setUser", res.data.data);
           // location.reload();
           resolve(res.data.data);
