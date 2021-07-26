@@ -1,16 +1,20 @@
 <template>
   <q-page class="q-pa-md">
     <q-list bordered class="q-my-md">
-      <div class="row justify-left items-center">
-        <div class="col-3 text-h6">Nama</div>
-        <div class="col-2 text-h6">status</div>
-        <div class="col-3 text-h6">Mulai</div>
-        <div class="col-3 text-h6">Berakhir</div>
-        <!-- <div class="col-2">Action</div> -->
-      </div>
+      <!-- <div class="row justify-left items-center"> -->
+      <!-- <div class="col-3 text-h6">Foto</div> -->
+      <!-- <div class="col-8 text-h6 q-ml-sm">status</div> -->
+      <!-- <div class="col-3 text-h6">Mulai</div> -->
+      <!-- <div class="col-3 text-h6">Berakhir</div> -->
+      <!-- <div class="col-2">Action</div> -->
+      <!-- </div> -->
       <q-separator />
-      <div v-for="(berkas, index) in berkases" :key="index">
-        <Berkas :berkas="berkas" :index="index" />
+      <!-- <div class="col-4">
+          </div> -->
+      <div class="row justify-center items-center">
+        <div v-for="(berkas, index) in berkases" :key="index" class="col-3">
+          <Berkas :berkas="berkas" :index="index" />
+        </div>
       </div>
     </q-list>
   </q-page>

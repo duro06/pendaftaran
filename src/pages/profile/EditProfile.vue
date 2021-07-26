@@ -193,6 +193,9 @@ export default {
             });
           });
           this.provinsiOpt = prov;
+        })
+        .catch(() => {
+          this.$q.notify("Error ketika mengambil data");
         });
     },
 
@@ -212,6 +215,9 @@ export default {
               });
             });
             this.kotaOpt = kota;
+          })
+          .catch(() => {
+            this.$q.notify("Error ketika mengambil data");
           });
       }
     },
