@@ -54,6 +54,7 @@ export default {
         this.$store.dispatch("profile/getBio");
         if (res.role == "Admin") {
           this.$store.dispatch("pendaftaran/getPendaftarans");
+          this.$store.dispatch("berkas/getBerkas");
         }
         // this.$store.dispatch("messaging/getAllChat");
       });

@@ -30,7 +30,7 @@
 
     <div v-if="mapelDetails" class="q-pa-md">
       <!-- <q-separator /> -->
-      <div class="row justify-center items-center">
+      <div class="row justify-center items-center q-mb-md">
         <div class="col">
           <q-btn
             outline
@@ -68,25 +68,29 @@
       <div v-for="(mapel, itu) in type.mapel" :key="itu">
         <div class="row justify-center items-center">
           <div class="col">
-            {{ mapel.name }}
+            <div class="q-ml-xl q-my-sm">
+              {{ mapel.name }}
+            </div>
           </div>
           <div class="col-2">
             <!-- <q-btn outline color="blue" icon="mdi-pencil" dense />
             <q-btn outline color="red" icon="mdi-delete" dense /> -->
-            <q-icon
-              clickable
-              name="mdi-pencil"
-              class="text-blue hover"
-              style="font-size: 24px"
-              @click="edit(mapel)"
-            />
-            <q-icon
-              clickable
-              name="mdi-delete"
-              class="text-red hover"
-              style="font-size: 24px"
-              @click="hapus(mapel)"
-            />
+            <div class="text-right">
+              <q-icon
+                clickable
+                name="mdi-pencil"
+                class="text-blue hover"
+                style="font-size: 24px"
+                @click="edit(mapel)"
+              />
+              <q-icon
+                clickable
+                name="mdi-delete"
+                class="text-red hover"
+                style="font-size: 24px"
+                @click="hapus(mapel)"
+              />
+            </div>
           </div>
         </div>
         <q-separator />

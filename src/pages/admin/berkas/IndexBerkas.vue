@@ -1,23 +1,5 @@
 <template>
   <q-page class="q-pa-md">
-    <q-btn
-      color="primary"
-      icon="mdi-plus"
-      dense
-      label="Buka Pendaftaran Baru"
-      no-caps
-      @click="addDialog = true"
-    />
-    <div class="text-right">
-      <q-toggle
-        v-model="trashed"
-        @change="getTrashed"
-        color="blue"
-        :label="trashed == true ? 'aktif' : 'tidak aktif'"
-        left-label
-      />
-    </div>
-    <div></div>
     <q-list bordered class="q-my-md">
       <div class="row justify-left items-center">
         <div class="col-3 text-h6">Nama</div>
@@ -27,32 +9,18 @@
         <!-- <div class="col-2">Action</div> -->
       </div>
       <q-separator />
-      <div v-for="(pendaftaran, index) in pendaftarans" :key="index">
-        <TabelPendaftaran
-          :pendaftaran="pendaftaran"
-          :index="index"
-          :trashed="trashed"
-          @aktifkan="trashed = true"
-        />
+      <div v-for="(berkas, index) in berkases" :key="index">
+        <Berkas :berkas="berkas" :index="index" />
       </div>
     </q-list>
-    <AddPendaftaran
-      judul="Tambah Pendaftaran"
-      namaAdd="Pendaftaran"
-      :confirm="addDialog"
-      @save="onSave"
-      @cancel="addDialog = false"
-    />
   </q-page>
 </template>
 <script>
 import { mapGetters } from "vuex";
-import Pendaftaran from "pages/admin/pendaftaran/Pendaftaran.vue";
-import TabelPendaftaran from "pages/admin/pendaftaran/TablePendaftaran.vue";
-import AddPendaftaran from "pages/admin/pendaftaran/AddPendaftaran.vue";
+import Berkas from "pages/admin/berkas/Berkas.vue";
 export default {
-  name: "IndexPendaftaran",
-  components: { Pendaftaran, TabelPendaftaran, AddPendaftaran },
+  name: "IndexBerkas",
+  components: { Berkas },
   data() {
     return {
       addDialog: false,
@@ -60,7 +28,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("pendaftaran", ["pendaftarans"]),
+    ...mapGetters("berkas", ["berkases"]),
     ...mapGetters("users", ["skeleton"]),
   },
   methods: {
