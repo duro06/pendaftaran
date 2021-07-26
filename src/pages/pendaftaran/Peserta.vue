@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-import * as axios from "boot/axios";
+import { mapGetters, mapActions } from 'vuex'
+import * as axios from 'boot/axios'
 export default {
   props: {
     users: {
@@ -53,95 +53,94 @@ export default {
     },
   },
 
-  created() {
-    this.getPesertas();
-  },
+  // created() {
+  //   this.getPesertas();
+  // },
 
   filters: {
     initial(value) {
       if (value) {
-        return value.substring(0, 1);
+        return value.substring(0, 1)
       }
-      return "G";
+      return 'G'
     },
     color(value) {
-      let data = "";
+      let data = ''
       switch (value) {
         case 0:
-          data = "teal";
-          break;
+          data = 'teal'
+          break
         case 1:
-          data = "blue";
-          break;
+          data = 'blue'
+          break
         case 2:
-          data = "lime-12";
-          break;
+          data = 'lime-12'
+          break
         case 3:
-          data = "green";
-          break;
+          data = 'green'
+          break
         case 4:
-          data = "red";
-          break;
+          data = 'red'
+          break
         default:
-          data = "grey";
+          data = 'grey'
       }
-      return data;
+      return data
     },
     status(value) {
-      let data = "";
+      let data = ''
       switch (value) {
         case 0:
-          data = "berkas masuk";
-          break;
+          data = 'berkas masuk'
+          break
         case 1:
-          data = "diperiksa";
-          break;
+          data = 'diperiksa'
+          break
         case 2:
-          data = "kelengkapan";
-          break;
+          data = 'kelengkapan'
+          break
         case 3:
-          data = "diterima";
-          break;
+          data = 'diterima'
+          break
         case 4:
-          data = "tidak diterima";
-          break;
+          data = 'tidak diterima'
+          break
         default:
-          data = "belum ada";
+          data = 'belum ada'
       }
-      return data;
+      return data
     },
   },
 
   computed: {
     urlPath() {
-      return axios.pathImage();
+      return axios.pathImage()
     },
 
-    ...mapGetters("pendaftaran", ["pesertas"]),
-    ...mapGetters("users", ["user"]),
+    ...mapGetters('pendaftaran', ['pesertas']),
+    ...mapGetters('users', ['user']),
   },
   methods: {
-    ...mapActions("pendaftaran", ["getPesertas"]),
+    ...mapActions('pendaftaran', ['getPesertas']),
     getAvatar(avatar) {
-      var fields = avatar.split("/");
-      var look = fields[0];
+      var fields = avatar.split('/')
+      var look = fields[0]
 
-      if (look === "images") {
-        return this.urlPath + avatar;
+      if (look === 'images') {
+        return this.urlPath + avatar
       } else {
-        return avatar;
+        return avatar
       }
     },
 
     getInitial(val) {
       if (val.name) {
-        return val.name.substring(0, 1);
+        return val.name.substring(0, 1)
       }
-      return "G";
+      return 'G'
     },
   },
-};
+}
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

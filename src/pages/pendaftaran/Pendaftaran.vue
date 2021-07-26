@@ -1,6 +1,6 @@
 <template>
   <div class="q-ma-sm">
-    <q-separator />
+    <q-separator v-if="index > 0" />
     <q-item
       clickable
       v-ripple
@@ -46,43 +46,43 @@
 </template>
 
 <script>
-import { formatDistanceToNowStrict, isAfter, parseISO, format } from "date-fns";
-import { enGB, id } from "date-fns/locale";
+import { formatDistanceToNowStrict, isAfter, parseISO, format } from 'date-fns'
+import { enGB, id } from 'date-fns/locale'
 export default {
-  name: "pendaftaran",
-  props: ["pendaftaran", "index"],
+  name: 'pendaftaran',
+  props: ['pendaftaran', 'index'],
   filters: {
     jam(value) {
-      return format(new Date(value), "HH:mm");
+      return format(new Date(value), 'HH:mm')
     },
     tanggal(value) {
-      return format(new Date(value), "PPPP", { locale: id });
+      return format(new Date(value), 'PPPP', { locale: id })
     },
     mobile(value) {
-      return format(new Date(value), "dd/MM/yy", { locale: id });
+      return format(new Date(value), 'dd/MM/yy', { locale: id })
     },
     status(value) {
-      let data = "";
+      let data = ''
       switch (value) {
         case 0:
-          data = "belum dibuka";
-          break;
+          data = 'belum dibuka'
+          break
         case 1:
-          data = "berlangsung";
-          break;
+          data = 'berlangsung'
+          break
         case 2:
-          data = "seleksi";
-          break;
+          data = 'seleksi'
+          break
         case 3:
-          data = "ditutup";
-          break;
+          data = 'ditutup'
+          break
         default:
-          data = "belum ada";
+          data = 'belum ada'
       }
-      return data;
+      return data
     },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .my-card {

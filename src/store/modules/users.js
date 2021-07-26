@@ -158,7 +158,7 @@ const actions = {
           //   console.log("res ", res);
           console.log("user ", res.data.data);
           context.commit("setUser", res.data.data);
-          context.commit("setUser", res.data.data);
+          // context.commit("setUser", res.data.data);
           // location.reload();
           resolve(res.data.data);
         })

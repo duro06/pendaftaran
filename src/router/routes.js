@@ -76,9 +76,7 @@ const routes = [
         path: "",
         name: "admin",
         component: () =>
-          import(
-            /* webpackChunkName: "index-profile" */ "pages/admin/Index.vue"
-          )
+          import(/* webpackChunkName: "index" */ "pages/admin/Index.vue")
       },
       {
         path: "/admin/nilai",
@@ -86,7 +84,7 @@ const routes = [
         meta: { title: "Tipe Nilai", backto: "admin" },
         component: () =>
           import(
-            /* webpackChunkName: "edit-profile" */ "pages/admin/type/Nilai.vue"
+            /* webpackChunkName: "edit tipe nilai" */ "pages/admin/type/Nilai.vue"
           )
       },
       {
@@ -94,9 +92,7 @@ const routes = [
         name: "mapel",
         meta: { title: "Mata Pelajaran", backto: "admin" },
         component: () =>
-          import(
-            /* webpackChunkName: "edit-curriculum-vitae" */ "pages/admin/Mapel.vue"
-          )
+          import(/* webpackChunkName: "edit mapel" */ "pages/admin/Mapel.vue")
       },
       {
         path: "/admin/berkas",
@@ -104,16 +100,16 @@ const routes = [
         meta: { title: "Berkas", backto: "admin" },
         component: () =>
           import(
-            /* webpackChunkName: "edit-nilai" */ "pages/admin/berkas/IndexBerkas.vue"
+            /* webpackChunkName: "Admin berkas" */ "pages/admin/berkas/IndexBerkas.vue"
           )
       },
       {
-        path: "/admin/berkas/:slug",
-        name: "berkas",
-        meta: { title: "Berkas", backto: "admin" },
+        path: "/admin/berkas/details/:slug",
+        name: "details.berkas",
+        meta: { title: "Details", backto: "berkas" },
         component: () =>
           import(
-            /* webpackChunkName: "edit-nilai" */ "pages/admin/berkas/DetailBerkas.vue"
+            /* webpackChunkName: "Details Berkas" */ "pages/admin/berkas/DetailBerkas.vue"
           )
       },
       {
@@ -122,10 +118,13 @@ const routes = [
         meta: { title: "Admin Pendaftaran", backto: "admin" },
         component: () =>
           import(
-            /* webpackChunkName: "edit-nilai" */ "pages/admin/pendaftaran/Index.vue"
+            /* webpackChunkName: "Admin Pendaftaran" */ "pages/admin/pendaftaran/Index.vue"
           )
       }
-    ]
+    ],
+    meta: {
+      admin: true
+    }
   },
 
   {

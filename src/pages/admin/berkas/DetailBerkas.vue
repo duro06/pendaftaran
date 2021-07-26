@@ -1,5 +1,5 @@
 <template>
-  <q-page> halaman detail berkas </q-page>
+  <q-page> <q-btn>Coba local storage</q-btn> </q-page>
 </template>
 <script>
 export default {

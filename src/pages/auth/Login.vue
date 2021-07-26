@@ -11,6 +11,7 @@
         icon="vpn_key"
         label="password"
         :password.sync="loginData.password"
+        @keyup.enter="loginControl"
       />
 
       <!-- class="bg-primary" -->
@@ -49,57 +50,54 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex'
 export default {
-  name: "login",
+  name: 'login',
   components: {
-    "email-input": () => import("components/shared/EmailInput.vue"),
-    "password-input": require("components/shared/PasswordInput.vue").default,
+    'email-input': () => import('components/shared/EmailInput.vue'),
+    'password-input': require('components/shared/PasswordInput.vue').default,
   },
   data() {
     return {
       loginData: {
-        email: "",
-        password: "",
+        email: '',
+        password: '',
       },
       loading: false,
       disable: false,
-    };
+    }
   },
   methods: {
-    ...mapActions("users", ["login", "getUser"]),
+    ...mapActions('users', ['login', 'getUser']),
     loginControl() {
-      this.disable = true;
-      this.loading = true;
+      this.disable = true
+      this.loading = true
       return new Promise((resolve, reject) => {
         this.login(this.loginData)
           .then((res) => {
-            this.disable = false;
-            this.loading = false;
+            this.disable = false
+            this.loading = false
             this.getUser().then((res) => {
-              const identity = res.id;
-              this.$store.dispatch("messaging/getMessageToken").then((res) => {
+              const identity = res.id
+              this.$store.dispatch('messaging/getMessageToken').then((res) => {
                 const data = {
                   id: identity,
                   token: res,
-                };
-                this.$store.dispatch("users/saveFirebaseToken", data);
-              });
-            });
-            this.$router.replace(
-              this.$route.query.redirect || { path: "/" },
-              () => {}
-            );
+                }
+                this.$store.dispatch('users/saveFirebaseToken', data)
+              })
+            })
+            this.$router.replace(this.$route.query.redirect || { path: '/' }, () => {})
             // location.reload()
-            resolve(res);
+            resolve(res)
           })
           .catch((err) => {
-            this.disable = false;
-            this.loading = false;
-            reject(err);
-          });
-      });
+            this.disable = false
+            this.loading = false
+            reject(err)
+          })
+      })
     },
   },
-};
+}
 </script>

@@ -32,6 +32,7 @@ const actions = {
         });
     });
   },
+  // admin get
   getTrashedPendaftarans(context) {
     return new Promise((resolve, reject) => {
       Axios.http()
@@ -46,10 +47,11 @@ const actions = {
         });
     });
   },
-  getPesertas(context) {
+  //siswa again
+  getPesertas(context, payload) {
     return new Promise((resolve, reject) => {
       Axios.http()
-        .get("daftar/peserta")
+        .get("daftar/peserta", payload)
         .then(resp => {
           console.log(resp);
           let peserta = resp.data;

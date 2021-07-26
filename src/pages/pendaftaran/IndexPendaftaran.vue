@@ -2,16 +2,8 @@
   <q-page>
     <div class="q-pa-lg">
       <q-list v-if="!details" bordered class="q-my-sm">
-        <div
-          v-for="(pendaftaran, index) in pendaftarans"
-          :key="index"
-          class="q-ma-xs"
-        >
-          <pendaftaran
-            :index="index"
-            :pendaftaran="pendaftaran"
-            @diclick="toDetails"
-          />
+        <div v-for="(pendaftaran, index) in pendaftarans" :key="index" class="q-ma-xs">
+          <pendaftaran :index="index" :pendaftaran="pendaftaran" @diclick="toDetails" />
         </div>
       </q-list>
     </div>
@@ -49,47 +41,69 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex'
 export default {
-  name: "index-pendaftaran",
+  name: 'index-pendaftaran',
   components: {
-    pendaftaran: () => import("pages/pendaftaran/Pendaftaran"),
-    peserta: () => import("pages/pendaftaran/Peserta"),
+    pendaftaran: () => import('pages/pendaftaran/Pendaftaran'),
+    peserta: () => import('pages/pendaftaran/Peserta'),
   },
   data() {
     return {
       details: false,
       current_index: null,
       current_id: null,
-    };
+    }
   },
   created() {
-    this.getPendaftarans();
-    this.getPesertas();
+    this.getPendaftarans()
+    // this.getPesertas()
   },
   computed: {
-    ...mapGetters("pendaftaran", ["pendaftarans", "pesertas", "registered"]),
-    ...mapGetters("users", ["user"]),
+    ...mapGetters('pendaftaran', ['pendaftarans', 'pesertas', 'registered']),
+    ...mapGetters('users', ['user']),
   },
   methods: {
-    ...mapActions("pendaftaran", [
-      "getPendaftarans",
-      "getPesertas",
-      "daftarPeserta",
-    ]),
+    ...mapActions('pendaftaran', ['getPendaftarans', 'getPesertas', 'daftarPeserta']),
     toDetails(val) {
-      this.details = true;
-      this.current_index = val.index;
-      this.current_id = val.id;
-      console.log(val);
+      this.details = true
+      this.current_index = val.index
+      this.current_id = val.id
+      let data = {
+        params: {
+          pendaftaran_id: val.id,
+        },
+      }
+      this.$q.loading.show({ message: 'Fetching data... please wait' })
+      this.getPesertas(data)
+        .then(() => {
+          this.$q.loading.hide()
+        })
+        .catch(() => {
+          this.$q.loading.hide()
+        })
+      console.log(val)
     },
     daftar() {
       let data = {
         pendaftaran_id: this.current_id,
-      };
-      this.daftarPeserta(data);
-      console.log("daftar", data);
+      }
+      let params = {
+        params: {
+          pendaftaran_id: this.current_id,
+        },
+      }
+      this.$q.loading.show()
+      this.daftarPeserta(data)
+        .then(() => {
+          this.$store.dispatch('pendaftaran/getPesertas', params)
+          this.$q.loading.hide()
+        })
+        .catch(() => {
+          this.$q.loading.hide()
+        })
+      console.log('daftar', data)
     },
   },
-};
+}
 </script>
