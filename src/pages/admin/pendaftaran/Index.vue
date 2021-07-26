@@ -8,6 +8,15 @@
       no-caps
       @click="addDialog = true"
     />
+    <div class="text-right">
+      <q-toggle
+        v-model="trashed"
+        @change="getTrashed"
+        color="blue"
+        :label="trashed == true ? 'aktif' : 'tidak aktif'"
+        left-label
+      />
+    </div>
     <div>
       <!-- <q-list bordered>
         <div v-for="(pendaftaran, index) in pendaftarans" :key="index">
@@ -49,7 +58,12 @@
       </div>
       <q-separator />
       <div v-for="(pendaftaran, index) in pendaftarans" :key="index">
-        <TabelPendaftaran :pendaftaran="pendaftaran" :index="index" />
+        <TabelPendaftaran
+          :pendaftaran="pendaftaran"
+          :index="index"
+          :trashed="trashed"
+          @aktifkan="trashed = true"
+        />
       </div>
     </q-list>
     <AddPendaftaran
@@ -72,6 +86,7 @@ export default {
   data() {
     return {
       addDialog: false,
+      trashed: true,
     };
   },
   computed: {
@@ -80,8 +95,55 @@ export default {
   },
   methods: {
     onSave(val) {
+      this.$q.loading.show();
       this.addDialog = false;
       console.log("Save", val);
+      this.$store
+        .dispatch("pendaftaran/addPendaftaran", val)
+        .then(() => {
+          this.$store
+            .dispatch("pendaftaran/getPendaftarans")
+            .then(() => {
+              if (this.trashed == false) {
+                this.trashed = true;
+              }
+              this.$q.loading.hide();
+            })
+            .catch(() => {
+              this.$q.loading.hide();
+            });
+        })
+        .catch(() => {
+          this.$q.loading.hide();
+        });
+    },
+    getTrashed() {
+      console.log("tempat sampah", this.trashed);
+      this.$q.loading.show();
+      if (!this.trashed) {
+        this.$store
+          .dispatch("pendaftaran/getTrashedPendaftarans")
+          .then(() => {
+            this.$q.loading.hide();
+          })
+          .catch(() => {
+            this.$q.loading.hide();
+          });
+      } else {
+        this.$store
+          .dispatch("pendaftaran/getPendaftarans")
+          .then(() => {
+            this.$q.loading.hide();
+          })
+          .catch(() => {
+            this.$q.loading.hide();
+          });
+      }
+    },
+  },
+  watch: {
+    trashed() {
+      this.getTrashed();
     },
   },
 };

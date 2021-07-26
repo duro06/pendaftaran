@@ -11,6 +11,7 @@
           ref="nama"
           v-model="name"
           @blur="toEditName"
+          @keypress.enter="toEditName"
           label="Nama pendaftaran"
           dense
         />
@@ -40,11 +41,20 @@
     <div class="col-3">{{ pendaftaran.stop | tanggal }}</div>
     <div class="col-1">
       <q-icon
+        v-if="trashed"
         clickable
         name="mdi-delete"
         class="text-red hover"
         style="font-size: 24px"
         @click="confirmHapus"
+      />
+      <q-icon
+        v-if="!trashed"
+        clickable
+        name="mdi-delete-restore"
+        class="text-blue hover"
+        style="font-size: 24px"
+        @click="confirmRestore"
       />
     </div>
   </div>
@@ -55,7 +65,7 @@ import { id } from "date-fns/locale";
 import pendaftaran from "src/store/modules/pendaftaran";
 export default {
   name: "TabelPendaftaran",
-  props: ["pendaftaran", "index"],
+  props: ["pendaftaran", "index", "trashed"],
   data() {
     return {
       editName: false,
@@ -135,30 +145,129 @@ export default {
           this.hapus();
         });
     },
+    confirmRestore() {
+      this.$q
+        .dialog({
+          title: "Confirm",
+          message:
+            "Apakah anda benar benar akan mengembalikan Pendaftaran ini?",
+          cancel: true,
+          persistent: true,
+        })
+        .onOk(() => {
+          this.restore();
+        });
+    },
     hapus() {
       console.log("hapus", this.pendaftaran);
+      let data = {
+        id: this.pendaftaran.id,
+      };
+      this.hapusPendaftaran(data);
+    },
+    restore() {
+      console.log("hapus", this.pendaftaran);
+      let data = {
+        id: this.pendaftaran.id,
+      };
+      this.restorePendaftaran(data);
     },
     enableEditName() {
       const vm = this;
-      console.log(vm.$refs.nama);
-      setTimeout(() => {
-        vm.$refs.nama.focus();
-      }, 20);
-      this.editName = true;
+      if (this.trashed) {
+        setTimeout(() => {
+          vm.$refs.nama.focus();
+        }, 20);
+        this.editName = true;
+      } else {
+        this.$q.notify("Tidak di ijinkan mengedit Item terhapus");
+      }
     },
     enableEditStatus() {
       const vm = this;
-      console.log(vm.$refs.status);
-      setTimeout(() => {
-        vm.$refs.status.focus();
-      }, 20);
-      this.editStatus = true;
+      if (this.trashed) {
+        setTimeout(() => {
+          vm.$refs.status.focus();
+        }, 20);
+        this.editStatus = true;
+      } else {
+        this.$q.notify("Tidak di ijinkan mengedit Item terhapus");
+      }
     },
     toEditName() {
       this.editName = false;
+      let data = {
+        id: this.pendaftaran.id,
+        name: this.name,
+        status: this.status,
+      };
+      console.log("data", data);
+      this.editPendaftaran(data);
     },
     toEditStatus() {
       this.editStatus = false;
+      let data = {
+        id: this.pendaftaran.id,
+        name: this.name,
+        status: this.status >= 0 ? this.status : this.status.value,
+      };
+      console.log("data", data);
+      this.editPendaftaran(data);
+    },
+    editPendaftaran(data) {
+      this.$q.loading.show();
+      this.$store
+        .dispatch("pendaftaran/editPendaftaran", data)
+        .then(() => {
+          this.$store
+            .dispatch("pendaftaran/getPendaftarans")
+            .then(() => {
+              this.$q.loading.hide();
+            })
+            .catch(() => {
+              this.$q.loading.hide();
+            });
+        })
+        .catch(() => {
+          this.$q.loading.hide();
+        });
+    },
+    hapusPendaftaran(data) {
+      this.$q.loading.show();
+      this.$store
+        .dispatch("pendaftaran/hapusPendaftaran", data)
+        .then(() => {
+          this.$store
+            .dispatch("pendaftaran/getPendaftarans")
+            .then(() => {
+              this.$q.loading.hide();
+            })
+            .catch(() => {
+              this.$q.loading.hide();
+            });
+        })
+        .catch(() => {
+          this.$q.loading.hide();
+        });
+    },
+    restorePendaftaran(data) {
+      this.$q.loading.show();
+      this.$store
+        .dispatch("pendaftaran/restorePendaftaran", data)
+        .then(() => {
+          this.$store
+            .dispatch("pendaftaran/getPendaftarans")
+            .then(() => {
+              this.$emit("aktifkan");
+              this.$q.loading.hide();
+            })
+            .catch(() => {
+              this.$q.loading.hide();
+            });
+        })
+        .catch(() => {
+          this.$q.loading.hide();
+        });
     },
   },
   watch: {

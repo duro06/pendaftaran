@@ -29,8 +29,6 @@
               label="Status"
               :options="statusOpt"
               behavior="dialog"
-              :rules="[(val) => (val && val.length > 0) || 'Harap diisi']"
-              lazy-rules
             />
           </div>
         </q-card-section>
@@ -169,6 +167,9 @@ export default {
         this.status != ""
       ) {
         this.$emit("save", data);
+        this.name = "";
+        this.status = "";
+        this.getHariIni();
       } else {
         this.$q.notify("Lengkapi dahulu data anda");
       }

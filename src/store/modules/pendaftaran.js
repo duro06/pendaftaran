@@ -32,6 +32,20 @@ const actions = {
         });
     });
   },
+  getTrashedPendaftarans(context) {
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .get("admin/inactive_pendaftaran")
+        .then(resp => {
+          console.log(resp);
+          context.commit("setPendaftarans", resp.data);
+          resolve(resp);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
   getPesertas(context) {
     return new Promise((resolve, reject) => {
       Axios.http()
@@ -71,6 +85,45 @@ const actions = {
     return new Promise((resolve, reject) => {
       Axios.http()
         .post("admin/add_pendaftaran", payload)
+        .then(resp => {
+          console.log(resp);
+          resolve(resp);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  editPendaftaran(context, payload) {
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .post("admin/edit_pendaftaran", payload)
+        .then(resp => {
+          console.log(resp);
+          resolve(resp);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  hapusPendaftaran(context, payload) {
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .post("admin/hapus_pendaftaran", payload)
+        .then(resp => {
+          console.log(resp);
+          resolve(resp);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  restorePendaftaran(context, payload) {
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .post("admin/restore_pendaftaran", payload)
         .then(resp => {
           console.log(resp);
           resolve(resp);
