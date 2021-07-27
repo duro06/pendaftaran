@@ -37,7 +37,7 @@
             :label="berkas.updated_at | ago"
             disable
           >
-            oleh :
+            . oleh :
             {{ berkas.keterangan != null ? berkas.keterangan : berkas.statusby.name }}
           </q-btn>
         </div>
@@ -89,7 +89,7 @@ export default {
   filters: {
     ago(value) {
       const formatTgl = parseInt(format(new Date(value), 'T'))
-      return formatDistanceToNowStrict(formatTgl, { locale: id })
+      return formatDistanceToNowStrict(formatTgl, { locale: id }) + '  '
     },
     color(value) {
       let data = ''

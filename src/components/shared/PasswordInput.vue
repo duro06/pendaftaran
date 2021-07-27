@@ -3,13 +3,11 @@
     bottom-slots
     :value="password"
     @input="$emit('update:password', $event)"
+    @keyup.enter="$emit('Enter')"
     :label="label"
     :type="isPwd ? 'password' : 'text'"
     ref="password"
-    :rules="[
-      (val) => (val && val.length > 7) || 'minimum 8 character',
-      confirmPass,
-    ]"
+    :rules="[(val) => (val && val.length > 7) || 'minimum 8 character', confirmPass]"
     dense
     filled
   >
@@ -37,24 +35,24 @@
 
 <script>
 export default {
-  props: ["password", "icon", "label", "sama"],
+  props: ['password', 'icon', 'label', 'sama'],
   data() {
     return {
       isPwd: true,
-    };
+    }
   },
   watch: {
     sama: {
-      handler: "confirmPass",
+      handler: 'confirmPass',
     },
   },
   methods: {
     confirmPass(val) {
       if (this.sama) {
-        let apem = this.sama === val || "tidak sama";
-        return apem;
+        let apem = this.sama === val || 'tidak sama'
+        return apem
       }
     },
   },
-};
+}
 </script>

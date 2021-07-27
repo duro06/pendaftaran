@@ -11,7 +11,7 @@
         icon="vpn_key"
         label="password"
         :password.sync="loginData.password"
-        @keyup.enter="loginControl"
+        @Enter="loginControl"
       />
 
       <!-- class="bg-primary" -->
