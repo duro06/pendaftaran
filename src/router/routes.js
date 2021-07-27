@@ -88,13 +88,6 @@ const routes = [
           )
       },
       {
-        path: "/admin/mapel",
-        name: "mapel",
-        meta: { title: "Mata Pelajaran", backto: "admin" },
-        component: () =>
-          import(/* webpackChunkName: "edit mapel" */ "pages/admin/Mapel.vue")
-      },
-      {
         path: "/admin/berkas",
         name: "berkas",
         meta: { title: "Berkas", backto: "admin" },
@@ -119,6 +112,15 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "Admin Pendaftaran" */ "pages/admin/pendaftaran/Index.vue"
+          )
+      },
+      {
+        path: "/admin/sekolah",
+        name: "admin-sekolah",
+        meta: { title: "Identitas Sekolah", backto: "admin" },
+        component: () =>
+          import(
+            /* webpackChunkName: "Identitas Sekolah" */ "pages/admin/sekolah/IndexSekolah.vue"
           )
       }
     ],

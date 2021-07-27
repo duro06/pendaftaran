@@ -34,13 +34,7 @@
 
         <!-- :value="user.notelp"
         @input="noTelp"-->
-        <q-input
-          filled
-          dense
-          v-model="form.notelp"
-          label="No Telephone"
-          lazy-rules
-        >
+        <q-input filled dense v-model="form.notelp" label="No Telephone" lazy-rules>
           <template v-slot:prepend>
             <q-icon name="eva-phone-outline" />
           </template>
@@ -63,15 +57,8 @@
 
         <!-- :value="user.alamat"
         @input="alamat"-->
-        <q-input
-          v-model="form.alamat"
-          filled
-          placeholder="Alamat"
-          type="textarea"
-        />
+        <q-input v-model="form.alamat" filled placeholder="Alamat" type="textarea" />
 
-        <!-- :value="user.provinsi"
-        @input="provinsi"-->
         <q-select
           filled
           dense
@@ -81,8 +68,6 @@
           :options="provinsiOpt"
           behavior="dialog"
         />
-        <!-- :value="user.kota"
-        @input="kota" -->
         <q-select
           filled
           dense
@@ -97,12 +82,7 @@
         <div class="q-my-lg">
           <div class="row">
             <div class="col">
-              <q-btn
-                no-caps
-                label="Simpan Perubahan"
-                type="submit"
-                color="primary"
-              />
+              <q-btn no-caps label="Simpan Perubahan" type="submit" color="primary" />
             </div>
             <div class="col">
               <q-btn
@@ -122,18 +102,18 @@
 </template>
 
 <script>
-import axios from "axios";
-import * as Axios from "boot/axios";
-import { mapState, mapGetters } from "vuex";
+import axios from 'axios'
+import * as Axios from 'boot/axios'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
-  name: "EditProfile",
+  name: 'EditProfile',
   created() {
-    this.getProvinsi();
-    this.getKota();
+    this.getProvinsi()
+    this.getKota()
   },
   mounted() {
-    this.isiDulu();
+    this.isiDulu()
   },
   data() {
     return {
@@ -144,121 +124,119 @@ export default {
         notelp: null,
         nowhatsapp: null,
         alamat: null,
-        kota: "",
+        kota: '',
         id: null,
       },
       provinsiOpt: [],
       kotaOpt: [],
-    };
+    }
   },
   computed: {
-    ...mapState("users", ["user"]),
+    ...mapState('users', ['user']),
   },
   methods: {
     isiDulu() {
       if (this.user.email) {
-        this.form.email = this.user.email;
+        this.form.email = this.user.email
       }
       if (this.user.name) {
-        this.form.name = this.user.name;
+        this.form.name = this.user.name
       }
       if (this.user.provinsi) {
-        this.form.provinsi = this.user.provinsi;
+        this.form.provinsi = this.user.provinsi
       }
       if (this.user.kota) {
-        this.form.kota = this.user.kota;
+        this.form.kota = this.user.kota
       }
       if (this.user.notelp) {
-        this.form.notelp = this.user.notelp;
+        this.form.notelp = this.user.notelp
       }
       if (this.user.nowhatsapp) {
-        this.form.nowhatsapp = this.user.nowhatsapp;
+        this.form.nowhatsapp = this.user.nowhatsapp
       }
       if (this.user.alamat) {
-        this.form.alamat = this.user.alamat;
+        this.form.alamat = this.user.alamat
       }
       if (this.user.id) {
-        this.form.id = this.user.id;
+        this.form.id = this.user.id
       }
     },
     getProvinsi() {
       axios
-        .get("https://dev.farizdotid.com/api/daerahindonesia/provinsi")
+        .get('https://dev.farizdotid.com/api/daerahindonesia/provinsi')
         .then((resp) => {
-          let prov = [];
+          let prov = []
           resp.data.provinsi.map(function (value, key) {
             prov.push({
               label: resp.data.provinsi[key].nama,
               value: resp.data.provinsi[key].id,
-            });
-          });
-          this.provinsiOpt = prov;
+            })
+          })
+          this.provinsiOpt = prov
         })
         .catch(() => {
-          this.$q.notify("Error ketika mengambil data");
-        });
+          this.$q.notify('Error ketika mengambil data')
+        })
     },
 
     getKota(provid) {
       if (this.form.provinsi != null) {
         axios
           .get(
-            "https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=" +
-              provid
+            'https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=' + provid
           )
           .then((resp) => {
-            let kota = [];
+            let kota = []
             resp.data.kota_kabupaten.map(function (value, key) {
               kota.push({
                 label: resp.data.kota_kabupaten[key].nama,
                 value: resp.data.kota_kabupaten[key].id,
-              });
-            });
-            this.kotaOpt = kota;
+              })
+            })
+            this.kotaOpt = kota
           })
           .catch(() => {
-            this.$q.notify("Error ketika mengambil data");
-          });
+            this.$q.notify('Error ketika mengambil data')
+          })
       }
     },
     onSubmit() {
-      console.log("form ", this.form);
-      this.$q.loading.show();
+      console.log('form ', this.form)
+      this.$q.loading.show()
       this.$store
-        .dispatch("users/updateProfile", this.form)
+        .dispatch('users/updateProfile', this.form)
         .then((res) => {
-          this.$q.loading.hide();
+          this.$q.loading.hide()
           this.$q.notify({
-            message: "profile berhasil di update",
-            icon: "eva-alert-circle",
-          });
+            message: 'profile berhasil di update',
+            icon: 'eva-alert-circle',
+          })
         })
         .catch((err) => {
-          this.$q.loading.hide();
+          this.$q.loading.hide()
           this.$q.notify({
-            message: "profile gagal di update",
-            icon: "eva-alert-triangle",
-          });
-        });
+            message: 'profile gagal di update',
+            icon: 'eva-alert-triangle',
+          })
+        })
     },
     onReset() {
-      this.form.provinsi = null;
-      this.form.notelp = null;
+      this.form.provinsi = null
+      this.form.notelp = null
       // this.form.nowhatsapp = null;
-      this.form.alamat = null;
-      this.form.kota = null;
+      this.form.alamat = null
+      this.form.kota = null
     },
   },
   watch: {
-    "form.provinsi"() {
-      this.getKota(this.form.provinsi.value);
+    'form.provinsi'() {
+      this.getKota(this.form.provinsi.value)
     },
     user() {
-      this.isiDulu();
+      this.isiDulu()
     },
   },
-};
+}
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
