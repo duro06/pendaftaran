@@ -160,6 +160,17 @@ const routes = [
       }
     ]
   },
+  {
+    path: "/test",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "/test",
+        name: "test",
+        component: () => import(/* webpackChunkName: "test" */ "pages/Test.vue")
+      }
+    ]
+  },
 
   // Always leave this as last one,
   // but you can also remove it

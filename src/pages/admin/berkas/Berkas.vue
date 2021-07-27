@@ -16,6 +16,12 @@
 
       <q-card-section class="q-pt-none">
         <div class="text-subtitle2">{{ berkas.status | status }}</div>
+        <div
+          class="text-caption"
+          v-if="berkas.statusby !== undefined && berkas.statusby !== null"
+        >
+          oleh: {{ berkas.statusby.name }}
+        </div>
       </q-card-section>
     </q-card>
   </div>
@@ -23,7 +29,7 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  name: 'TabelPendaftaran',
+  name: 'Berkas',
   props: ['berkas', 'index', 'trashed'],
   data() {
     return {
@@ -67,15 +73,17 @@ export default {
           data = 'teal'
           break
         case 1:
-          data = 'blue'
+          data = 'amber'
           break
         case 2:
-          data = 'lime-12'
+          data = 'deep-orange'
           break
         case 3:
-          data = 'green'
+          data = 'blue'
           break
         case 4:
+          data = 'green'
+        case 5:
           data = 'red'
           break
         default:
@@ -93,12 +101,15 @@ export default {
           data = 'diperiksa'
           break
         case 2:
-          data = 'kelengkapan'
+          data = 'tidak lengkap'
           break
         case 3:
-          data = 'diterima'
+          data = 'lengkap'
           break
         case 4:
+          data = 'diterima'
+          break
+        case 5:
           data = 'tidak diterima'
           break
         default:

@@ -46,6 +46,19 @@ const actions = {
           reject(err);
         });
     });
+  },
+  statusChange(context, payload) {
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .post(`admin/berkas/status_change`, payload)
+        .then(resp => {
+          console.log(resp);
+          resolve(resp);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
   }
 };
 const getters = {

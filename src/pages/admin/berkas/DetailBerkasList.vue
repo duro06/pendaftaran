@@ -1,12 +1,9 @@
 <template>
-  <div class="hover" @click="perbesar = true">
-    <div class="col-2">{{ nama }}</div>
-    <div class="col-3">
-      <q-responsive :ratio="3 / 4">
-        <q-img :src="path" no-native-menu> </q-img>
-      </q-responsive>
-    </div>
-
+  <div class="hover row q-ma-sm items-center" @click="perbesar = true">
+    <q-card @click="perbesar">
+      <div class="text-h6 text-center">{{ nama }}</div>
+      <img :src="path" />
+    </q-card>
     <Expand :enlarge="perbesar" :media="path" @tutup="perbesar = false" />
   </div>
 </template>

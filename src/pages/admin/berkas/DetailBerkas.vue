@@ -86,14 +86,14 @@
             <div class="q-gutter-sm">
               <q-radio v-model="status" val="0" label="Berkas Masuk" />
               <q-radio v-model="status" val="1" label="Diperiksa" />
-              <q-radio v-model="status" val="2" label="Kurang Lengkap" />
-              <q-radio v-model="status" val="3" label="Ditolak" />
+              <q-radio v-model="status" val="2" label="Tidak Lengkap" />
+              <q-radio v-model="status" val="3" label="Lengkap" />
               <q-radio v-model="status" val="4" label="Diterima" />
+              <q-radio v-model="status" val="5" label="Tidak Diterima" />
             </div>
             <q-btn
               @click="toGantiStatus"
               rounded
-              outline
               label="simpan"
               :color="berkas.status | color"
               no-caps
@@ -104,7 +104,7 @@
     </q-list>
     <div v-if="gambar" class="q-pa-md q-pt-lg q-mt-lg">
       <div class="row justify-center items-center">
-        <div v-for="(item, index) in berkas.media" :key="index">
+        <div v-for="(item, index) in berkas.media" :key="index" class="col-4">
           <ListBerkas
             :nama="item.name"
             :path="item.path == null ? 'images/no_image.png' : storage + item.path"
@@ -132,7 +132,7 @@ export default {
     return {
       gambar: false,
       gantiStatus: false,
-      status: '',
+      status: 0,
     }
   },
   created() {
@@ -154,15 +154,17 @@ export default {
           data = 'teal'
           break
         case 1:
-          data = 'blue'
+          data = 'amber'
           break
         case 2:
-          data = 'lime-12'
+          data = 'deep-orange'
           break
         case 3:
-          data = 'green'
+          data = 'blue'
           break
         case 4:
+          data = 'green'
+        case 5:
           data = 'red'
           break
         default:
@@ -180,12 +182,15 @@ export default {
           data = 'diperiksa'
           break
         case 2:
-          data = 'kelengkapan'
+          data = 'tidak lengkap'
           break
         case 3:
-          data = 'diterima'
+          data = 'lengkap'
           break
         case 4:
+          data = 'diterima'
+          break
+        case 5:
           data = 'tidak diterima'
           break
         default:
@@ -199,15 +204,25 @@ export default {
     ...mapGetters('users', ['storage']),
   },
   methods: {
-    ...mapActions('berkas', ['getBerkasById']),
+    ...mapActions('berkas', ['getBerkasById', 'statusChange']),
     toGantiStatus() {
       let data = {
         id: this.$route.params.slug,
         status: this.status,
       }
       this.gantiStatus = false
-
       console.log('data', data)
+      if (this.status != this.berkas.status) {
+        this.$q.loading.show({ message: 'sedang menggangti status' })
+        this.statusChange(data)
+          .then(() => {
+            this.$q.loading.hide()
+            this.ambilBerkas()
+          })
+          .catch(() => {
+            this.$q.loading.hide()
+          })
+      }
     },
     ambilBerkas() {
       let params = {
@@ -219,7 +234,9 @@ export default {
       this.getBerkasById(params)
         .then(() => {
           this.$q.loading.hide()
-          this.status = this.berkas.status
+          setTimeout(() => {
+            this.status = this.berkas.status.toString()
+          }, 100)
         })
         .catch(() => {
           this.$q.loading.hide()

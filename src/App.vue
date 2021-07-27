@@ -14,81 +14,87 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
-import { messaging } from "boot/firebase";
-let notificationSplit = "";
-let clickAction = "";
-let sender = "";
+import { mapGetters } from 'vuex'
+import { messaging } from 'boot/firebase'
+let notificationSplit = ''
+let clickAction = ''
+let sender = ''
 messaging.onMessage((payload) => {
-  console.log("in App", payload);
-  console.log("split", payload.notification.body.split(" "));
-  sender = payload.data.sender;
-  notificationSplit = payload.notification.body.split(" ");
-  clickAction = payload.notification.click_action.split("/");
-  console.log("click Action ", clickAction);
-  let button = document.getElementById("notif");
-  console.log(button);
-  button.click();
-});
+  console.log('in App', payload)
+  if (payload.notification !== undefined) {
+    console.log('split', payload.notification.body.split(' '))
+    notificationSplit = payload.notification.body.split(' ')
+    clickAction = payload.notification.click_action.split('/')
+  } else {
+    console.log('split', payload.data.message.split(' '))
+    notificationSplit = payload.data.message.split(' ')
+    clickAction = payload.data.click_action.split('/')
+  }
+  sender = payload.data.sender
+  console.log('click Action ', clickAction)
+  let button = document.getElementById('notif')
+  console.log(button)
+  button.click()
+})
 export default {
-  name: "App",
+  name: 'App',
   computed: {
-    ...mapGetters("messaging", ["swToken"]),
+    ...mapGetters('messaging', ['swToken']),
   },
   mounted() {
-    if (this.$q.localStorage.getItem("token")) {
-      this.$store.dispatch("users/skeletonTrue");
-      this.$store.dispatch("users/getUser").then((res) => {
-        const identity = res.id;
-        this.$store.dispatch("messaging/getMessageToken").then((res) => {
+    if (this.$q.localStorage.getItem('token')) {
+      this.$store.dispatch('users/skeletonTrue')
+      this.$store.dispatch('users/getUser').then((res) => {
+        const identity = res.id
+        this.$store.dispatch('messaging/getMessageToken').then((res) => {
           const data = {
             id: identity,
             token: res,
-          };
-          this.$store.dispatch("users/saveFirebaseToken", data);
-        });
-        this.$store.dispatch("nilai/getMapels");
-        this.$store.dispatch("nilai/getType").then(() => {
-          this.$store.dispatch("users/skeletonFalse");
-        });
-        this.$store.dispatch("profile/getBio");
-        if (res.role == "Admin") {
-          this.$store.dispatch("pendaftaran/getPendaftarans");
-          this.$store.dispatch("berkas/getBerkas");
+          }
+          this.$store.dispatch('users/saveFirebaseToken', data)
+        })
+        this.$store.dispatch('nilai/getMapels')
+        this.$store.dispatch('nilai/getType').then(() => {
+          this.$store.dispatch('users/skeletonFalse')
+        })
+        this.$store.dispatch('profile/getBio')
+        if (res.role == 'Admin') {
+          this.$store.dispatch('pendaftaran/getPendaftarans')
+          this.$store.dispatch('berkas/getBerkas')
         }
         // this.$store.dispatch("messaging/getAllChat");
-      });
+      })
       // this.$store.dispatch("notifications/getNotificationByCurrentId");
     }
   },
   methods: {
     notif() {
-      console.log("notsplit", notificationSplit);
-      console.log("click", clickAction);
+      console.log('notsplit', notificationSplit)
+      console.log('click', clickAction)
       // this.$store.dispatch("notifications/getNotificationByCurrentId");
 
       // lelang almost
-      if (notificationSplit[0] == "Bid" && notificationSplit[1] == "baru") {
+      if (notificationSplit[0] == 'Bid' && notificationSplit[1] == 'baru') {
         let params = {
           params: {
             per_page: 10,
-            sortby: "berakhir",
-            sort: "ASC",
-            q: "",
+            sortby: 'berakhir',
+            sort: 'ASC',
+            q: '',
           },
-        };
-        this.$store.dispatch("lelang/getLelangHampirUsai", params);
+        }
+        this.$store.dispatch('lelang/getLelangHampirUsai', params)
       }
 
       // untuk chat
-      if (notificationSplit[0] == "chat" && notificationSplit[1] == "baru") {
+      if (notificationSplit[0] == 'chat' && notificationSplit[1] == 'baru') {
         let params = {
           params: {
             page: 1,
             lelang_id: parseInt(clickAction[clickAction.length - 1]),
           },
-        };
-        this.$store.dispatch("messaging/updateChattings", params);
+        }
+        this.$store.dispatch('messaging/updateChattings', params)
       }
 
       // untuk bid baru
@@ -112,5 +118,5 @@ export default {
       // }
     },
   },
-};
+}
 </script>
