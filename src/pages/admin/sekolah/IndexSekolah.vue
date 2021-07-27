@@ -75,6 +75,7 @@
             class="q-ml-sm"
             @click="onReset"
           />
+          <!-- @click="isiDulu" -->
         </div>
       </div>
     </div>
@@ -112,27 +113,77 @@ export default {
     this.getKota()
     this.getSekolah()
   },
+  mounted() {
+    this.isiDulu()
+  },
   computed: {
     ...mapGetters('admin', ['sekolah']),
   },
   methods: {
     ...mapActions('admin', ['getSekolah', 'tambahData']),
-    isiDulu() {},
+    isiDulu() {
+      this.sekolah.nama !== null ? (this.form.nama = this.sekolah.name) : ''
+      this.sekolah.alamat !== null ? (this.form.alamat = this.sekolah.alamat) : ''
+      this.sekolah.kecamatan !== null
+        ? (this.form.kecamatan = this.sekolah.kecamatan)
+        : ''
+      this.sekolah.email !== null ? (this.form.email = this.sekolah.email) : ''
+      this.sekolah.telepon !== null ? (this.form.telepon = this.sekolah.telepon) : ''
+      this.sekolah.provinsi !== null ? (this.form.provinsi = this.sekolah.provinsi) : ''
+      this.sekolah.kota !== null ? (this.form.kota = this.sekolah.kota) : ''
+    },
     onSave() {
       console.log(this.form)
-      if (
-        this.form.nama &&
-        this.form.alamat &&
-        this.form.kecamatan &&
-        this.form.email &&
-        this.form.telepon &&
-        this.form.provinsi &&
-        this.form.kota
-      ) {
-        //anu
-      } else {
-        this.$q.notify('Data And Belum lengkap')
+      // if (
+      //   this.form.nama &&
+      //   this.form.alamat &&
+      //   this.form.kecamatan &&
+      //   this.form.email &&
+      //   this.form.telepon &&
+      //   this.form.provinsi &&
+      //   this.form.kota
+      // ) {
+      let data = {
+        name: this.form.nama,
+        alamat: this.form.alamat,
+        kecamatan: this.form.kecamatan,
+        email: this.form.email,
+        telepon: this.form.telepon,
+        provinsi:
+          this.form.provinsi != null
+            ? this.form.provinsi.label
+              ? this.form.provinsi.label
+              : this.form.provinsi
+            : null,
+        kota:
+          this.form.kota != null
+            ? this.form.kota.label
+              ? this.form.kota.label
+              : this.form.kota
+            : null,
       }
+      this.$q.loading.show({ message: 'sending data... please wait...' })
+      this.tambahData(data)
+        .then(() => {
+          this.$q.loading.hide()
+          this.$q.loading.show({
+            message: 'fething new data... please wait...',
+          })
+          this.getSekolah()
+            .then(() => {
+              this.$q.loading.hide()
+            })
+            .catch(() => {
+              this.$q.loading.hide()
+            })
+        })
+        .catch(() => {
+          this.$q.loading.hide()
+        })
+      console.log('data', data)
+      // } else {
+      //   this.$q.notify('Data Anda Belum lengkap')
+      // }
     },
     onReset() {
       this.form.nama = null
@@ -192,6 +243,9 @@ export default {
   watch: {
     'form.provinsi'() {
       this.getKota(this.form.provinsi.value)
+    },
+    sekolah() {
+      this.isiDulu()
     },
   },
 }
