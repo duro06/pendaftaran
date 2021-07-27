@@ -22,12 +22,33 @@
         >
           oleh: {{ berkas.statusby.name }}
         </div>
+        <div
+          class="text-right"
+          v-if="berkas.statusby !== null || berkas.keterangan !== null"
+        >
+          <q-btn
+            class="text-right"
+            no-caps
+            size="sm"
+            flat
+            rounded
+            color="grey"
+            icon="mdi-update"
+            :label="berkas.updated_at | ago"
+            disable
+          >
+            oleh :
+            {{ berkas.keterangan != null ? berkas.keterangan : berkas.statusby.name }}
+          </q-btn>
+        </div>
       </q-card-section>
     </q-card>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { formatDistanceToNowStrict, format } from 'date-fns'
+import { id } from 'date-fns/locale'
 export default {
   name: 'Berkas',
   props: ['berkas', 'index', 'trashed'],
@@ -66,6 +87,10 @@ export default {
     }
   },
   filters: {
+    ago(value) {
+      const formatTgl = parseInt(format(new Date(value), 'T'))
+      return formatDistanceToNowStrict(formatTgl, { locale: id })
+    },
     color(value) {
       let data = ''
       switch (value) {

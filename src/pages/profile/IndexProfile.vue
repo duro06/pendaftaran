@@ -27,10 +27,7 @@
               <q-item-section side>
                 <div class="row">
                   <span class="q-ml-sm q-mt-xs f-13"></span>
-                  <q-icon
-                    name="eva-arrow-ios-forward-outline q-mt-xs"
-                    size="18px"
-                  />
+                  <q-icon name="eva-arrow-ios-forward-outline q-mt-xs" size="18px" />
                 </div>
               </q-item-section>
             </q-item>
@@ -52,10 +49,7 @@
           <q-item-section side>
             <div class="row">
               <span class="q-ml-sm q-mt-xs f-13"></span>
-              <q-icon
-                name="eva-arrow-ios-forward-outline q-mt-xs"
-                size="18px"
-              />
+              <q-icon name="eva-arrow-ios-forward-outline q-mt-xs" size="18px" />
             </div>
           </q-item-section>
         </q-item>
@@ -65,11 +59,11 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapState } from "vuex";
+import { mapGetters, mapActions, mapState } from 'vuex'
 export default {
   components: {
-    HeaderProfile: () => import("src/pages/profile/HeaderProfile"),
-    NoLogin: () => import("components/shared/NoLogin"),
+    HeaderProfile: () => import('src/pages/profile/HeaderProfile'),
+    NoLogin: () => import('components/shared/NoLogin'),
   },
   data() {
     return {
@@ -77,85 +71,57 @@ export default {
       adaFoto: false,
       items: [
         {
-          to: "/profile/edit_profile",
-          name: "mdi-account",
-          label: "Edit Profile",
-          role: "All",
+          to: '/profile/edit_profile',
+          name: 'mdi-account',
+          label: 'Edit Profile',
+          role: 'All',
         },
         {
-          to: "/profile/edit_cv",
-          name: "mdi-account-details",
-          label: "Edit CV",
-          role: "All",
+          to: '/profile/edit_cv',
+          name: 'mdi-account-details',
+          label: 'Edit CV',
+          role: 'All',
         },
         {
-          to: "/profile/edit_nilai",
-          name: "mdi-book-education-outline",
-          label: "Edit Nilai",
-          role: "Siswa",
+          to: '/profile/edit_nilai',
+          name: 'mdi-book-education-outline',
+          label: 'Edit Nilai',
+          role: 'Siswa',
         },
       ],
-    };
+    }
   },
   mounted() {
     // this.getActivasi();
   },
   filters: {},
   computed: {
-    ...mapGetters("users", ["loggedIn"]),
+    ...mapGetters('users', ['loggedIn']),
     // ...mapGetters('transaksi',['transaction']),
-    ...mapState("users", ["user"]),
+    ...mapState('users', ['user']),
     bidder() {
       if (this.user.bidder == 1) {
-        return true;
+        return true
       }
-      return false;
+      return false
     },
   },
   methods: {
-    ...mapActions("users", ["logout"]),
+    ...mapActions('users', ['logout']),
     // ...mapActions("transaksi", ["getDataActivasi"]),
     signOut() {
-      this.logout().then(() => {
-        this.$router.replace(
-          this.$route.query.redirect || { path: "/" },
-          () => {}
-        );
-      });
+      this.$q.loading.show({ message: 'signing out . . . . .' })
+      this.logout()
+        .then(() => {
+          this.$q.loading.hide()
+          this.$router.replace(this.$route.query.redirect || { path: '/' }, () => {})
+        })
+        .catch(() => {
+          this.$q.loading.hide()
+        })
     },
-
-    // updateStatusBidder(){
-    //     this.updateBidder()
-    // },
-
-    // getActivasi() {
-    //     if (!this.bidder) {
-    //         this.getDataActivasi()
-    //     }
-    // },
-
-    // toActivasi() {
-    //     if (!this.bidder) {
-    //         this.$router.replace(
-    //             this.$route.query.redirect || { name: "activasi"},
-    //             () => {}
-    //         )
-    //     }
-
-    // }
   },
-
-  // watch: {
-  //     transaction(val) {
-  //         let status = val? val.status:null
-  //         if (status == 'settlement') {
-  //             this.updateStatusBidder()
-  //             return false
-  //         }
-  //     }
-  // }
-};
+}
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
