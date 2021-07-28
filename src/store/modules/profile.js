@@ -28,7 +28,8 @@ const actions = {
     let data = {
       ttl: payload.ttl,
       nik: payload.nik,
-      asal_sekolah: payload.asal_sekolah
+      asal_sekolah: payload.asal_sekolah,
+      kota: payload.kota
     };
     return new Promise((reso, rej) => {
       Axios.http()

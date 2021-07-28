@@ -27,7 +27,10 @@
       </div>
     </div>
     <div class="q-pa-lg" v-if="details">
-      <div v-if="!registered" class="text-center">
+      <div
+        v-if="!registered || pendaftarans[current_index].status != 1"
+        class="text-center"
+      >
         <q-btn rounded color="primary" label="daftar" no-caps @click="daftar" />
       </div>
       <div v-if="pesertas.length">

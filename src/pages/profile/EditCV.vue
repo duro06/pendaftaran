@@ -38,6 +38,18 @@
             <q-icon name="mdi-account-outline" />
           </template>
         </q-input>
+        <q-input
+          filled
+          dense
+          v-model="form.kota"
+          label="Tempat Lahir"
+          lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        >
+          <template v-slot:prepend>
+            <q-icon name="mdi-map" />
+          </template>
+        </q-input>
 
         <q-input
           dense
@@ -213,8 +225,8 @@ export default {
       if (this.bio.notelp) {
         this.form.notelp = this.bio.notelp
       }
-      if (this.bio.nowhatsapp) {
-        this.form.nowhatsapp = this.bio.nowhatsapp
+      if (this.bio.kota) {
+        this.form.kota = this.bio.kota
       }
       if (this.bio.alamat) {
         this.form.alamat = this.bio.alamat
@@ -308,6 +320,9 @@ export default {
     },
     kk() {
       this.uploadKk(this.kk)
+    },
+    bio() {
+      this.isiDulu()
     },
   },
 }
