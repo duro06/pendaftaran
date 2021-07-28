@@ -3,16 +3,18 @@
     <div class="q-pa-lg">
       <q-list v-if="!details" bordered class="q-py-sm">
         <div class="row justify-evenly">
-          <div v-for="(type, index) in types" :key="index" class="col-5 q-ma-xs">
+          <div v-for="(type, index) in current_types" :key="index" class="col-5 q-ma-xs">
             <list-type
-              :index="index"
-              :id="type.id"
-              :label="type.name"
               :path="
-                type.media.path == null
+                type.media == undefined
+                  ? 'images/no_image.png'
+                  : type.media.path == null
                   ? 'images/no_image.png'
                   : storage + type.media.path
               "
+              :index="index"
+              :id="type.id"
+              :label="type.name"
               icon="mdi-note-text-outline"
               @diclick="listListener"
               @besarkan="enlarge = true"
@@ -97,15 +99,19 @@
     </q-page-sticky>
     <expand-picture
       :media="
-        types[current_type_index] != undefined
-          ? types[current_type_index].media.path == null
-            ? 'images/no_image.png'
-            : storage + types[current_type_index].media.path
+        current_types[current_type_index] != undefined
+          ? current_types[current_type_index].media != undefined
+            ? current_types[current_type_index].media.path == null
+              ? 'images/no_image.png'
+              : storage + current_types[current_type_index].media.path
+            : 'images/no_image.png'
           : 'images/no_image.png'
       "
       :enlarge="enlarge"
       :mapel="
-        types[current_type_index] != undefined ? types[current_type_index].name : null
+        current_types[current_type_index] != undefined
+          ? current_types[current_type_index].name
+          : null
       "
       @tutup="enlarge = false"
     />
@@ -132,13 +138,39 @@ export default {
       current_type_index: null,
       current_mapels: [],
       current_type_id: null,
+      current_types: [],
 
       loading: false,
     }
   },
   created() {
-    this.getType()
-    if (this.user.id && this.current_type_id) {
+    this.getType().then(() => {
+      if (this.user.id && this.current_type_id) {
+        let params = {
+          params: {
+            user_id: this.user.id,
+            type_id: this.current_type_id,
+          },
+        }
+        this.getNilaiBy(params)
+      }
+      if (this.user.id) {
+        let params = {
+          params: {
+            user_id: this.user.id,
+          },
+        }
+        this.getMediaBy(params)
+      }
+    })
+  },
+  computed: {
+    ...mapGetters('nilai', ['types', 'nilais', 'mapels', 'medias']),
+    ...mapGetters('users', ['user', 'storage']),
+  },
+  methods: {
+    ...mapActions('nilai', ['getType', 'getNilaiBy', 'getMediaBy']),
+    mediadannilai() {
       let params = {
         params: {
           user_id: this.user.id,
@@ -146,14 +178,32 @@ export default {
         },
       }
       this.getNilaiBy(params)
-    }
-  },
-  computed: {
-    ...mapGetters('nilai', ['types', 'nilais', 'mapels']),
-    ...mapGetters('users', ['user', 'storage']),
-  },
-  methods: {
-    ...mapActions('nilai', ['getType', 'getNilaiBy']),
+      this.getMediaBy(params).then((resp) => {
+        console.log(resp)
+        if (resp.length) {
+          const type = this.types
+          let med = resp
+          console.log('type', type)
+          type.forEach((data) => {
+            med.filter((value) => {
+              if (data.id == value.type_id) {
+                data.media = value
+              }
+            })
+          })
+          this.current_types = type
+          console.log('type', type)
+          if (this.current_types[this.current_type_index]) {
+            this.image =
+              this.current_types[this.current_type_index].media != undefined
+                ? this.current_types[this.current_type_index].media.path
+                : null
+          }
+        } else {
+          this.current_types = this.types
+        }
+      })
+    },
     store() {
       let data = {
         user_id: this.user.id,
@@ -209,7 +259,10 @@ export default {
         }
       })
 
-      this.image = this.types[val.index].media.path
+      this.image =
+        this.current_types[val.index].media !== undefined
+          ? this.current_types[val.index].media.path
+          : null
 
       let params = {
         params: {
@@ -248,24 +301,36 @@ export default {
     },
 
     upload(file) {
+      let data = {
+        id:
+          this.current_types[this.current_type_index].media != undefined
+            ? this.current_types[this.current_type_index].media.id
+            : null,
+        // id: 8,
+        user_id: this.user.id,
+        name: this.current_types[this.current_type_index].name,
+        type_id: this.current_types[this.current_type_index].id,
+      }
       const formData = new FormData()
       formData.append('image', file)
-      let data = {
-        id: this.types[this.current_type_index].media.id,
-        data: formData,
-      }
+      formData.append('id', data.id)
+      formData.append('user_id', data.user_id)
+      formData.append('name', data.name)
+      formData.append('type_id', data.type_id)
+
       this.$q.loading.show()
 
       this.$store
-        .dispatch('nilai/uploadImage', data)
+        .dispatch('nilai/uploadImage', formData)
         .then((res) => {
           this.getType().then(() => {
-            this.image = this.types[this.current_type_index].media.path
+            this.mediadannilai()
           })
           this.$store.dispatch('users/getUser').then(() => {
             this.$store.dispatch('nilai/getMapels')
           })
           this.$q.loading.hide()
+          this.picture = null
         })
         .catch((err) => {
           this.$q.loading.hide()
@@ -274,8 +339,13 @@ export default {
   },
   watch: {
     picture() {
-      this.upload(this.picture)
-      this.picture = null
+      if (this.picture != null) {
+        this.upload(this.picture)
+      }
+    },
+
+    types() {
+      this.mediadannilai()
     },
   },
 }

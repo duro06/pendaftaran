@@ -163,7 +163,9 @@ export default {
   },
   created() {
     // this.getProvinsi();
-    this.createBio(this.user.id)
+    this.createBio(this.user.id).then(() => {
+      this.$store.dispatch('users/getUser')
+    })
   },
   mounted() {
     this.isiDulu()

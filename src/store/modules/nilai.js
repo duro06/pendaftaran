@@ -3,7 +3,8 @@ import * as Axios from "boot/axios";
 const state = () => ({
   mapels: [],
   types: [],
-  nilais: []
+  nilais: [],
+  medias: []
 });
 const mutations = {
   setMapel(state, payload) {
@@ -14,6 +15,9 @@ const mutations = {
   },
   setNilais(state, payload) {
     state.nilais = payload;
+  },
+  setMedias(state, payload) {
+    state.medias = payload;
   }
 };
 const actions = {
@@ -59,6 +63,19 @@ const actions = {
         });
     });
   },
+  getMediaBy(context, payload) {
+    return new Promise((resolve, reject) => {
+      Axios.http()
+        .get(`nilai/media_by`, payload)
+        .then(resp => {
+          context.commit("setMedias", resp.data);
+          resolve(resp.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
   isiMapel(context, payload) {
     return new Promise((resolve, reject) => {
       Axios.http()
@@ -85,9 +102,12 @@ const actions = {
   },
   uploadImage(context, payload) {
     return new Promise((resolve, reject) => {
-      Axios.httpFile()
-        .post(`/type/upload_image/${payload.id}`, payload.data)
+      // Axios.httpFile()
+      //   .post(`/type/upload_image/${payload.id}`, payload.data)
+      Axios.http()
+        .post(`type/upload_image`, payload)
         .then(res => {
+          console.log(res);
           resolve(res);
         })
         .catch(err => {
@@ -178,6 +198,9 @@ const getters = {
   },
   nilais(state) {
     return state.nilais;
+  },
+  medias(state) {
+    return state.medias;
   }
 };
 
