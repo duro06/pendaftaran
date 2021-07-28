@@ -106,7 +106,7 @@ export default {
         name: '',
         role: '',
       },
-      options: ['Siswa', 'Orangtua', 'Guru'],
+      options: ['Siswa', 'Orangtua', 'Guru', 'Admin'],
       loading: false,
       disable: false,
       confirm: false,
