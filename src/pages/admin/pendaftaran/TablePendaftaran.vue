@@ -60,225 +60,220 @@
   </div>
 </template>
 <script>
-import { format } from "date-fns";
-import { id } from "date-fns/locale";
-import pendaftaran from "src/store/modules/pendaftaran";
+import { format } from 'date-fns'
+import { id } from 'date-fns/locale'
+import pendaftaran from 'src/store/modules/pendaftaran'
 export default {
-  name: "TabelPendaftaran",
-  props: ["pendaftaran", "index", "trashed"],
+  name: 'TabelPendaftaran',
+  props: ['pendaftaran', 'index', 'trashed'],
   data() {
     return {
       editName: false,
       editStatus: false,
       editStart: false,
       editStop: false,
-      name: "",
-      start: "",
-      stop: "",
-      status: "",
+      name: '',
+      start: '',
+      stop: '',
+      status: '',
       statusOpt: [
         {
           value: 0,
-          label: "belum Dibuka",
+          label: 'belum Dibuka',
         },
         {
           value: 1,
-          label: "Berlangsung",
+          label: 'Berlangsung',
         },
         {
           value: 2,
-          label: "Seleksi",
+          label: 'Seleksi',
         },
         {
           value: 3,
-          label: "Ditutup",
+          label: 'Ditutup',
         },
       ],
-    };
+    }
   },
   filters: {
     jam(value) {
-      return format(new Date(value), "HH:mm");
+      return format(new Date(value), 'HH:mm')
     },
     tanggal(value) {
-      return format(new Date(value), "PPPP", { locale: id });
+      return format(new Date(value), 'PPPP', { locale: id })
     },
     status(value) {
-      let data = "";
+      let data = ''
       switch (value) {
         case 0:
-          data = "belum dibuka";
-          break;
+          data = 'belum dibuka'
+          break
         case 1:
-          data = "berlangsung";
-          break;
+          data = 'berlangsung'
+          break
         case 2:
-          data = "seleksi";
-          break;
+          data = 'seleksi'
+          break
         case 3:
-          data = "ditutup";
-          break;
+          data = 'ditutup'
+          break
         default:
-          data = "belum ada";
+          data = 'belum ada'
       }
-      return data;
+      return data
     },
   },
   mounted() {
     if (this.pendaftaran !== undefined || this.pendaftaran !== null) {
-      this.name = this.pendaftaran.name;
-      this.status = this.pendaftaran.status;
-      this.start = this.pendaftaran.start;
-      this.stop = this.pendaftaran.stop;
+      this.name = this.pendaftaran.name
+      this.status = this.pendaftaran.status
+      this.start = this.pendaftaran.start
+      this.stop = this.pendaftaran.stop
     }
   },
   methods: {
     confirmHapus() {
       this.$q
         .dialog({
-          title: "Confirm",
-          message: "Apakah anda benar benar akan menghapus Pendaftaran ini?",
+          title: 'Confirm',
+          message: 'Apakah anda benar benar akan menghapus Pendaftaran ini?',
           cancel: true,
           persistent: true,
         })
         .onOk(() => {
-          this.hapus();
-        });
+          this.hapus()
+        })
     },
     confirmRestore() {
       this.$q
         .dialog({
-          title: "Confirm",
-          message:
-            "Apakah anda benar benar akan mengembalikan Pendaftaran ini?",
+          title: 'Confirm',
+          message: 'Apakah anda benar benar akan mengembalikan Pendaftaran ini?',
           cancel: true,
           persistent: true,
         })
         .onOk(() => {
-          this.restore();
-        });
+          this.restore()
+        })
     },
     hapus() {
-      console.log("hapus", this.pendaftaran);
       let data = {
         id: this.pendaftaran.id,
-      };
-      this.hapusPendaftaran(data);
+      }
+      this.hapusPendaftaran(data)
     },
     restore() {
-      console.log("hapus", this.pendaftaran);
       let data = {
         id: this.pendaftaran.id,
-      };
-      this.restorePendaftaran(data);
+      }
+      this.restorePendaftaran(data)
     },
     enableEditName() {
-      const vm = this;
+      const vm = this
       if (this.trashed) {
         setTimeout(() => {
-          vm.$refs.nama.focus();
-        }, 20);
-        this.editName = true;
+          vm.$refs.nama.focus()
+        }, 20)
+        this.editName = true
       } else {
-        this.$q.notify("Tidak di ijinkan mengedit Item terhapus");
+        this.$q.notify('Tidak di ijinkan mengedit Item terhapus')
       }
     },
     enableEditStatus() {
-      const vm = this;
+      const vm = this
       if (this.trashed) {
         setTimeout(() => {
-          vm.$refs.status.focus();
-        }, 20);
-        this.editStatus = true;
+          vm.$refs.status.focus()
+        }, 20)
+        this.editStatus = true
       } else {
-        this.$q.notify("Tidak di ijinkan mengedit Item terhapus");
+        this.$q.notify('Tidak di ijinkan mengedit Item terhapus')
       }
     },
     toEditName() {
-      this.editName = false;
+      this.editName = false
       let data = {
         id: this.pendaftaran.id,
         name: this.name,
         status: this.status,
-      };
-      console.log("data", data);
-      this.editPendaftaran(data);
+      }
+      this.editPendaftaran(data)
     },
     toEditStatus() {
-      this.editStatus = false;
+      this.editStatus = false
       let data = {
         id: this.pendaftaran.id,
         name: this.name,
         status: this.status >= 0 ? this.status : this.status.value,
-      };
-      console.log("data", data);
-      this.editPendaftaran(data);
+      }
+      this.editPendaftaran(data)
     },
     editPendaftaran(data) {
-      this.$q.loading.show();
+      this.$q.loading.show()
       this.$store
-        .dispatch("pendaftaran/editPendaftaran", data)
+        .dispatch('pendaftaran/editPendaftaran', data)
         .then(() => {
           this.$store
-            .dispatch("pendaftaran/getPendaftarans")
+            .dispatch('pendaftaran/getPendaftarans')
             .then(() => {
-              this.$q.loading.hide();
+              this.$q.loading.hide()
             })
             .catch(() => {
-              this.$q.loading.hide();
-            });
+              this.$q.loading.hide()
+            })
         })
         .catch(() => {
-          this.$q.loading.hide();
-        });
+          this.$q.loading.hide()
+        })
     },
     hapusPendaftaran(data) {
-      this.$q.loading.show();
+      this.$q.loading.show()
       this.$store
-        .dispatch("pendaftaran/hapusPendaftaran", data)
+        .dispatch('pendaftaran/hapusPendaftaran', data)
         .then(() => {
           this.$store
-            .dispatch("pendaftaran/getPendaftarans")
+            .dispatch('pendaftaran/getPendaftarans')
             .then(() => {
-              this.$q.loading.hide();
+              this.$q.loading.hide()
             })
             .catch(() => {
-              this.$q.loading.hide();
-            });
+              this.$q.loading.hide()
+            })
         })
         .catch(() => {
-          this.$q.loading.hide();
-        });
+          this.$q.loading.hide()
+        })
     },
     restorePendaftaran(data) {
-      this.$q.loading.show();
+      this.$q.loading.show()
       this.$store
-        .dispatch("pendaftaran/restorePendaftaran", data)
+        .dispatch('pendaftaran/restorePendaftaran', data)
         .then(() => {
           this.$store
-            .dispatch("pendaftaran/getPendaftarans")
+            .dispatch('pendaftaran/getPendaftarans')
             .then(() => {
-              this.$emit("aktifkan");
-              this.$q.loading.hide();
+              this.$emit('aktifkan')
+              this.$q.loading.hide()
             })
             .catch(() => {
-              this.$q.loading.hide();
-            });
+              this.$q.loading.hide()
+            })
         })
         .catch(() => {
-          this.$q.loading.hide();
-        });
+          this.$q.loading.hide()
+        })
     },
   },
   watch: {
     pendaftaran() {
-      this.name = this.pendaftaran.name;
-      this.status = this.pendaftaran.status;
-      this.start = this.pendaftaran.start;
-      this.stop = this.pendaftaran.stop;
+      this.name = this.pendaftaran.name
+      this.status = this.pendaftaran.status
+      this.start = this.pendaftaran.start
+      this.stop = this.pendaftaran.stop
     },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .hover {

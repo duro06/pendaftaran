@@ -58,9 +58,7 @@
               v-for="(item, n) in filteredItems(tgl)"
               :key="'item' + n"
               :class="[
-                user.id === item.user_id || item.user_name === 'me'
-                  ? 'self-end'
-                  : '',
+                user.id === item.user_id || item.user_name === 'me' ? 'self-end' : '',
               ]"
             >
               <div class="q-mb-xs q-mx-xs" @click="handleHold(item.id)">
@@ -118,19 +116,12 @@
                   </div>
                 </div>
                 <q-menu ref="dialogRef" touch-position context-menu>
-                  <q-item
-                    clickable
-                    v-ripple
-                    v-close-popup
-                    @click="balasPesan(item)"
-                  >
+                  <q-item clickable v-ripple v-close-popup @click="balasPesan(item)">
                     <q-item-section>
                       <div class="row">
                         Balas
                         <span
-                          ><q-icon
-                            class="q-ml-sm"
-                            name="eva-corner-up-right-outline"
+                          ><q-icon class="q-ml-sm" name="eva-corner-up-right-outline"
                         /></span>
                       </div>
                     </q-item-section>
@@ -190,13 +181,7 @@
     <!-- footer -->
     <q-footer elevated class="bg-primary">
       <q-toolbar class="bg-grey-2 q-pa-xs" v-show="reply.show">
-        <q-input
-          filled
-          autogrow
-          v-model="reply.text"
-          class="full-width"
-          label-slot
-        >
+        <q-input filled autogrow v-model="reply.text" class="full-width" label-slot>
           <template v-slot:label>
             <div class="row items-center all-pointer-events">
               <q-icon
@@ -245,21 +230,21 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import { formatDistanceToNowStrict, isAfter, parseISO, format } from "date-fns";
-import { enGB, id } from "date-fns/locale";
+import { mapActions, mapGetters } from 'vuex'
+import { formatDistanceToNowStrict, isAfter, parseISO, format } from 'date-fns'
+import { enGB, id } from 'date-fns/locale'
 
-import * as axios from "boot/axios";
+import * as axios from 'boot/axios'
 
-import CardUsers from "src/components/shared/CardUsers";
+import CardUsers from 'src/components/shared/CardUsers'
 export default {
-  name: "PageChats",
+  name: 'PageChats',
   components: { CardUsers },
   data() {
     return {
-      message: "",
+      message: '',
       loading: false,
-      tab: "forum",
+      tab: 'forum',
       page: 1,
       lastPage: 1,
       scrollTarget: void 0,
@@ -267,124 +252,91 @@ export default {
       spinn: false,
 
       form: {
-        message: "",
+        message: '',
         id: null,
         lelang_id: null,
         created_at: null,
         updated_at_at: null,
-        user_name: "",
+        user_name: '',
         status: 0,
       },
 
       isSelected: null,
       reply: {
         show: false,
-        text: "",
-        user: "",
+        text: '',
+        user: '',
       },
-    };
+    }
   },
   created() {
-    this.getChat(this.page);
-    this.getUsers();
+    this.getChat(this.page)
+    this.getUsers()
     // this.getLelangById(this.$route.params.slug);
-    this.scrollToBottom();
+    this.scrollToBottom()
   },
   mounted() {},
   beforeDestroy() {
-    this.clearChat();
+    this.clearChat()
   },
   filters: {
     ago(value) {
-      const formatTgl = parseInt(format(new Date(value), "T"));
-      return formatDistanceToNowStrict(formatTgl, { locale: id });
+      const formatTgl = parseInt(format(new Date(value), 'T'))
+      return formatDistanceToNowStrict(formatTgl, { locale: id })
     },
     jam(value) {
-      return format(new Date(value), "HH:mm");
+      return format(new Date(value), 'HH:mm')
     },
     tanggal(value) {
-      return format(new Date(value), "PPPP", { locale: id });
+      return format(new Date(value), 'PPPP', { locale: id })
     },
     msg(value) {
       // if (value == null || value == undefined) { value = ''}
-      let split = value.split("_____");
-      return split[0];
+      let split = value.split('_____')
+      return split[0]
     },
     user_reply(value) {
       // if (value == null || value == undefined) { value = ''}
-      let split = value.split("_____");
-      return split[1];
+      let split = value.split('_____')
+      return split[1]
     },
     text_reply(value) {
       // if (value == null || value == undefined) { value = ''}
-      let split = value.split("_____");
-      return split[2];
+      let split = value.split('_____')
+      return split[2]
     },
   },
   computed: {
-    ...mapGetters("messaging", [
-      "progressDone",
-      "meta",
-      "themporary",
-      "chattings",
-      "array_tanggal",
-      "users",
+    ...mapGetters('messaging', [
+      'progressDone',
+      'meta',
+      'themporary',
+      'chattings',
+      'array_tanggal',
+      'users',
     ]),
-    ...mapGetters("users", ["user", "storage"]),
+    ...mapGetters('users', ['user', 'storage']),
     // ...mapGetters("lelang", ["lelangById", "lelang", "medias", "nominalBid"]),
 
     pageCount() {
-      return Math.ceil(this.meta.total / this.meta.per_page);
+      return Math.ceil(this.meta.total / this.meta.per_page)
     },
 
     pageOffset() {
-      return this.meta.per_page * this.meta.current_page;
+      return this.meta.per_page * this.meta.current_page
     },
     urlPath() {
-      return axios.pathImage();
+      return axios.pathImage()
     },
-
-    // thumbnail() {
-    //   let thumb = [];
-    //   if (this.lelang.media_lelang !== undefined) {
-    //     this.lelang.media_lelang.map((value, key) => {
-    //       thumb.push({
-    //         media: this.lelang.media_lelang[key].image,
-    //         status: this.lelang.media_lelang[key].status,
-    //         video: false,
-    //       });
-    //     });
-    //     // this.lelang.video_lelang.map((value, key) => {
-    //     //     thumb.push({
-    //     //     media: this.lelang.video_lelang[key].video,
-    //     //     status: this.lelang.video_lelang[key].status,
-    //     //     video: true,
-    //     //     });
-    //     // });
-    //     // console.log("thumb ", thumb[0]);
-    //     // let gbr = {}
-    //     let go = [];
-    //     var where = thumb.filter((obj) => {
-    //       return obj.status === 1;
-    //     });
-    //     if (where.length > 0) {
-    //       return where[0];
-    //     } else {
-    //       return thumb[0];
-    //     }
-    //   }
-
-    //   // return thumb[0]
-    // },
   },
   methods: {
-    ...mapActions("messaging", [
-      "createChat",
-      "getAllChat",
-      "clearChat",
-      "updateChattings",
-      "unshiftChat",
-      "getUsers",
+    ...mapActions('messaging', [
+      'createChat',
+      'getAllChat',
+      'clearChat',
+      'updateChattings',
+      'unshiftChat',
+      'getUsers',
     ]),
     // ...mapActions("lelang", ["getLelangById"]),
 
@@ -395,45 +347,42 @@ export default {
     handleHold(val) {},
 
     balasPesan(item) {
-      this.reply.show = !this.reply.show;
-      this.reply.text = item.message;
-      this.reply.user = item.user_name;
+      this.reply.show = !this.reply.show
+      this.reply.text = item.message
+      this.reply.user = item.user_name
     },
     closeReply() {
-      this.reply.show = !this.reply.show;
+      this.reply.show = !this.reply.show
     },
 
     replyUser(msg) {
-      let split = msg.split("_____");
+      let split = msg.split('_____')
       // split? split[1]: null
       if (split[1] != null || split[1] != undefined) {
-        return true;
+        return true
       }
-      return false;
+      return false
     },
 
     filteredItems(val) {
       return this.chattings.filter(
-        (c) =>
-          format(new Date(c.created_at), "PPPP", { locale: id }).indexOf(val) >
-          -1
-      );
+        (c) => format(new Date(c.created_at), 'PPPP', { locale: id }).indexOf(val) > -1
+      )
     },
 
     onLoad(index, done, setIndex) {
-      if (this.tab == "users") {
-        done(true);
-        return;
+      if (this.tab == 'users') {
+        done(true)
+        return
       }
       setTimeout(() => {
         if (this.chattings) {
-          done();
+          done()
 
-          this.page = index;
-          console.log("onload index", index);
+          this.page = index
 
           if (index >= this.meta.last_page) {
-            done(true);
+            done(true)
           }
 
           // if (this.meta.current_page == 1) {
@@ -441,35 +390,34 @@ export default {
           //     setIndex
           // }
         }
-      }, 2000);
+      }, 2000)
     },
 
     getChat(val) {
-      this.spinn = true;
+      this.spinn = true
       let params = {
         params: {
           // lelang_id: this.$route.params.slug,
           page: val,
         },
-      };
+      }
       this.getAllChat(params).then(() => {
-        this.lastPage = this.meta.last_page;
-        this.spinn = false;
-      });
+        this.lastPage = this.meta.last_page
+        this.spinn = false
+      })
     },
     bid() {},
     send() {
-      if (this.message == "") {
-        this.$refs.inputMessage.focus();
-        return;
+      if (this.message == '') {
+        this.$refs.inputMessage.focus()
+        return
       }
 
-      var msg;
-      if (this.reply.text != "" && this.reply.user != "") {
-        msg =
-          this.message + "_____" + this.reply.user + "_____" + this.reply.text;
+      var msg
+      if (this.reply.text != '' && this.reply.user != '') {
+        msg = this.message + '_____' + this.reply.user + '_____' + this.reply.text
       } else {
-        msg = this.message;
+        msg = this.message
       }
 
       let form = {
@@ -478,27 +426,25 @@ export default {
         lelang_id: null,
         created_at: new Date(),
         updated_at: new Date(),
-        user_name: "me",
+        user_name: 'me',
         status: 0,
-      };
-      // console.log('lhoooo',form)
-      this.unshiftChat(form);
-      this.reply.show = false;
+      }
+      this.unshiftChat(form)
+      this.reply.show = false
 
-      this.loading = true;
+      this.loading = true
       let data = {
         // lelang_id: this.$route.params.slug,
         message: msg,
-      };
+      }
       // this.message = "";
       this.createChat(data).then((resp) => {
-        console.log("send post", resp);
-        this.loading = false;
-        this.message = "";
-        this.clearForm();
+        this.loading = false
+        this.message = ''
+        this.clearForm()
         // this.updateTemporary(1)
-      });
-      this.scrollToBottom();
+      })
+      this.scrollToBottom()
     },
 
     // updateTemporary(val) {
@@ -512,65 +458,59 @@ export default {
     // },
 
     clearForm() {
-      this.form.message = "";
-      this.form.id = null;
+      this.form.message = ''
+      this.form.id = null
       // this.form.lelang_id = null;
-      this.form.created_at = null;
-      this.form.updated_at = null;
-      this.form.user_name = "";
-      this.form.status = 0;
+      this.form.created_at = null
+      this.form.updated_at = null
+      this.form.user_name = ''
+      this.form.status = 0
 
-      this.reply.text = "";
-      this.reply.user = "";
+      this.reply.text = ''
+      this.reply.user = ''
     },
 
     scrollToBottom() {
       setTimeout(() => {
-        let chatPage = this.$refs.chatPage.$el;
-        console.log("height ", chatPage.scrollHeight);
+        let chatPage = this.$refs.chatPage.$el
         // setTimeout(() => {
-        window.scrollTo(0, chatPage.scrollHeight);
+        window.scrollTo(0, chatPage.scrollHeight)
         // }, 20);
-      }, 20);
+      }, 20)
     },
   },
   watch: {
     chattings(val) {
-      console.log("chattings", val);
-      this.scrollToBottom();
+      this.scrollToBottom()
     },
     page(val) {
-      console.log("page", val);
       if (val == 1) {
-        return false;
+        return false
       }
-      this.getChat(this.page);
+      this.getChat(this.page)
     },
     meta(val) {
-      console.log("watch meta", val.current_page);
       if (val.current_page == 1) {
-        this.page = 1;
+        this.page = 1
         if (this.$refs.infScroll !== undefined) {
-          this.$refs.infScroll.setIndex(1);
+          this.$refs.infScroll.setIndex(1)
         }
       }
       // return false
     },
     tab(val) {
-      console.log("watch tab", val);
-      if (val == "users") {
-        this.page = 1;
-        this.$refs.infScroll.setIndex(1);
+      if (val == 'users') {
+        this.page = 1
+        this.$refs.infScroll.setIndex(1)
       } else {
-        this.scrollToBottom();
+        this.scrollToBottom()
       }
     },
 
     // lelang(val) {
-    //   console.log("watch lelang", val);
     // },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -155,8 +155,6 @@ export default {
   methods: {
     ...mapActions('nilai', ['getType', 'getNilaiBy']),
     store() {
-      console.log('id', this.mapel_id)
-      console.log('nilai', this.nilai)
       let data = {
         user_id: this.user.id,
         mapel_id: this.mapel_id.value,
@@ -212,7 +210,6 @@ export default {
       })
 
       this.image = this.types[val.index].media.path
-      console.log('temp', temp_mapel)
 
       let params = {
         params: {
@@ -224,7 +221,6 @@ export default {
         this.maping(temp_mapel)
         this.details = true
       })
-      console.log(val)
     },
     maping(temp_mapel) {
       let same = []
@@ -270,11 +266,9 @@ export default {
             this.$store.dispatch('nilai/getMapels')
           })
           this.$q.loading.hide()
-          console.log('upload', res)
         })
         .catch((err) => {
           this.$q.loading.hide()
-          console.log(err)
         })
     },
   },

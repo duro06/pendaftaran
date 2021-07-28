@@ -35,23 +35,8 @@ messaging.usePublicVapidKey(
   "BH0EkVq4Qz09x2q1YJOgGGC8njH1-9v8-8ku5QahcnoMgCiaDxnf9ksymhn7jdM40jJrT-CkeFX4CleElG0xVzE"
 );
 const myToken = "";
-messaging
-  .requestPermission()
-  .then(() => {
-    console.log("permission granted");
-    return messaging.getToken();
-  })
-  .then(token => {
-    // dari sini kirim token ke server
-    console.log(token);
-  })
-  .catch(err => {
-    // console.log('Error ');
-    console.log("error ", err);
-  });
-
-// messaging.onMessage(payload => {
-//   console.log("onMessage firestore js: ", payload);
-// });
+messaging.requestPermission().then(() => {
+  return messaging.getToken();
+});
 
 export { messaging };

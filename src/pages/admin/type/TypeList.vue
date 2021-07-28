@@ -116,180 +116,164 @@
   </div>
 </template>
 <script>
-import AddType from "pages/admin/type/AddType.vue";
-import EditType from "pages/admin/type/EditType.vue";
+import AddType from 'pages/admin/type/AddType.vue'
+import EditType from 'pages/admin/type/EditType.vue'
 export default {
-  name: "TypeList",
+  name: 'TypeList',
   components: {
     AddType,
     EditType,
   },
-  props: ["type", "index"],
+  props: ['type', 'index'],
   data() {
     return {
       mapelDetails: false,
       addDialog: false,
       editDialog: false,
-      judul: "",
-      DataEdit: "",
-      editName: "",
-      dataReturn: "",
-      which: "",
-    };
+      judul: '',
+      DataEdit: '',
+      editName: '',
+      dataReturn: '',
+      which: '',
+    }
   },
   methods: {
     confirm(val, label, which) {
       this.$q
         .dialog({
-          title: "Confirm",
-          message: "Apakah anda benar benar akan menghapus " + label + " ini?",
+          title: 'Confirm',
+          message: 'Apakah anda benar benar akan menghapus ' + label + ' ini?',
           cancel: true,
           persistent: true,
         })
         .onOk(() => {
-          if (which == "mapel") {
-            console.log("hapus mapel", val);
+          if (which == 'mapel') {
             let data = {
               id: val.id,
-            };
+            }
             // store hapus mapel
-            this.$q.loading.show();
+            this.$q.loading.show()
             this.$store
-              .dispatch("nilai/adminDeleteMapel", data)
+              .dispatch('nilai/adminDeleteMapel', data)
               .then(() => {
-                this.$store.dispatch("nilai/getType").then(() => {
-                  this.$q.loading.hide();
-                });
+                this.$store.dispatch('nilai/getType').then(() => {
+                  this.$q.loading.hide()
+                })
               })
               .catch(() => {
-                this.$q.loading.hide();
-              });
-          } else if (which == "type") {
-            console.log("hapus type", val);
+                this.$q.loading.hide()
+              })
+          } else if (which == 'type') {
             let data = {
               id: val,
-            };
+            }
             // store hapus type
-            this.$q.loading.show();
+            this.$q.loading.show()
             this.$store
-              .dispatch("nilai/adminDeleteType", data)
+              .dispatch('nilai/adminDeleteType', data)
               .then(() => {
-                this.$store.dispatch("nilai/getType").then(() => {
-                  this.$q.loading.hide();
-                });
+                this.$store.dispatch('nilai/getType').then(() => {
+                  this.$q.loading.hide()
+                })
               })
               .catch(() => {
-                this.$q.loading.hide();
-              });
+                this.$q.loading.hide()
+              })
           } else {
-            console.log("data kurang", which);
           }
         })
-        .onCancel(() => {
-          console.log(">>>> Cancel");
-        });
+        .onCancel(() => {})
     },
     mapel() {
-      this.mapelDetails = !this.mapelDetails;
+      this.mapelDetails = !this.mapelDetails
     },
     showMapel() {
-      this.addDialog = true;
-      this.judul = "Tambah Mata Pelajaran";
+      this.addDialog = true
+      this.judul = 'Tambah Mata Pelajaran'
     },
     addMapel(val) {
-      // console.log("add mapel", this.type.id);
-      // console.log("add mapel nama", val);
       let data = {
         type_id: this.type.id,
         name: val.name,
-      };
-      this.$q.loading.show();
+      }
+      this.$q.loading.show()
       this.$store
-        .dispatch("nilai/adminAddMapel", data)
+        .dispatch('nilai/adminAddMapel', data)
         .then(() => {
-          this.$store.dispatch("nilai/getType").then(() => {
-            this.$q.loading.hide();
-          });
-          this.addDialog = false;
-          this.$q.loading.hide();
+          this.$store.dispatch('nilai/getType').then(() => {
+            this.$q.loading.hide()
+          })
+          this.addDialog = false
+          this.$q.loading.hide()
         })
         .catch(() => {
-          this.addDialog = false;
-          this.$q.loading.hide();
-        });
+          this.addDialog = false
+          this.$q.loading.hide()
+        })
     },
     onEdit(val) {
-      console.log("data", val);
-      if (val.which == "mapel") {
+      if (val.which == 'mapel') {
         let data = {
           id: val.data.id,
           name: val.name,
-        };
-        this.$q.loading.show();
+        }
+        this.$q.loading.show()
         this.$store
-          .dispatch("nilai/adminEditMapel", data)
+          .dispatch('nilai/adminEditMapel', data)
           .then(() => {
-            this.$store.dispatch("nilai/getType").then(() => {
-              this.$q.loading.hide();
-            });
-            this.editDialog = false;
+            this.$store.dispatch('nilai/getType').then(() => {
+              this.$q.loading.hide()
+            })
+            this.editDialog = false
           })
           .catch(() => {
-            this.$q.loading.hide();
-            this.editDialog = false;
-          });
-        console.log("edit mapel", data);
-      } else if (val.which == "type") {
+            this.$q.loading.hide()
+            this.editDialog = false
+          })
+      } else if (val.which == 'type') {
         let data = {
           id: val.data,
           name: val.name,
-        };
-        this.$q.loading.show();
+        }
+        this.$q.loading.show()
         this.$store
-          .dispatch("nilai/adminEditType", data)
+          .dispatch('nilai/adminEditType', data)
           .then(() => {
-            this.$store.dispatch("nilai/getType").then(() => {
-              this.$q.loading.hide();
-            });
-            this.editDialog = false;
+            this.$store.dispatch('nilai/getType').then(() => {
+              this.$q.loading.hide()
+            })
+            this.editDialog = false
           })
           .catch(() => {
-            this.editDialog = false;
-            this.$q.loading.hide();
-          });
-        console.log("edit type", data);
+            this.editDialog = false
+            this.$q.loading.hide()
+          })
       } else {
-        this.editDialog = false;
-        console.log("data kurang");
+        this.editDialog = false
       }
     },
     edit(val) {
-      console.log("edit", val);
-      this.editDialog = true;
-      this.judul = "Edit Nama Pelajaran";
-      this.DataEdit = val.name;
-      this.dataReturn = val;
-      this.which = "mapel";
+      this.editDialog = true
+      this.judul = 'Edit Nama Pelajaran'
+      this.DataEdit = val.name
+      this.dataReturn = val
+      this.which = 'mapel'
     },
     hapus(val) {
-      console.log("delete", val);
-
-      this.confirm(val, "mata pelajaran", "mapel");
+      this.confirm(val, 'mata pelajaran', 'mapel')
     },
     editType() {
-      console.log("edit", this.type.id);
-      this.editDialog = true;
-      this.judul = "Edit Nama Tipe Nilai";
-      this.DataEdit = this.type.name;
-      this.dataReturn = this.type.id;
-      this.which = "type";
+      this.editDialog = true
+      this.judul = 'Edit Nama Tipe Nilai'
+      this.DataEdit = this.type.name
+      this.dataReturn = this.type.id
+      this.which = 'type'
     },
     hapusType() {
-      console.log("delete", this.type.id);
-      this.confirm(this.type.id, "tipe nilai", "type");
+      this.confirm(this.type.id, 'tipe nilai', 'type')
     },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .hover {

@@ -51,18 +51,9 @@
                   transition-hide="scale"
                   ref="qDateStart"
                 >
-                  <q-date
-                    v-model="startDate"
-                    mask="YYYY/MM/DD"
-                    @input="closeDate"
-                  >
+                  <q-date v-model="startDate" mask="YYYY/MM/DD" @input="closeDate">
                     <div class="row items-center justify-end">
-                      <q-btn
-                        @click="closeStart"
-                        label="Close"
-                        color="primary"
-                        flat
-                      />
+                      <q-btn @click="closeStart" label="Close" color="primary" flat />
                     </div>
                   </q-date>
                 </q-popup-proxy>
@@ -89,18 +80,9 @@
                   transition-hide="scale"
                   ref="qDateStop"
                 >
-                  <q-date
-                    v-model="stopDate"
-                    mask="YYYY/MM/DD"
-                    @input="closeDate"
-                  >
+                  <q-date v-model="stopDate" mask="YYYY/MM/DD" @input="closeDate">
                     <div class="row items-center justify-end">
-                      <q-btn
-                        @click="closeDate"
-                        label="Close"
-                        color="primary"
-                        flat
-                      />
+                      <q-btn @click="closeDate" label="Close" color="primary" flat />
                     </div>
                   </q-date>
                 </q-popup-proxy>
@@ -117,40 +99,40 @@
   </div>
 </template>
 <script>
-import { date } from "quasar";
-import { addDays, parseISO } from "date-fns";
+import { date } from 'quasar'
+import { addDays, parseISO } from 'date-fns'
 // import { parseISO } from "date-fns/fp";
 export default {
-  name: "Addtype",
-  props: ["confirm", "namaAdd", "judul", "edit", "data"],
+  name: 'Addtype',
+  props: ['confirm', 'namaAdd', 'judul', 'edit', 'data'],
   data() {
     return {
-      name: "",
+      name: '',
       startDate: 0,
       stopDate: 0,
-      status: "",
+      status: '',
       statusOpt: [
         {
           value: 0,
-          label: "belum Dibuka",
+          label: 'belum Dibuka',
         },
         {
           value: 1,
-          label: "Berlangsung",
+          label: 'Berlangsung',
         },
         {
           value: 2,
-          label: "Seleksi",
+          label: 'Seleksi',
         },
         {
           value: 3,
-          label: "Ditutup",
+          label: 'Ditutup',
         },
       ],
-    };
+    }
   },
   mounted() {
-    this.getHariIni();
+    this.getHariIni()
   },
   methods: {
     onSave() {
@@ -159,61 +141,59 @@ export default {
         start: this.startDate,
         stop: this.stopDate,
         status: this.status.value,
-      };
+      }
       if (
-        this.name != "" &&
+        this.name != '' &&
         this.startDate != 0 &&
         this.stopDate != 0 &&
-        this.status != ""
+        this.status != ''
       ) {
-        this.$emit("save", data);
-        this.name = "";
-        this.status = "";
-        this.getHariIni();
+        this.$emit('save', data)
+        this.name = ''
+        this.status = ''
+        this.getHariIni()
       } else {
-        this.$q.notify("Lengkapi dahulu data anda");
+        this.$q.notify('Lengkapi dahulu data anda')
       }
     },
     onCancel() {
-      this.$emit("cancel");
-      this.name = "";
+      this.$emit('cancel')
+      this.name = ''
     },
 
     showDate() {
-      this.$refs.qDateStop.show();
+      this.$refs.qDateStop.show()
     },
     closeDate() {
-      this.$refs.qDateStop.hide();
+      this.$refs.qDateStop.hide()
       // this.$refs.qTimeProxy.show();
     },
     showStart() {
-      this.$refs.qDateStart.show();
+      this.$refs.qDateStart.show()
     },
     closeStart() {
-      this.$refs.qDateStart.hide();
-      console.log(this.startDate);
+      this.$refs.qDateStart.hide()
       // this.$refs.qTimeProxy.show();
     },
     getHariIni() {
-      let cd = addDays(new Date(), 0);
-      let de = addDays(new Date(), 30);
+      let cd = addDays(new Date(), 0)
+      let de = addDays(new Date(), 30)
 
-      this.startDate = date.formatDate(cd, "YYYY-MM-DD");
-      this.stopDate = date.formatDate(de, "YYYY-MM-DD");
+      this.startDate = date.formatDate(cd, 'YYYY-MM-DD')
+      this.stopDate = date.formatDate(de, 'YYYY-MM-DD')
     },
   },
   watch: {
     confirm() {
-      this.getHariIni();
+      this.getHariIni()
     },
     startDate() {
       // let de = addDays(parseISO(this.startDate), 30);
-      let de = addDays(new Date(this.startDate), 30);
-      this.stopDate = date.formatDate(de, "YYYY-MM-DD");
-      console.log("de", de, "stop date", this.stopDate);
+      let de = addDays(new Date(this.startDate), 30)
+      this.stopDate = date.formatDate(de, 'YYYY-MM-DD')
     },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 // .row {

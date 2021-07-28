@@ -38,7 +38,6 @@ const actions = {
       Axios.http()
         .get(`type`, payload)
         .then(resp => {
-          console.log("nilai", resp.data);
           context.commit("setTypes", resp.data);
           resolve(resp);
         })
@@ -52,7 +51,6 @@ const actions = {
       Axios.http()
         .get(`nilai/nilai_by`, payload)
         .then(resp => {
-          console.log("nilai", resp.data);
           context.commit("setNilais", resp.data);
           resolve(resp);
         })
@@ -66,7 +64,6 @@ const actions = {
       Axios.http()
         .post(`nilai`, payload)
         .then(resp => {
-          console.log("nilai", resp);
           resolve(resp);
         })
         .catch(err => {
@@ -79,7 +76,6 @@ const actions = {
       Axios.http()
         .post(`nilai/update/${payload.id}`, payload)
         .then(resp => {
-          console.log("nilai", resp);
           resolve(resp);
         })
         .catch(err => {
@@ -88,16 +84,13 @@ const actions = {
     });
   },
   uploadImage(context, payload) {
-    console.log("payload", payload);
     return new Promise((resolve, reject) => {
       Axios.httpFile()
         .post(`/type/upload_image/${payload.id}`, payload.data)
         .then(res => {
-          console.log(res);
           resolve(res);
         })
         .catch(err => {
-          console.log(err);
           reject(err);
         });
     });
@@ -108,7 +101,6 @@ const actions = {
       Axios.http()
         .post(`admin/mapel/add`, payload)
         .then(resp => {
-          console.log("Admin mapel", resp);
           resolve(resp);
         })
         .catch(err => {
@@ -121,7 +113,6 @@ const actions = {
       Axios.http()
         .post(`admin/mapel/edit`, payload)
         .then(resp => {
-          console.log("Admin mapel", resp);
           resolve(resp);
         })
         .catch(err => {
@@ -134,7 +125,6 @@ const actions = {
       Axios.http()
         .post(`admin/mapel/delete`, payload)
         .then(resp => {
-          console.log("Admin mapel", resp);
           resolve(resp);
         })
         .catch(err => {
@@ -147,7 +137,6 @@ const actions = {
       Axios.http()
         .post(`admin/type/add`, payload)
         .then(resp => {
-          console.log("Admin type", resp);
           resolve(resp);
         })
         .catch(err => {
@@ -160,7 +149,6 @@ const actions = {
       Axios.http()
         .post(`admin/type/edit`, payload)
         .then(resp => {
-          console.log("Admin type", resp);
           resolve(resp);
         })
         .catch(err => {
@@ -173,7 +161,6 @@ const actions = {
       Axios.http()
         .post(`admin/type/delete`, payload)
         .then(resp => {
-          console.log("Admin type", resp);
           resolve(resp);
         })
         .catch(err => {

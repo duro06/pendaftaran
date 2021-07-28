@@ -11,11 +11,7 @@
         :text.sync="registerData.name"
       />
 
-      <email-input
-        icon="email"
-        label="e-mail"
-        :email.sync="registerData.email"
-      />
+      <email-input icon="email" label="e-mail" :email.sync="registerData.email" />
 
       <password-input
         icon="fas fa-lock"
@@ -29,11 +25,7 @@
         ref="passC"
         :sama.sync="registerData.password"
       />
-      <q-select
-        v-model="registerData.role"
-        :options="options"
-        label="Anda adalah"
-      />
+      <q-select v-model="registerData.role" :options="options" label="Anda adalah" />
       <q-card-actions align="center">
         <q-btn
           color="blue-5"
@@ -48,12 +40,7 @@
         >
       </q-card-actions>
       <q-card-actions align="center">
-        <q-btn
-          color="blue-5"
-          class="full-width"
-          flat
-          no-caps
-          :to="{ name: 'login' }"
+        <q-btn color="blue-5" class="full-width" flat no-caps :to="{ name: 'login' }"
           >ke Login</q-btn
         >
       </q-card-actions>
@@ -102,54 +89,50 @@
   </q-page>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex'
 export default {
-  name: "register",
+  name: 'register',
   components: {
-    "data-input": () => import("components/shared/CommonInput"),
-    "email-input": () => import("components/shared/EmailInput"),
-    "password-input": () => import("components/shared/PasswordInput"),
+    'data-input': () => import('components/shared/CommonInput'),
+    'email-input': () => import('components/shared/EmailInput'),
+    'password-input': () => import('components/shared/PasswordInput'),
   },
   data() {
     return {
       registerData: {
-        email: "",
-        password: "",
-        confirm: "",
-        name: "",
-        role: "",
+        email: '',
+        password: '',
+        confirm: '',
+        name: '',
+        role: '',
       },
-      options: ["Siswa", "Orangtua", "Guru"],
+      options: ['Siswa', 'Orangtua', 'Guru'],
       loading: false,
       disable: false,
       confirm: false,
-    };
+    }
   },
   methods: {
-    ...mapActions("users", ["register"]),
+    ...mapActions('users', ['register']),
     lanjut() {
-      console.log(this.registerData);
-      this.disable = true;
-      this.loading = true;
+      this.disable = true
+      this.loading = true
       this.register(this.registerData)
         .then((res) => {
-          this.$router.replace(
-            this.$route.query.redirect || { name: "login" },
-            () => {}
-          );
-          this.$q.notify("anda sudah bisa login");
+          this.$router.replace(this.$route.query.redirect || { name: 'login' }, () => {})
+          this.$q.notify('anda sudah bisa login')
 
-          this.loading = false;
-          this.disable = false;
+          this.loading = false
+          this.disable = false
         })
         .catch(() => {
-          this.loading = false;
-          this.disable = false;
-        });
+          this.loading = false
+          this.disable = false
+        })
     },
     registerControl() {
-      this.confirm = true;
+      this.confirm = true
     },
   },
-};
+}
 </script>

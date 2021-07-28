@@ -201,7 +201,6 @@ export default {
       }
     },
     onSubmit() {
-      console.log('form ', this.form)
       this.$q.loading.show()
       this.$store
         .dispatch('users/updateProfile', this.form)

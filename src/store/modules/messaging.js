@@ -60,7 +60,6 @@ const actions = {
       Axios.http()
         .get("forum/get_user", payload)
         .then(resp => {
-          console.log("users", resp.data);
           commit("setUsers", resp.data.user);
           resolve(resp);
         })
@@ -75,16 +74,12 @@ const actions = {
         .getToken()
         .then(token => {
           if (token) {
-            console.log("Token ", token);
             commit("setToken", token);
             resolve(token);
           } else {
-            console.log("No registration token Available");
           }
         })
-        .catch(err => {
-          console.log("Error while retrivieng token ", err);
-        });
+        .catch(err => {});
     });
   },
   createChat(context, payload) {
@@ -92,19 +87,16 @@ const actions = {
       Axios.http()
         .post("forum/add_message", payload)
         .then(res => {
-          // console.log("set chat", res);
           // context.commit("setChat", res.data.chat);
           resolve(res);
         })
         .catch(err => {
-          console.log(err);
           reject(err);
         });
     });
   },
   getAllChat(context, payload) {
     // Loading.show()
-    // console.log("chat payload ", payload);
     context.commit("setProgress", false);
     return new Promise((resolve, reject) => {
       Axios.http()
@@ -114,14 +106,11 @@ const actions = {
           context.commit("setChattings", res.data.chat.data);
           context.commit("setMeta", res.data.chat);
           context.commit("setProgress", true);
-          console.log("chat ", res.data.chat);
-          console.log("all_user ", res.data.user_array);
           context.commit("setUsers", res.data.user_array);
           Loading.hide();
           resolve(res.data.chat.data);
         })
         .catch(err => {
-          console.log(err);
           context.commit("setProgress", true);
           // Loading.hide()
           reject(err);
@@ -142,14 +131,11 @@ const actions = {
           context.commit("setNewChattings", res.data.chat.data);
           context.commit("setMeta", res.data.chat);
           context.commit("setProgress", true);
-          // console.log("chattings ", res.data.chat.data);
-          // console.log("all_user ", res.data.user_array);
           context.commit("setUsers", res.data.user_array);
           // Loading.hide()
           resolve(res.data.chat.data);
         })
         .catch(err => {
-          console.log(err);
           reject(err);
           // context.commit("setProgress", true);
           // Loading.hide()

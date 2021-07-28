@@ -23,7 +23,6 @@ const actions = {
       Axios.http()
         .get("daftar")
         .then(resp => {
-          console.log(resp);
           context.commit("setPendaftarans", resp.data);
           resolve(resp);
         })
@@ -38,7 +37,6 @@ const actions = {
       Axios.http()
         .get("admin/inactive_pendaftaran")
         .then(resp => {
-          console.log(resp);
           context.commit("setPendaftarans", resp.data);
           resolve(resp);
         })
@@ -53,7 +51,6 @@ const actions = {
       Axios.http()
         .get("daftar/peserta", payload)
         .then(resp => {
-          console.log(resp);
           let peserta = resp.data;
           let user = context.rootGetters["users/user"];
           context.commit("setPesertas", resp.data);
@@ -74,7 +71,6 @@ const actions = {
       Axios.http()
         .post("daftar/daftar_peserta", payload)
         .then(resp => {
-          console.log(resp);
           resolve(resp);
         })
         .catch(err => {
@@ -88,7 +84,6 @@ const actions = {
       Axios.http()
         .post("admin/add_pendaftaran", payload)
         .then(resp => {
-          console.log(resp);
           resolve(resp);
         })
         .catch(err => {
@@ -101,7 +96,6 @@ const actions = {
       Axios.http()
         .post("admin/edit_pendaftaran", payload)
         .then(resp => {
-          console.log(resp);
           resolve(resp);
         })
         .catch(err => {
@@ -114,7 +108,6 @@ const actions = {
       Axios.http()
         .post("admin/hapus_pendaftaran", payload)
         .then(resp => {
-          console.log(resp);
           resolve(resp);
         })
         .catch(err => {
@@ -127,7 +120,6 @@ const actions = {
       Axios.http()
         .post("admin/restore_pendaftaran", payload)
         .then(resp => {
-          console.log(resp);
           resolve(resp);
         })
         .catch(err => {

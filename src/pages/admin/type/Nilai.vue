@@ -39,47 +39,46 @@
   </q-page>
 </template>
 <script>
-import { mapGetters } from "vuex";
-import TypeList from "pages/admin/type/TypeList.vue";
-import AddType from "pages/admin/type/AddType.vue";
+import { mapGetters } from 'vuex'
+import TypeList from 'pages/admin/type/TypeList.vue'
+import AddType from 'pages/admin/type/AddType.vue'
 
 export default {
-  name: "AdminNilai",
+  name: 'AdminNilai',
   components: {
     TypeList,
     AddType,
   },
   computed: {
-    ...mapGetters("nilai", ["types"]),
-    ...mapGetters("users", ["skeleton"]),
+    ...mapGetters('nilai', ['types']),
+    ...mapGetters('users', ['skeleton']),
   },
   data() {
     return {
       currentIndex: null,
       currentData: [],
       addDialog: false,
-    };
+    }
   },
   methods: {
     addType(val) {
-      console.log("add mapel", val);
       let data = {
         name: val.name,
-      };
-      this.$q.loading.show();
+      }
+      this.$q.loading.show()
       this.$store
-        .dispatch("nilai/adminAddType", data)
+        .dispatch('nilai/adminAddType', data)
         .then(() => {
-          this.$store.dispatch("nilai/getType").then(() => {
-            this.$q.loading.hide();
-          });
-          this.addDialog = false;
+          this.$store.dispatch('nilai/getType').then(() => {
+            this.$q.loading.hide()
+          })
+          this.addDialog = false
         })
         .catch(() => {
-          this.addDialog = false;
-          this.$q.loading.hide();
-        });
+          this.addDialog = false
+          this.$q.loading.hide()
+        })
     },
   },
-};
+}
 </script>

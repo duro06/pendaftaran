@@ -28,12 +28,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "NilaiInput",
+  name: 'NilaiInput',
 
-  props: ["mapel", "user_id", "type_id"],
+  props: ['mapel', 'user_id', 'type_id'],
   data() {
     return {
       nilai: null,
@@ -42,63 +42,60 @@ export default {
       loading: false,
       enlarge: false,
       disable: true,
-    };
+    }
   },
   computed: {
-    ...mapGetters("users", ["storage", "user"]),
+    ...mapGetters('users', ['storage', 'user']),
   },
   mounted() {
-    console.log("value", this.mapel.nilai);
     if (this.mapel.nilai != undefined) {
-      this.nilai = this.mapel.nilai;
-      this.nilaiPrev = this.mapel.nilai;
+      this.nilai = this.mapel.nilai
+      this.nilaiPrev = this.mapel.nilai
     }
   },
   methods: {
     focus() {
-      const vm = this;
-      this.disable = !this.disable;
+      const vm = this
+      this.disable = !this.disable
       setTimeout(() => {
-        vm.$refs.masuk.focus();
-      }, 20);
+        vm.$refs.masuk.focus()
+      }, 20)
     },
     toDisable() {
       setTimeout(() => {
-        this.disable = true;
-      }, 100);
+        this.disable = true
+      }, 100)
     },
     updateData() {
       let data = {
         id: this.mapel.id,
         nilai: this.nilai,
-      };
+      }
       let params = {
         params: {
           user_id: this.user_id,
           type_id: this.type_id,
         },
-      };
-      console.log("update", data);
+      }
 
-      this.loading = true;
+      this.loading = true
       this.$store
-        .dispatch("nilai/updateMapel", data)
+        .dispatch('nilai/updateMapel', data)
         .then(() => {
-          this.$store.dispatch("users/getUser").then(() => {
-            this.$store.dispatch("nilai/getMapels");
-            this.$store.dispatch("nilai/getNilaiBy", params);
-          });
-          this.loading = false;
-          this.disable = true;
+          this.$store.dispatch('users/getUser').then(() => {
+            this.$store.dispatch('nilai/getMapels')
+            this.$store.dispatch('nilai/getNilaiBy', params)
+          })
+          this.loading = false
+          this.disable = true
         })
         .catch(() => {
-          this.loading = false;
-        });
+          this.loading = false
+        })
     },
   },
   watch: {},
-};
+}
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

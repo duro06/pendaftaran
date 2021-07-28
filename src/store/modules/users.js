@@ -40,10 +40,8 @@ const actions = {
     Axios.http()
       .post("prokc/sw-token", payload)
       .then(res => {
-        console.log(res);
       })
       .catch(err => {
-        console.log(err);
       });
   },
   login(context, payload) {
@@ -55,7 +53,6 @@ const actions = {
             message: "Login success",
             color: "positive"
           });
-          console.log("login res", res);
           LocalStorage.set("token", res.data.token);
           context.commit("setToken", res.data.token);
           resolve(res);
@@ -66,7 +63,6 @@ const actions = {
             // color: "negative"
             position: "center"
           });
-          console.log("error ", err.response.data.errors);
           if (err.response.status == 422) {
             if (err.response.data.errors.email) {
               Notify.create({
@@ -104,14 +100,11 @@ const actions = {
               color: "negative"
             });
           }
-          console.log("login res", res.data);
           //   LocalStorage.set("token", res.data.token);
           //   context.commit("setToken", res.data.token);
           resolve(res);
         })
         .catch(err => {
-          console.log(err);
-          console.log(err.response.data.errors);
           Notify.create({
             message: "Registrasi Gagal",
             color: "negative",
@@ -140,7 +133,6 @@ const actions = {
               });
             }
           }
-          // console.log("error ", err);
           reject(err);
         });
     });
@@ -155,8 +147,6 @@ const actions = {
       Axios.http()
         .get("/user")
         .then(res => {
-          //   console.log("res ", res);
-          console.log("user ", res.data.data);
           context.commit("setUser", res.data.data);
           if (!LocalStorage.getItem("role")) {
             LocalStorage.set("role", res.data.data.role);
@@ -198,10 +188,8 @@ const actions = {
         .then(res => {
           Axios.delToken();
           context.commit("removeUser");
-          console.log("logout ", res);
         })
         .catch(err => {
-          console.log(err);
         });
     });
   },
@@ -225,12 +213,10 @@ const actions = {
             : payload.kota
           : null
     };
-    console.log("data ", data);
     return new Promise((reso, rej) => {
       Axios.http()
         .put(`/me/update/${payload.id}`, data)
         .then(resp => {
-          console.log(resp);
           context.dispatch("getUser");
           reso(resp);
         })
@@ -240,17 +226,14 @@ const actions = {
     });
   },
   uploadImage(context, payload) {
-    console.log("id ", payload.id, "data ", payload.data);
     return new Promise((resolve, reject) => {
       Axios.httpFile()
         .post(`/me/upload_image/${payload.id}`, payload.data)
         .then(res => {
-          console.log(res);
           context.dispatch("getUser");
           resolve(res);
         })
         .catch(err => {
-          console.log(err);
           reject(err);
         });
     });

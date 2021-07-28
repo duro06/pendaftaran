@@ -15,11 +15,9 @@ export default {
           .get('admin/test-fcm')
           .then((res) => {
             this.$q.loading.hide()
-            console.log(res)
           })
           .catch((err) => {
             this.$q.loading.hide()
-            console.log(err)
           })
       })
     },

@@ -211,7 +211,6 @@ export default {
         status: this.status,
       }
       this.gantiStatus = false
-      console.log('data', data)
       if (this.status != this.berkas.status) {
         this.$q.loading.show({ message: 'sedang menggangti status' })
         this.statusChange(data)

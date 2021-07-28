@@ -20,20 +20,15 @@ let notificationSplit = ''
 let clickAction = ''
 let sender = ''
 messaging.onMessage((payload) => {
-  console.log('in App', payload)
   if (payload.notification !== undefined) {
-    console.log('split', payload.notification.body.split(' '))
     notificationSplit = payload.notification.body.split(' ')
     clickAction = payload.notification.click_action.split('/')
   } else {
-    console.log('split', payload.data.message.split(' '))
     notificationSplit = payload.data.message.split(' ')
     clickAction = payload.data.click_action.split('/')
   }
   sender = payload.data.sender
-  console.log('click Action ', clickAction)
   let button = document.getElementById('notif')
-  console.log(button)
   button.click()
 })
 export default {
@@ -41,7 +36,8 @@ export default {
   computed: {
     ...mapGetters('messaging', ['swToken']),
   },
-  mounted() {
+  created() {
+    this.$store.dispatch('admin/getSekolah')
     if (this.$q.localStorage.getItem('token')) {
       this.$store.dispatch('users/skeletonTrue')
       this.$store.dispatch('users/getUser').then((res) => {
@@ -69,8 +65,6 @@ export default {
   },
   methods: {
     notif() {
-      console.log('notsplit', notificationSplit)
-      console.log('click', clickAction)
       // this.$store.dispatch("notifications/getNotificationByCurrentId");
 
       // lelang almost

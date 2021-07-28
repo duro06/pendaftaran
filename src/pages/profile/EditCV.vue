@@ -5,11 +5,7 @@
         <div class="col-3">
           <q-responsive :ratio="3 / 4">
             <q-img
-              :src="
-                user.avatar == null
-                  ? 'images/nouser.png'
-                  : storage + user.avatar
-              "
+              :src="user.avatar == null ? 'images/nouser.png' : storage + user.avatar"
               no-native-menu
             >
               <q-file v-model="picture" dense>
@@ -61,12 +57,7 @@
             >
               <q-date v-model="form.ttl" mask="YYYY/MM/DD" @input="closeDate">
                 <div class="row items-center justify-end">
-                  <q-btn
-                    @click="closeDate"
-                    label="Close"
-                    color="primary"
-                    flat
-                  />
+                  <q-btn @click="closeDate" label="Close" color="primary" flat />
                 </div>
               </q-date>
             </q-popup-proxy>
@@ -80,9 +71,7 @@
           type="number"
           label="NIK"
           lazy-rules
-          :rules="[
-            (val) => (val && val.length > 15) || 'NIK terdiri dari 16 angka',
-          ]"
+          :rules="[(val) => (val && val.length > 15) || 'NIK terdiri dari 16 angka']"
         >
           <template v-slot:prepend>
             <q-icon name="mdi-card-account-details-outline" />
@@ -124,9 +113,7 @@
 
             <q-responsive @click="enlarge = true" :ratio="16 / 9">
               <q-img
-                :src="
-                  bio.path == null ? 'images/no_image.png' : storage + bio.path
-                "
+                :src="bio.path == null ? 'images/no_image.png' : storage + bio.path"
                 no-native-menu
               >
               </q-img>
@@ -137,12 +124,7 @@
         <div class="q-my-lg">
           <div class="row">
             <div class="col">
-              <q-btn
-                no-caps
-                label="Simpan Perubahan"
-                type="submit"
-                color="primary"
-              />
+              <q-btn no-caps label="Simpan Perubahan" type="submit" color="primary" />
             </div>
             <div class="col">
               <q-btn
@@ -168,23 +150,23 @@
 </template>
 
 <script>
-import axios from "axios";
-import * as Axios from "boot/axios";
-import { mapState, mapGetters, mapActions } from "vuex";
-import { date } from "quasar";
-import { addDays } from "date-fns";
+import axios from 'axios'
+import * as Axios from 'boot/axios'
+import { mapState, mapGetters, mapActions } from 'vuex'
+import { date } from 'quasar'
+import { addDays } from 'date-fns'
 
 export default {
-  name: "EditCV",
+  name: 'EditCV',
   components: {
-    "expand-picture": () => import("components/shared/ExpandPicture"),
+    'expand-picture': () => import('components/shared/ExpandPicture'),
   },
   created() {
     // this.getProvinsi();
-    this.createBio(this.user.id);
+    this.createBio(this.user.id)
   },
   mounted() {
-    this.isiDulu();
+    this.isiDulu()
     // this.getHariIni();
   },
   data() {
@@ -204,39 +186,39 @@ export default {
       picture: null,
       kk: null,
       enlarge: false,
-    };
+    }
   },
   computed: {
-    ...mapState("users", ["user"]),
-    ...mapState("profile", ["bio"]),
-    ...mapGetters("users", ["storage"]),
+    ...mapState('users', ['user']),
+    ...mapState('profile', ['bio']),
+    ...mapGetters('users', ['storage']),
   },
   methods: {
-    ...mapActions("profile", ["createBio"]),
+    ...mapActions('profile', ['createBio']),
     isiDulu() {
       if (this.bio.ttl) {
-        this.form.ttl = this.bio.ttl;
+        this.form.ttl = this.bio.ttl
       }
       if (this.user.name) {
-        this.form.name = this.user.name;
+        this.form.name = this.user.name
       }
       if (this.bio.nik) {
-        this.form.nik = this.bio.nik;
+        this.form.nik = this.bio.nik
       }
       if (this.bio.asal_sekolah) {
-        this.form.asal_sekolah = this.bio.asal_sekolah;
+        this.form.asal_sekolah = this.bio.asal_sekolah
       }
       if (this.bio.notelp) {
-        this.form.notelp = this.bio.notelp;
+        this.form.notelp = this.bio.notelp
       }
       if (this.bio.nowhatsapp) {
-        this.form.nowhatsapp = this.bio.nowhatsapp;
+        this.form.nowhatsapp = this.bio.nowhatsapp
       }
       if (this.bio.alamat) {
-        this.form.alamat = this.bio.alamat;
+        this.form.alamat = this.bio.alamat
       }
       if (this.bio.id) {
-        this.form.id = this.bio.id;
+        this.form.id = this.bio.id
       }
     },
     // getHariIni() {
@@ -246,92 +228,87 @@ export default {
     //   }
     // },
     showDate() {
-      this.$refs.qDateProxy.show();
+      this.$refs.qDateProxy.show()
     },
     closeDate() {
-      this.$refs.qDateProxy.hide();
+      this.$refs.qDateProxy.hide()
       // this.$refs.qTimeProxy.show();
     },
     onSubmit() {
-      // console.log(this.form.nowhatsapp.substring(0, 2));
-      this.$q.loading.show();
+      this.$q.loading.show()
       this.$store
-        .dispatch("profile/updateCV", this.form)
+        .dispatch('profile/updateCV', this.form)
         .then((res) => {
-          this.$q.loading.hide();
+          this.$q.loading.hide()
           this.$q.notify({
-            message: "curriculum vitae berhasil di update",
-            icon: "eva-alert-circle",
-          });
+            message: 'curriculum vitae berhasil di update',
+            icon: 'eva-alert-circle',
+          })
         })
         .catch((err) => {
-          this.$q.loading.hide();
+          this.$q.loading.hide()
           this.$q.notify({
-            message: "curriculum vitae gagal di update",
-            icon: "eva-alert-triangle",
-          });
-        });
+            message: 'curriculum vitae gagal di update',
+            icon: 'eva-alert-triangle',
+          })
+        })
     },
     onReset() {
       //   this.form.provinsi = null
-      this.form.notelp = null;
-      this.form.nowhatsapp = null;
-      this.form.alamat = null;
-      this.form.kota = null;
+      this.form.notelp = null
+      this.form.nowhatsapp = null
+      this.form.alamat = null
+      this.form.kota = null
     },
     upload(file) {
-      const formData = new FormData();
-      formData.append("image", file);
+      const formData = new FormData()
+      formData.append('image', file)
       let data = {
         id: this.bio.id,
         data: formData,
-      };
-      this.$q.loading.show();
+      }
+      this.$q.loading.show()
 
       this.$store
-        .dispatch("users/uploadImage", data)
+        .dispatch('users/uploadImage', data)
         .then((res) => {
-          this.$q.loading.hide();
-          console.log("upload", res);
+          this.$q.loading.hide()
         })
         .catch((err) => {
-          this.$q.loading.hide();
-          console.log(err);
-        });
+          this.$q.loading.hide()
+        })
     },
     uploadKk(file) {
-      const formData = new FormData();
-      formData.append("image", file);
+      const formData = new FormData()
+      formData.append('image', file)
       let data = {
         id: this.bio.id,
         data: formData,
-      };
-      this.$q.loading.show();
+      }
+      this.$q.loading.show()
 
       this.$store
-        .dispatch("profile/uploadImage", data)
+        .dispatch('profile/uploadImage', data)
         .then((res) => {
-          this.$q.loading.hide();
-          console.log("upload", res);
+          this.$q.loading.hide()
         })
         .catch((err) => {
-          this.$q.loading.hide();
-          console.log(err);
-        });
+          this.$q.loading.hide()
+        })
     },
   },
   watch: {
-    "form.provinsi"() {
-      this.getKota(this.form.provinsi.value);
+    'form.provinsi'() {
+      this.getKota(this.form.provinsi.value)
     },
     picture() {
-      this.upload(this.picture);
+      this.upload(this.picture)
     },
     kk() {
-      this.uploadKk(this.kk);
+      this.uploadKk(this.kk)
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

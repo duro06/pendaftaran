@@ -46,75 +46,73 @@
   </q-page>
 </template>
 <script>
-import { mapGetters } from "vuex";
-import Pendaftaran from "pages/admin/pendaftaran/Pendaftaran.vue";
-import TabelPendaftaran from "pages/admin/pendaftaran/TablePendaftaran.vue";
-import AddPendaftaran from "pages/admin/pendaftaran/AddPendaftaran.vue";
+import { mapGetters } from 'vuex'
+import Pendaftaran from 'pages/admin/pendaftaran/Pendaftaran.vue'
+import TabelPendaftaran from 'pages/admin/pendaftaran/TablePendaftaran.vue'
+import AddPendaftaran from 'pages/admin/pendaftaran/AddPendaftaran.vue'
 export default {
-  name: "IndexPendaftaran",
+  name: 'IndexPendaftaran',
   components: { Pendaftaran, TabelPendaftaran, AddPendaftaran },
   data() {
     return {
       addDialog: false,
       trashed: true,
-    };
+    }
   },
   computed: {
-    ...mapGetters("pendaftaran", ["pendaftarans"]),
-    ...mapGetters("users", ["skeleton"]),
+    ...mapGetters('pendaftaran', ['pendaftarans']),
+    ...mapGetters('users', ['skeleton']),
   },
   methods: {
     onSave(val) {
-      this.$q.loading.show();
-      this.addDialog = false;
-      console.log("Save", val);
+      this.$q.loading.show()
+      this.addDialog = false
       this.$store
-        .dispatch("pendaftaran/addPendaftaran", val)
+        .dispatch('pendaftaran/addPendaftaran', val)
         .then(() => {
           this.$store
-            .dispatch("pendaftaran/getPendaftarans")
+            .dispatch('pendaftaran/getPendaftarans')
             .then(() => {
               if (this.trashed == false) {
-                this.trashed = true;
+                this.trashed = true
               }
-              this.$q.loading.hide();
+              this.$q.loading.hide()
             })
             .catch(() => {
-              this.$q.loading.hide();
-            });
+              this.$q.loading.hide()
+            })
         })
         .catch(() => {
-          this.$q.loading.hide();
-        });
+          this.$q.loading.hide()
+        })
     },
     getTrashed() {
-      console.log("tempat sampah", this.trashed);
-      this.$q.loading.show();
+      this.$q.loading.show()
       if (!this.trashed) {
         this.$store
-          .dispatch("pendaftaran/getTrashedPendaftarans")
+          .dispatch('pendaftaran/getTrashedPendaftarans')
           .then(() => {
-            this.$q.loading.hide();
+            this.$q.loading.hide()
           })
           .catch(() => {
-            this.$q.loading.hide();
-          });
+            this.$q.loading.hide()
+          })
       } else {
         this.$store
-          .dispatch("pendaftaran/getPendaftarans")
+          .dispatch('pendaftaran/getPendaftarans')
           .then(() => {
-            this.$q.loading.hide();
+            this.$q.loading.hide()
           })
           .catch(() => {
-            this.$q.loading.hide();
-          });
+            this.$q.loading.hide()
+          })
       }
     },
   },
   watch: {
     trashed() {
-      this.getTrashed();
+      this.getTrashed()
     },
   },
-};
+}
 </script>

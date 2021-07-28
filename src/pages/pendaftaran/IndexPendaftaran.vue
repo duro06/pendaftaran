@@ -82,7 +82,6 @@ export default {
         .catch(() => {
           this.$q.loading.hide()
         })
-      console.log(val)
     },
     daftar() {
       let data = {
@@ -102,7 +101,6 @@ export default {
         .catch(() => {
           this.$q.loading.hide()
         })
-      console.log('daftar', data)
     },
   },
 }

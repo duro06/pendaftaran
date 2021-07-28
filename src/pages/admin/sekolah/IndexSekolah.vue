@@ -133,16 +133,6 @@ export default {
       this.sekolah.kota !== null ? (this.form.kota = this.sekolah.kota) : ''
     },
     onSave() {
-      console.log(this.form)
-      // if (
-      //   this.form.nama &&
-      //   this.form.alamat &&
-      //   this.form.kecamatan &&
-      //   this.form.email &&
-      //   this.form.telepon &&
-      //   this.form.provinsi &&
-      //   this.form.kota
-      // ) {
       let data = {
         name: this.form.nama,
         alamat: this.form.alamat,
@@ -180,10 +170,6 @@ export default {
         .catch(() => {
           this.$q.loading.hide()
         })
-      console.log('data', data)
-      // } else {
-      //   this.$q.notify('Data Anda Belum lengkap')
-      // }
     },
     onReset() {
       this.form.nama = null

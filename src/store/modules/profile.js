@@ -17,7 +17,6 @@ const actions = {
       Axios.http()
         .post("bio/store", data)
         .then(resp => {
-          console.log("store", resp);
           resolve(resp);
         })
         .catch(err => {
@@ -31,12 +30,10 @@ const actions = {
       nik: payload.nik,
       asal_sekolah: payload.asal_sekolah
     };
-    console.log("data ", data);
     return new Promise((reso, rej) => {
       Axios.http()
         .put(`/bio/update/${payload.id}`, data)
         .then(resp => {
-          console.log(resp);
           context.dispatch("getBio");
           reso(resp);
         })
@@ -46,17 +43,14 @@ const actions = {
     });
   },
   uploadImage(context, payload) {
-    console.log("id ", payload.id, "data ", payload.data);
     return new Promise((resolve, reject) => {
       Axios.httpFile()
         .post(`/bio/upload_image/${payload.id}`, payload.data)
         .then(res => {
-          console.log(res);
           context.dispatch("getBio");
           resolve(res);
         })
         .catch(err => {
-          console.log(err);
           reject(err);
         });
     });
@@ -66,8 +60,6 @@ const actions = {
       Axios.http()
         .get("/bio")
         .then(res => {
-          //   console.log("res ", res);
-          console.log("Bio ", res.data.data);
           context.commit("setBio", res.data.data);
           //   context.commit("setUser", res.data.data);
           // location.reload();

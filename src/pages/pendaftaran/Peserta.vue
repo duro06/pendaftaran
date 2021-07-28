@@ -126,7 +126,6 @@ export default {
   methods: {
     ...mapActions('pendaftaran', ['getPesertas']),
     toPrint() {
-      console.log('slug', this.user.pendaftar_id)
       this.$router.replace(
         this.$route.query.redirect || {
           name: 'print',

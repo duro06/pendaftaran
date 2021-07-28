@@ -13,7 +13,6 @@ const actions = {
       Axios.http()
         .get("admin/sekolah/get-sekolah")
         .then(resp => {
-          console.log("sekolah", resp);
           context.commit("setSekolah", resp.data);
           resolve(resp);
         })
@@ -27,8 +26,20 @@ const actions = {
       Axios.http()
         .post(`admin/sekolah/store`, payload)
         .then(resp => {
-          console.log(resp);
           resolve(resp);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  uploadImage(context, payload) {
+    return new Promise((resolve, reject) => {
+      Axios.httpFile()
+        .post(`/sekolah/upload_image/${payload.id}`, payload.data)
+        .then(res => {
+          context.dispatch("getUser");
+          resolve(res);
         })
         .catch(err => {
           reject(err);

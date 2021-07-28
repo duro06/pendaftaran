@@ -25,9 +25,7 @@ export default {
   },
   methods: {
     ...mapActions('berkas', ['gantiStatus']),
-    besarin(value) {
-      console.log('value', value)
-    },
+    besarin(value) {},
   },
 }
 </script>

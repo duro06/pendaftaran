@@ -148,7 +148,6 @@ export default {
   },
   methods: {
     redirect() {
-      console.log('slug', this.berkas.id)
       this.$router.replace(
         this.$route.query.redirect || {
           name: 'details.berkas',

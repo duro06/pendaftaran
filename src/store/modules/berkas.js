@@ -17,7 +17,6 @@ const actions = {
       Axios.http()
         .get("admin/berkas")
         .then(resp => {
-          console.log("berakas", resp);
           context.commit("setBerkases", resp.data);
           resolve(resp);
         })
@@ -31,7 +30,6 @@ const actions = {
       Axios.http()
         .get("admin/berkas/by_id", payload)
         .then(resp => {
-          console.log(resp);
           let berkas = resp.data;
           let KK = berkas.user.bio.path;
           let data = {
@@ -52,7 +50,6 @@ const actions = {
       Axios.http()
         .post(`admin/berkas/status_change`, payload)
         .then(resp => {
-          console.log(resp);
           resolve(resp);
         })
         .catch(err => {
