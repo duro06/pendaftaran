@@ -1,5 +1,6 @@
 <template>
   <div class="full-width">
+    <q-separator />
     <div v-for="(item, i) in pesertas" :key="'item' + i">
       <div class="row q-pa-md">
         <div class="avatar q-mr-md">
@@ -16,24 +17,21 @@
           <div class="text-caption">{{ item.user.kota }}</div>
         </div>
 
-        <div class="col text-right" v-show="item.id === user.id">
-          <div class="q-mt-sm">
-            <!-- <q-btn
-              no-caps
-              outline
-              rounded
-              color="teal"
-              size="sm"
-              label="Saya"
-            /> -->
-            <q-btn
-              no-caps
-              outline
-              rounded
-              :color="item.status | color"
-              size="sm"
-              :label="item.status | status"
-            />
+        <div class="col text-right" v-show="item.id === user.pendaftar_id">
+          <div class="q-mt-sm row justify-end">
+            <div class="q-mx-sm">
+              <q-btn
+                no-caps
+                outline
+                rounded
+                :color="item.status | color"
+                size="sm"
+                :label="item.status | status"
+              />
+            </div>
+            <div class="q-mx-sm">
+              <q-btn icon="mdi-printer" @click="toPrint" color="blue" dense />
+            </div>
           </div>
         </div>
       </div>
@@ -127,6 +125,16 @@ export default {
   },
   methods: {
     ...mapActions('pendaftaran', ['getPesertas']),
+    toPrint() {
+      console.log('slug', this.user.pendaftar_id)
+      this.$router.replace(
+        this.$route.query.redirect || {
+          name: 'print',
+          params: { slug: this.user.pendaftar_id },
+        },
+        () => {}
+      )
+    },
     getAvatar(avatar) {
       var fields = avatar.split('/')
       var look = fields[0]

@@ -24,6 +24,15 @@ const routes = [
         name: "diskusi",
         meta: { title: "Forum", backto: "index", user: true },
         component: () => import(/* webpackChunkName: "Chat" */ "pages/Chat.vue")
+      },
+      {
+        path: "/pendaftaran/print/:slug",
+        name: "print",
+        meta: { title: "Print Tanda Terima", backto: "pendaftaran" },
+        component: () =>
+          import(
+            /* webpackChunkName: "edit-nilai" */ "pages/pendaftaran/TandaTerima.vue"
+          )
       }
     ]
   },
@@ -63,7 +72,7 @@ const routes = [
         meta: { title: "Edit Nilai", backto: "profile" },
         component: () =>
           import(
-            /* webpackChunkName: "edit-nilai" */ "src/pages/profile/nilai/IsiNilai.vue"
+            /* webpackChunkName: "edit-nilai" */ "pages/profile/nilai/IsiNilai.vue"
           )
       }
     ]

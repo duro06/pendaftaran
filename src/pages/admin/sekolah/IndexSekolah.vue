@@ -242,7 +242,9 @@ export default {
 
   watch: {
     'form.provinsi'() {
-      this.getKota(this.form.provinsi.value)
+      if (this.form.provinsi !== undefined) {
+        this.getKota(this.form.provinsi.value)
+      }
     },
     sekolah() {
       this.isiDulu()
