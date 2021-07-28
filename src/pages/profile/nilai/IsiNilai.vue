@@ -179,11 +179,9 @@ export default {
       }
       this.getNilaiBy(params)
       this.getMediaBy(params).then((resp) => {
-        console.log(resp)
         if (resp.length) {
           const type = this.types
           let med = resp
-          console.log('type', type)
           type.forEach((data) => {
             med.filter((value) => {
               if (data.id == value.type_id) {
@@ -192,7 +190,6 @@ export default {
             })
           })
           this.current_types = type
-          console.log('type', type)
           if (this.current_types[this.current_type_index]) {
             this.image =
               this.current_types[this.current_type_index].media != undefined
